@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+
+    <!-- VTypes -->
+    <vType id="myTaxi" vClass="taxi" color="yellow" personCapacity="12">
+        <param key="has.taxi.device" value="true"/>
+    </vType>
+
+    <!--
+        Taxis defined as <trip from="X" to="X"> (same edge).
+        
+        DO NOT use <stop triggered="person"/> here — dispatchTaxi inserts
+        its own stops. A pre-baked stop conflicts with TraCI dispatch and
+        causes the taxi to follow its original route, teleporting passengers.
+        
+        DO NOT use different from/to edges with a fixed route — dispatchTaxi
+        cannot route the taxi beyond the trip's destination edge.
+        
+        from="X" to="X" gives a valid minimal route that dispatchTaxi
+        can fully override to reach any pickup/dropoff in the network.
+    -->
+    <trip id="t_0" type="myTaxi" depart="0.00" from="A3A2" to="A3A2"/>
+    <trip id="t_1" type="myTaxi" depart="0.00" from="D2D3" to="D2D3"/>
+</routes>

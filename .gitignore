@@ -1,0 +1,8 @@
+DQNetwork/score_metrics_record.csv
+*.txt
+SmallTestingMapGreedy\stats.xml
+SmallTestingMapGreedy\stopinfos.xml
+SmallTestingMapGreedy\tripinfos.xml
+SmallTestingMap\tripinfos.xml
+SmallTestingMap\stopinfos.xml
+SmallTestingMap\stats.xml
