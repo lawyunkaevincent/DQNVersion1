@@ -205,6 +205,132 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
     # Dispatch override: mirror legacy batching / rollback behavior
     # ------------------------------------------------------------------
 
+    # def _flush_idle_dispatches(self) -> None:
+    #     if not self._pending_dispatches:
+    #         return
+
+    #     try:
+    #         active_vids = set(traci.vehicle.getIDList())
+    #     except Exception:
+    #         active_vids = set()
+
+    #     for taxi_id in list(self._pending_dispatches):
+    #         self._pending_dispatches.discard(taxi_id)
+
+    #         if taxi_id not in active_vids:
+    #             self._dispatch_snapshots.pop(taxi_id, None)
+    #             continue
+
+    #         plan = self.taxi_plans.get(taxi_id)
+    #         if plan is None:
+    #             self._dispatch_snapshots.pop(taxi_id, None)
+    #             continue
+
+    #         # --- Scrub stale reservation IDs before dispatching ---
+    #         # SUMO can silently close a reservation (e.g. when a taxi misses a
+    #         # pickup window mid-route) without informing TraCI. This causes two
+    #         # distinct errors depending on whether the passenger is onboard:
+    #         #
+    #         #   "Reservation id 'X' is not known"
+    #         #     → passenger was never picked up; SUMO discarded the reservation.
+    #         #     → safe to remove ALL stops for this request from the plan.
+    #         #
+    #         #   "Re-dispatch did mention some customers but failed to mention X"
+    #         #     → passenger IS physically onboard the taxi right now; SUMO
+    #         #       still tracks them via the vehicle's passenger list even though
+    #         #       the reservation object is gone. Every dispatchTaxi call MUST
+    #         #       include their dropoff stop or SUMO rejects the call.
+    #         #     → keep the DROPOFF stop; only remove the (already consumed)
+    #         #       PICKUP stop.
+    #         #
+    #         # We therefore query both the live reservation set AND the set of
+    #         # persons currently inside the taxi to distinguish these two cases.
+    #         try:
+    #             live_res_ids = {r.id for r in traci.person.getTaxiReservations(0)}
+    #         except Exception:
+    #             live_res_ids = None  # can't verify — proceed as-is
+
+    #         try:
+    #             persons_in_taxi = set(traci.vehicle.getPersonIDList(taxi_id))
+    #         except Exception:
+    #             persons_in_taxi = set()
+
+    #         if live_res_ids is not None:
+    #             stale_rids = {s.request_id for s in plan.stops
+    #                           if s.request_id not in live_res_ids}
+    #             if stale_rids:
+    #                 _log(f"  [WARN] stale reservation IDs for taxi={taxi_id}: {stale_rids}")
+    #                 for stale_rid in stale_rids:
+    #                     pid = self.resid_to_pid.get(stale_rid, stale_rid)
+    #                     req = self.requests.get(pid)
+    #                     is_onboard = pid in persons_in_taxi
+
+    #                     if is_onboard:
+    #                         # Passenger is physically inside the taxi but their
+    #                         # reservation object is already closed in SUMO.
+    #                         # SUMO will complete the dropoff autonomously.
+    #                         # Including this ID in dispatchTaxi causes "not known"
+    #                         # errors; omitting an onboard passenger causes "failed
+    #                         # to mention" errors. The only safe path: remove ALL
+    #                         # stops for this request and let SUMO finish the ride
+    #                         # on its own. Mark the request ONBOARD so our state
+    #                         # stays consistent until _sync_reservations detects
+    #                         # the dropoff (person leaves sim).
+    #                         plan.stops = [s for s in plan.stops
+    #                                       if s.request_id != stale_rid]
+    #                         plan.assigned_request_ids.discard(stale_rid)
+    #                         plan.assigned_request_ids.discard(pid)
+    #                         plan.onboard_request_ids.add(pid)
+    #                         if req and req.status != RequestStatus.ONBOARD:
+    #                             req.status = RequestStatus.ONBOARD
+    #                             if req.pickup_time is None:
+    #                                 req.pickup_time = traci.simulation.getTime()
+    #                         _log(f"    → {stale_rid} onboard with closed reservation — removed stops, SUMO handles dropoff autonomously")
+    #                     else:
+    #                         # Passenger was never picked up — SUMO discarded the
+    #                         # reservation entirely. Safe to remove all stops and
+    #                         # mark the request completed so it won't re-queue.
+    #                         plan.stops = [s for s in plan.stops
+    #                                       if s.request_id != stale_rid]
+    #                         plan.assigned_request_ids.discard(stale_rid)
+    #                         plan.assigned_request_ids.discard(pid)
+    #                         plan.onboard_request_ids.discard(stale_rid)
+    #                         plan.onboard_request_ids.discard(pid)
+    #                         if req and req.status not in (RequestStatus.COMPLETED,):
+    #                             req.status = RequestStatus.COMPLETED
+    #                             _log(f"    → {stale_rid} never picked up — removed all stops, marked COMPLETED")
+    #                 plan.onboard_count = len(plan.onboard_request_ids)
+
+    #         ordered_res_ids = _serialize_dispatch_res_ids(plan)
+    #         if not ordered_res_ids:
+    #             self._dispatch_snapshots.pop(taxi_id, None)
+    #             continue
+
+    #         try:
+    #             traci.vehicle.dispatchTaxi(taxi_id, ordered_res_ids)
+    #             _log(f"  → DISPATCHED taxi={taxi_id} reservations={ordered_res_ids}")
+    #             self._dispatch_snapshots.pop(taxi_id, None)
+    #         except traci.TraCIException as e:
+    #             _log(f" ")
+    #             _log(f"  [ERROR] dispatchTaxi failed for taxi={taxi_id}: {e}")
+    #             _log(f" Current passenger onboard: {traci.vehicle.getPersonIDList(taxi_id)}")
+    #             _log(f"          ordered_res_ids = {ordered_res_ids}")
+
+    #             prev_stops, prev_assigned_ids = self._dispatch_snapshots.pop(
+    #                 taxi_id, (_clone_stops(plan.stops), set(plan.assigned_request_ids))
+    #             )
+    #             new_assigned_ids = set(plan.assigned_request_ids) - set(prev_assigned_ids)
+
+    #             # Roll back only tentative assignments introduced this tick.
+    #             for pid in new_assigned_ids:
+    #                 req = self.requests.get(pid)
+    #                 if req and req.status == RequestStatus.ASSIGNED and req.assigned_taxi_id == taxi_id:
+    #                     req.assigned_taxi_id = None
+    #                     req.status = RequestStatus.PENDING
+
+    #             plan.stops = prev_stops
+    #             plan.assigned_request_ids = set(prev_assigned_ids)
+
     def _flush_idle_dispatches(self) -> None:
         if not self._pending_dispatches:
             return
@@ -226,7 +352,107 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
                 self._dispatch_snapshots.pop(taxi_id, None)
                 continue
 
+            # --- Scrub stale reservation IDs before dispatching ---
+            try:
+                live_res_ids = {r.id for r in traci.person.getTaxiReservations(0)}
+            except Exception:
+                live_res_ids = None  # can't verify — proceed as-is
+
+            try:
+                persons_in_taxi = set(traci.vehicle.getPersonIDList(taxi_id))
+            except Exception:
+                persons_in_taxi = set()
+
+            # NEW: use actual person presence in the sim as the source of truth
+            try:
+                active_pids = set(traci.person.getIDList())
+            except Exception:
+                active_pids = set()
+
+            if live_res_ids is not None:
+                stale_rids = {
+                    s.request_id for s in plan.stops
+                    if s.request_id not in live_res_ids
+                }
+
+                if stale_rids:
+                    _log(f"  [WARN] stale reservation IDs for taxi={taxi_id}: {stale_rids}")
+
+                    for stale_rid in stale_rids:
+                        pid = self.resid_to_pid.get(stale_rid, stale_rid)
+                        req = self.requests.get(pid)
+                        is_onboard = pid in persons_in_taxi
+                        in_sim = pid in active_pids
+
+                        if is_onboard:
+                            # Passenger is physically inside the taxi, but the
+                            # reservation object has already closed in SUMO.
+                            # Remove local stops for this request and let SUMO
+                            # finish the dropoff autonomously.
+                            plan.stops = [
+                                s for s in plan.stops
+                                if s.request_id != stale_rid
+                            ]
+                            plan.assigned_request_ids.discard(stale_rid)
+                            plan.assigned_request_ids.discard(pid)
+                            plan.onboard_request_ids.add(pid)
+
+                            if req and req.status != RequestStatus.ONBOARD:
+                                req.status = RequestStatus.ONBOARD
+                                req.assigned_taxi_id = taxi_id
+                                if req.pickup_time is None:
+                                    req.pickup_time = traci.simulation.getTime()
+
+                            _log(
+                                f"    → {stale_rid} onboard with closed reservation — "
+                                f"removed stops, SUMO handles dropoff autonomously"
+                            )
+
+                        elif not in_sim:
+                            # Person has actually left the simulation.
+                            # This is the only safe non-onboard case to purge and complete.
+                            plan.stops = [
+                                s for s in plan.stops
+                                if s.request_id != stale_rid
+                            ]
+                            plan.assigned_request_ids.discard(stale_rid)
+                            plan.assigned_request_ids.discard(pid)
+                            plan.onboard_request_ids.discard(stale_rid)
+                            plan.onboard_request_ids.discard(pid)
+
+                            if req and req.status != RequestStatus.COMPLETED:
+                                req.status = RequestStatus.COMPLETED
+
+                            _log(
+                                f"    → {stale_rid} person no longer in sim — "
+                                f"removed stops, marked COMPLETED"
+                            )
+
+                        else:
+                            # IMPORTANT FIX:
+                            # Still in sim, not onboard, stale in reservation list.
+                            # This is NOT safe to purge. SUMO may still expect this
+                            # request in the taxi's future chain.
+                            if req is not None:
+                                req.assigned_taxi_id = taxi_id
+                                if req.status == RequestStatus.COMPLETED:
+                                    req.status = RequestStatus.ASSIGNED
+                                elif req.status not in (
+                                    RequestStatus.PENDING,
+                                    RequestStatus.DEFERRED,
+                                    RequestStatus.ASSIGNED,
+                                ):
+                                    req.status = RequestStatus.ASSIGNED
+
+                            _log(
+                                f"    → {stale_rid} still in sim and not onboard — "
+                                f"keeping stops; not safe to purge"
+                            )
+
+                    plan.onboard_count = len(plan.onboard_request_ids)
+
             ordered_res_ids = _serialize_dispatch_res_ids(plan)
+
             if not ordered_res_ids:
                 self._dispatch_snapshots.pop(taxi_id, None)
                 continue
@@ -235,8 +461,11 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
                 traci.vehicle.dispatchTaxi(taxi_id, ordered_res_ids)
                 _log(f"  → DISPATCHED taxi={taxi_id} reservations={ordered_res_ids}")
                 self._dispatch_snapshots.pop(taxi_id, None)
+
             except traci.TraCIException as e:
+                _log(" ")
                 _log(f"  [ERROR] dispatchTaxi failed for taxi={taxi_id}: {e}")
+                _log(f" Current passenger onboard: {traci.vehicle.getPersonIDList(taxi_id)}")
                 _log(f"          ordered_res_ids = {ordered_res_ids}")
 
                 prev_stops, prev_assigned_ids = self._dispatch_snapshots.pop(

@@ -104,12 +104,35 @@ class DQNStepEnvironment(RefactoredDRTEnvironment):
                 active_vids = set()
 
             # Remove taxis that have already left the live simulation.
-            stale_taxis = [tid for tid in list(self.taxi_plans.keys()) if tid not in active_vids]
-            for tid in stale_taxis:
-                self.taxi_plans.pop(tid, None)
-                self._pending_dispatches.discard(tid)
-                self._dispatch_snapshots.pop(tid, None)
+            # stale_taxis = [tid for tid in list(self.taxi_plans.keys()) if tid not in active_vids]
+            # for tid in stale_taxis:
+            #     self.taxi_plans.pop(tid, None)
+            #     self._pending_dispatches.discard(tid)
+            #     self._dispatch_snapshots.pop(tid, None)
 
+             # IMPORTANT:
+            # Do NOT delete taxis from self.taxi_plans on a transient miss.
+            # A taxi can momentarily fail to appear in getIDList() or raise a
+            # TraCI exception even though SUMO still keeps its internal taxi plan.
+            # If we pop it here, later lazy registration recreates a fresh empty
+            # TaxiPlan and we lose the old stops (e.g. onboard / assigned requests).
+            missing_taxis = [tid for tid in list(self.taxi_plans.keys()) if tid not in active_vids]
+            for tid in missing_taxis:
+                if self.verbose:
+                    print(f"[WARN] taxi {tid} missing from getIDList(); preserving local TaxiPlan")
+
+            # for taxi_id, plan in list(self.taxi_plans.items()):
+            #     try:
+            #         dist = traci.vehicle.getDistance(taxi_id)
+            #         delta = dist - plan.cumulative_distance
+            #         plan.cumulative_distance = dist
+            #         if plan.onboard_count == 0 and delta > 0:
+            #             self.accumulator.empty_dist_cost += delta
+            #     except traci.TraCIException:
+            #         # Taxi disappeared between getIDList() and getDistance().
+            #         self.taxi_plans.pop(taxi_id, None)
+            #         self._pending_dispatches.discard(taxi_id)
+            #         self._dispatch_snapshots.pop(taxi_id, None)
             for taxi_id, plan in list(self.taxi_plans.items()):
                 try:
                     dist = traci.vehicle.getDistance(taxi_id)
@@ -118,10 +141,13 @@ class DQNStepEnvironment(RefactoredDRTEnvironment):
                     if plan.onboard_count == 0 and delta > 0:
                         self.accumulator.empty_dist_cost += delta
                 except traci.TraCIException:
-                    # Taxi disappeared between getIDList() and getDistance().
-                    self.taxi_plans.pop(taxi_id, None)
-                    self._pending_dispatches.discard(taxi_id)
-                    self._dispatch_snapshots.pop(taxi_id, None)
+                    # IMPORTANT:
+                    # Do NOT delete the taxi on a transient TraCI read failure.
+                    # Keep the local TaxiPlan intact so existing stops / assignments
+                    # are preserved for the next sync tick.
+                    if self.verbose:
+                        print(f"[WARN] getDistance failed for taxi {taxi_id}; preserving local TaxiPlan")
+                    continue
 
             if self._step_count >= self.TICK_STEPS:
                 self._step_count = 0
@@ -207,18 +233,12 @@ class DQNStepEnvironment(RefactoredDRTEnvironment):
         self._prev_onboard_ids = {pid for pid, r in self.requests.items() if r.status == RequestStatus.ONBOARD}
         self._prev_completed_ids = {pid for pid, r in self.requests.items() if r.status == RequestStatus.COMPLETED}
 
-        # CRITICAL: flush any pending dispatches on IDLE ticks too.
-        #
-        # Without this, _pending_dispatches accumulates entries across multiple
-        # IDLE ticks while SUMO advances (completing pickups / dropoffs). By the
-        # time step_decision() calls _flush_idle_dispatches(), the reservation
-        # IDs in those pending plans are already closed in SUMO, causing the
-        # "Reservation id 'X' is not known" error.
-        #
-        # On MEANINGFUL ticks we do NOT flush here — step_decision() owns the
-        # flush so it can apply the agent's chosen action first, then flush once.
-        if outcome == TickOutcome.IDLE and self._pending_dispatches:
-            self._flush_idle_dispatches()
+        # NOTE: _flush_idle_dispatches() is intentionally NOT called here.
+        # The only valid flush point is inside step_decision(), after the policy
+        # network has chosen an action and apply_action() has written it to the
+        # plan. Flushing on IDLE ticks risks dispatching stale reservation IDs
+        # that SUMO has already closed during the intervening simulationStep()
+        # calls, causing "Reservation id 'X' is not known" errors.
 
         if not has_candidates:
             return None

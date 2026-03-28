@@ -43,6 +43,7 @@ import traci
 # ---------------------------------------------------------------------------
 
 NORMALIZE_SCORE_COMPONENTS = True
+MAX_SERVICE_SEQ = 20
 
 # For very large / skewed terms, compress first before normalization
 LOG_SCALE_KEYS = {
@@ -123,7 +124,7 @@ W_FUTURE_WAIT      = 0.3    # strong penalty for extra time until pickup from no
 W_TOTAL_WAIT       = 0.10    # light extra guard on total wait since request time
 W_ROUTE            = 0.2    # mild penalty for route extension
 W_ACTIVATION       = 0.25   # lighter cost for waking an idle taxi
-W_WORKLOAD         = 0.2  # penalise long remaining suffix on one taxi
+W_WORKLOAD         = 0.5  # penalise long remaining suffix on one taxi
 W_IMBALANCE        = 0.2   # penalise overloading one taxi relative to the other
 W_SHARE_BONUS      = 0.1     # reward compact, useful pooling
 W_NEW_WAIT_VIOL = 0.25
@@ -387,12 +388,28 @@ def generate_candidates(
         # - no stops          -> free insertion anywhere
         # - first stop DROP   -> allow inserting before it
         # - first stop PICKUP -> keep the first stop frozen for stability
+        # if n == 0:
+        #     frozen_prefix = 0
+        # elif plan.stops[0].stop_type == StopType.DROPOFF:
+        #     frozen_prefix = 1
+        # else:
+        #     frozen_prefix = 1
+        if n >= MAX_SERVICE_SEQ:
+            continue
         if n == 0:
             frozen_prefix = 0
-        elif plan.stops[0].stop_type == StopType.DROPOFF:
-            frozen_prefix = 0
         else:
-            frozen_prefix = 1
+            first_pickup_idx = next(
+                (i for i, s in enumerate(plan.stops) if s.stop_type == StopType.PICKUP),
+                None
+            )
+
+            if first_pickup_idx is None:
+                # only dropoffs remain -> no future pickup to protect
+                frozen_prefix = 0
+            else:
+                # preserve everything up to and including the first planned pickup
+                frozen_prefix = first_pickup_idx + 1
 
         # Baseline concurrent count = passengers already onboard with no
         # PICKUP stop remaining (they are in the taxi right now).
@@ -1234,20 +1251,32 @@ class HeuristicDispatcher:
                     self._register_taxi(vid)
 
     def _register_taxi(self, taxi_id: str) -> None:
+        # If taxi already exists, DO NOT wipe its stops / assignments.
+        existing = self.taxi_plans.get(taxi_id)
+        if existing is not None:
+            try:
+                existing.current_edge = traci.vehicle.getRoadID(taxi_id)
+                SAFETY_BUFFER = 3
+                real_capacity = int(traci.vehicle.getPersonCapacity(taxi_id))
+                existing.capacity = max(1, real_capacity - SAFETY_BUFFER)
+            except traci.TraCIException:
+                pass
+            _log(
+                f"  [INIT-SKIP] Taxi {taxi_id} already registered; "
+                f"preserving existing plan with {len(existing.stops)} stops"
+            )
+            return
+
         plan = TaxiPlan(taxi_id=taxi_id)
         try:
             plan.current_edge = traci.vehicle.getRoadID(taxi_id)
-            # x, y = traci.vehicle.getPosition(taxi_id)
-            # plan.current_x, plan.current_y = x, y
-            # plan.capacity = int(traci.vehicle.getPersonCapacity(taxi_id))
             SAFETY_BUFFER = 3
             real_capacity = int(traci.vehicle.getPersonCapacity(taxi_id))
             plan.capacity = max(1, real_capacity - SAFETY_BUFFER)
-
-           
             _log(f"CAPACITY OF TAXI: {plan.capacity}")
         except traci.TraCIException:
             plan.capacity = 2
+
         self.taxi_plans[taxi_id] = plan
         _log(f"  [INIT] Registered taxi {taxi_id} (capacity={plan.capacity})")
 
@@ -1275,6 +1304,7 @@ class HeuristicDispatcher:
         for state_int in range(4):
             for vid in traci.vehicle.getTaxiFleet(state_int):
                 if vid not in self.taxi_plans:
+                    _log(f"  [LAZY-REGISTER] state={state_int} taxi={vid} known={vid in self.taxi_plans}")
                     self._register_taxi(vid)
 
         # --- discover new requests via reservations ---
