@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
 
     <!-- VTypes -->
-    <vType id="myTaxi" vClass="taxi" color="yellow" personCapacity="12">
+    <vType id="myTaxi" vClass="taxi" color="yellow" personCapacity="13">
         <param key="has.taxi.device" value="true"/>
     </vType>
 

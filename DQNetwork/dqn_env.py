@@ -97,15 +97,31 @@ class DQNStepEnvironment(RefactoredDRTEnvironment):
             self.accumulator.elapsed_time += dt
 
             _refresh_taxi_plans(self.taxi_plans)
-            for plan in self.taxi_plans.values():
+
+            try:
+                active_vids = set(traci.vehicle.getIDList())
+            except traci.TraCIException:
+                active_vids = set()
+
+            # Remove taxis that have already left the live simulation.
+            stale_taxis = [tid for tid in list(self.taxi_plans.keys()) if tid not in active_vids]
+            for tid in stale_taxis:
+                self.taxi_plans.pop(tid, None)
+                self._pending_dispatches.discard(tid)
+                self._dispatch_snapshots.pop(tid, None)
+
+            for taxi_id, plan in list(self.taxi_plans.items()):
                 try:
-                    dist = traci.vehicle.getDistance(plan.taxi_id)
+                    dist = traci.vehicle.getDistance(taxi_id)
                     delta = dist - plan.cumulative_distance
                     plan.cumulative_distance = dist
                     if plan.onboard_count == 0 and delta > 0:
                         self.accumulator.empty_dist_cost += delta
                 except traci.TraCIException:
-                    pass
+                    # Taxi disappeared between getIDList() and getDistance().
+                    self.taxi_plans.pop(taxi_id, None)
+                    self._pending_dispatches.discard(taxi_id)
+                    self._dispatch_snapshots.pop(taxi_id, None)
 
             if self._step_count >= self.TICK_STEPS:
                 self._step_count = 0
@@ -137,7 +153,16 @@ class DQNStepEnvironment(RefactoredDRTEnvironment):
             if req and req.excess_ride_time is not None:
                 self.accumulator.ride_cost += req.excess_ride_time
 
-        pending_pool = [pid for pid, r in self.requests.items() if r.status in (RequestStatus.PENDING, RequestStatus.DEFERRED)]
+        try:
+            active_pids = set(traci.person.getIDList())
+        except Exception:
+            active_pids = set(self.requests.keys())
+
+        pending_pool = [
+            pid for pid, r in self.requests.items()
+            if r.status in (RequestStatus.PENDING, RequestStatus.DEFERRED)
+            and pid in active_pids
+        ]
         self._eligible_taxis_this_tick = _eligible_taxis_for_tick(
             self.taxi_plans, self.requests, new_pickups, new_dropoffs,
         )
@@ -181,6 +206,19 @@ class DQNStepEnvironment(RefactoredDRTEnvironment):
         self._prev_req_ids = set(self.requests.keys())
         self._prev_onboard_ids = {pid for pid, r in self.requests.items() if r.status == RequestStatus.ONBOARD}
         self._prev_completed_ids = {pid for pid, r in self.requests.items() if r.status == RequestStatus.COMPLETED}
+
+        # CRITICAL: flush any pending dispatches on IDLE ticks too.
+        #
+        # Without this, _pending_dispatches accumulates entries across multiple
+        # IDLE ticks while SUMO advances (completing pickups / dropoffs). By the
+        # time step_decision() calls _flush_idle_dispatches(), the reservation
+        # IDs in those pending plans are already closed in SUMO, causing the
+        # "Reservation id 'X' is not known" error.
+        #
+        # On MEANINGFUL ticks we do NOT flush here — step_decision() owns the
+        # flush so it can apply the agent's chosen action first, then flush once.
+        if outcome == TickOutcome.IDLE and self._pending_dispatches:
+            self._flush_idle_dispatches()
 
         if not has_candidates:
             return None

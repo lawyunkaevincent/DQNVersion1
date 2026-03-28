@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from dataclasses import asdict
 from typing import Optional
 
 import traci
@@ -10,7 +9,6 @@ from DRTDataclass import (
     GlobalStateSummary,
     Request,
     RequestStatus,
-    Stop,
     TaxiStatus,
     TickContext,
     TickOutcome,
@@ -24,7 +22,7 @@ from dispatcher import (
     _log,
     _print_tick_summary,
     _print_top5,
-    _refresh_taxi_plans,
+    _serialize_dispatch_res_ids,
     _sync_onboard,
     generate_candidates,
 )
@@ -35,14 +33,16 @@ from dataset_logger import ImitationDatasetLogger
 
 class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
     """
-    Agent-driven wrapper around the original dispatcher.
+    Agent-driven wrapper around the original heuristic dispatcher.
 
-    Main refactor points:
-      - build_global_state_summary()
-      - build_candidates_for_request()
-      - build_decision_point()
-      - apply_action()
-      - process one policy decision instead of hardcoding selection inside _dispatch_best()
+    This version intentionally follows dispatcher.py as closely as possible:
+      - no speculative plan pruning
+      - request/taxi synchronization stays event-driven
+      - apply_action mutates plan.stops exactly once per chosen action
+      - _flush_idle_dispatches serializes the full current suffix and dispatches it
+      - rollback restores the pre-tick snapshot on dispatch failure
+
+    The only added behavior is exposing policy-facing decision helpers.
     """
 
     def __init__(
@@ -59,20 +59,47 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
         self._decision_counter = 0
 
     # ------------------------------------------------------------------
+    # Synchronization: keep legacy event-driven behavior
+    # ------------------------------------------------------------------
+
+    def _sync_reservations(self, now: float) -> None:
+        super()._sync_reservations(now)
+
+        # Legacy-compatible cleanup: only clear completed requests from local taxi plans.
+        for req in self.requests.values():
+            if req.status == RequestStatus.COMPLETED and req.assigned_taxi_id in self.taxi_plans:
+                plan = self.taxi_plans[req.assigned_taxi_id]
+                plan.stops = [s for s in plan.stops if s.request_id != req.request_id]
+                plan.assigned_request_ids.discard(req.person_id)
+                plan.assigned_request_ids.discard(req.request_id)
+                plan.onboard_request_ids.discard(req.person_id)
+                plan.onboard_request_ids.discard(req.request_id)
+                plan.onboard_count = len(plan.onboard_request_ids)
+
+    # ------------------------------------------------------------------
     # New refactored decision helpers
     # ------------------------------------------------------------------
 
     def build_global_state_summary(self, now: float) -> GlobalStateSummary:
         pending = [r for r in self.requests.values() if r.status in (RequestStatus.PENDING, RequestStatus.DEFERRED)]
         onboard_count = sum(plan.onboard_count for plan in self.taxi_plans.values())
-        idle_taxi_count = sum(1 for plan in self.taxi_plans.values() if plan.status == TaxiStatus.IDLE and plan.onboard_count == 0)
-        active_taxi_count = sum(1 for plan in self.taxi_plans.values() if not (plan.status == TaxiStatus.IDLE and len(plan.stops) == 0 and plan.onboard_count == 0))
+        idle_taxi_count = sum(
+            1 for plan in self.taxi_plans.values()
+            if plan.status == TaxiStatus.IDLE and plan.onboard_count == 0
+        )
+        active_taxi_count = sum(
+            1 for plan in self.taxi_plans.values()
+            if not (plan.status == TaxiStatus.IDLE and len(plan.stops) == 0 and plan.onboard_count == 0)
+        )
         avg_wait = (sum(r.waiting_time(now) for r in pending) / len(pending)) if pending else 0.0
         max_wait = max((r.waiting_time(now) for r in pending), default=0.0)
 
         taxi_count = max(1, len(self.taxi_plans))
         avg_occupancy = sum((plan.onboard_count / max(1, plan.capacity)) for plan in self.taxi_plans.values()) / taxi_count
-        fleet_utilization = sum(1 for plan in self.taxi_plans.values() if plan.status != TaxiStatus.IDLE or plan.onboard_count > 0) / taxi_count
+        fleet_utilization = sum(
+            1 for plan in self.taxi_plans.values()
+            if plan.status != TaxiStatus.IDLE or plan.onboard_count > 0
+        ) / taxi_count
 
         recent_window = 60.0
         recent_count = sum(1 for r in self.requests.values() if 0.0 <= now - r.request_time <= recent_window)
@@ -103,7 +130,12 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
             request_lookup_by_res_id=request_lookup,
         )
 
-    def build_decision_point(self, request: Request, now: float, tick_context: Optional[TickContext] = None) -> DecisionPoint | None:
+    def build_decision_point(
+        self,
+        request: Request,
+        now: float,
+        tick_context: Optional[TickContext] = None,
+    ) -> DecisionPoint | None:
         candidates = self.build_candidates_for_request(request, now)
         if not candidates:
             return None
@@ -131,8 +163,11 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
                 set(plan.assigned_request_ids),
             )
 
-        plan.stops = action.resulting_stops
+        # Keep the legacy convention: the chosen candidate replaces the taxi's
+        # future stop suffix, and assigned_request_ids remains person-id keyed.
+        plan.stops = list(action.resulting_stops)
         plan.assigned_request_ids.add(request.person_id)
+
         request.assigned_taxi_id = action.taxi_id
         request.status = RequestStatus.ASSIGNED
         self._pending_dispatches.add(action.taxi_id)
@@ -143,7 +178,12 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
         )
         return action
 
-    def dispatch_request_via_policy(self, request: Request, now: float, tick_context: Optional[TickContext] = None) -> PolicyOutput | None:
+    def dispatch_request_via_policy(
+        self,
+        request: Request,
+        now: float,
+        tick_context: Optional[TickContext] = None,
+    ) -> PolicyOutput | None:
         decision = self.build_decision_point(request, now, tick_context=tick_context)
         if decision is None:
             return None
@@ -160,6 +200,59 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
             self.dataset_logger.log_decision(decision, policy_output, self.taxi_plans)
 
         return policy_output
+
+    # ------------------------------------------------------------------
+    # Dispatch override: mirror legacy batching / rollback behavior
+    # ------------------------------------------------------------------
+
+    def _flush_idle_dispatches(self) -> None:
+        if not self._pending_dispatches:
+            return
+
+        try:
+            active_vids = set(traci.vehicle.getIDList())
+        except Exception:
+            active_vids = set()
+
+        for taxi_id in list(self._pending_dispatches):
+            self._pending_dispatches.discard(taxi_id)
+
+            if taxi_id not in active_vids:
+                self._dispatch_snapshots.pop(taxi_id, None)
+                continue
+
+            plan = self.taxi_plans.get(taxi_id)
+            if plan is None:
+                self._dispatch_snapshots.pop(taxi_id, None)
+                continue
+
+            ordered_res_ids = _serialize_dispatch_res_ids(plan)
+            if not ordered_res_ids:
+                self._dispatch_snapshots.pop(taxi_id, None)
+                continue
+
+            try:
+                traci.vehicle.dispatchTaxi(taxi_id, ordered_res_ids)
+                _log(f"  → DISPATCHED taxi={taxi_id} reservations={ordered_res_ids}")
+                self._dispatch_snapshots.pop(taxi_id, None)
+            except traci.TraCIException as e:
+                _log(f"  [ERROR] dispatchTaxi failed for taxi={taxi_id}: {e}")
+                _log(f"          ordered_res_ids = {ordered_res_ids}")
+
+                prev_stops, prev_assigned_ids = self._dispatch_snapshots.pop(
+                    taxi_id, (_clone_stops(plan.stops), set(plan.assigned_request_ids))
+                )
+                new_assigned_ids = set(plan.assigned_request_ids) - set(prev_assigned_ids)
+
+                # Roll back only tentative assignments introduced this tick.
+                for pid in new_assigned_ids:
+                    req = self.requests.get(pid)
+                    if req and req.status == RequestStatus.ASSIGNED and req.assigned_taxi_id == taxi_id:
+                        req.assigned_taxi_id = None
+                        req.status = RequestStatus.PENDING
+
+                plan.stops = prev_stops
+                plan.assigned_request_ids = set(prev_assigned_ids)
 
     # ------------------------------------------------------------------
     # Refactored tick loop: mechanics separated from policy
@@ -184,10 +277,11 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
 
         pending_pool = [pid for pid, r in self.requests.items() if r.status in (RequestStatus.PENDING, RequestStatus.DEFERRED)]
         self._eligible_taxis_this_tick = _eligible_taxis_for_tick(
-            self.taxi_plans, self.requests, new_pickups, new_dropoffs,
+            self.taxi_plans,
+            self.requests,
+            new_pickups,
+            new_dropoffs,
         )
-
-        # _log(f"PENDING POOL: {pending_pool}")
 
         has_candidates = False
         if pending_pool and self._eligible_taxis_this_tick:
@@ -247,3 +341,23 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
         self._prev_req_ids = set(self.requests.keys())
         self._prev_onboard_ids = {pid for pid, r in self.requests.items() if r.status == RequestStatus.ONBOARD}
         self._prev_completed_ids = {pid for pid, r in self.requests.items() if r.status == RequestStatus.COMPLETED}
+
+    def _debug_check_plan_consistency(self, tag: str, now: float) -> None:
+        live_req_ids = {
+            req.request_id
+            for req in self.requests.values()
+            if req.status != RequestStatus.COMPLETED
+        }
+
+        for taxi_id, plan in self.taxi_plans.items():
+            bad = [s.request_id for s in plan.stops if s.request_id not in live_req_ids]
+            if bad:
+                print(f"\n🚨 [BUG DETECTED] at {tag} (t={now:.1f})")
+                print(f"Taxi: {taxi_id}")
+                print(f"Bad stops: {bad}")
+                print(f"Current stops: {[s.request_id for s in plan.stops]}")
+                print(f"Live requests: {sorted(live_req_ids)}")
+                for rid in bad:
+                    r = self.requests.get(rid)
+                    print(f"  → req {rid}: {r.status if r else 'NOT IN self.requests'}")
+                print("-----")

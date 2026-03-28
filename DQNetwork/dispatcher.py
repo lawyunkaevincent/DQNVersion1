@@ -1240,7 +1240,7 @@ class HeuristicDispatcher:
             # x, y = traci.vehicle.getPosition(taxi_id)
             # plan.current_x, plan.current_y = x, y
             # plan.capacity = int(traci.vehicle.getPersonCapacity(taxi_id))
-            SAFETY_BUFFER = 2
+            SAFETY_BUFFER = 3
             real_capacity = int(traci.vehicle.getPersonCapacity(taxi_id))
             plan.capacity = max(1, real_capacity - SAFETY_BUFFER)
 
