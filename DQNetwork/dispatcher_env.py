@@ -66,26 +66,37 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
         super()._sync_reservations(now)
 
         # Legacy-compatible cleanup: only clear completed requests from local taxi plans.
-        # Track which taxis had stops removed so we can re-dispatch them.
-        taxis_needing_redispatch: set[str] = set()
+        # The base class _sync_reservations already handles redispatch via the
+        # batched _taxis_needing_redispatch mechanism, so we only need to track
+        # additional taxis affected by this cleanup pass.
         for req in self.requests.values():
             if req.status == RequestStatus.COMPLETED and req.assigned_taxi_id in self.taxi_plans:
                 plan = self.taxi_plans[req.assigned_taxi_id]
                 old_len = len(plan.stops)
                 plan.stops = [s for s in plan.stops if s.request_id != req.request_id]
-                if len(plan.stops) != old_len:
-                    taxis_needing_redispatch.add(req.assigned_taxi_id)
+                if len(plan.stops) != old_len and plan.stops:
+                    # Stops were removed — queue a single redispatch
+                    self._taxis_needing_redispatch.add(req.assigned_taxi_id)
                 plan.assigned_request_ids.discard(req.person_id)
                 plan.assigned_request_ids.discard(req.request_id)
                 plan.onboard_request_ids.discard(req.person_id)
                 plan.onboard_request_ids.discard(req.request_id)
                 plan.onboard_count = len(plan.onboard_request_ids)
 
-        # Re-dispatch taxis that had stops removed so SUMO continues routing
-        for taxi_id in taxis_needing_redispatch:
-            plan = self.taxi_plans.get(taxi_id)
-            if plan and plan.stops:
-                self._redispatch_remaining(taxi_id, plan)
+        # Flush any redispatches queued by this cleanup pass
+        if self._taxis_needing_redispatch:
+            try:
+                active_vids = set(traci.vehicle.getIDList())
+            except Exception:
+                active_vids = set()
+            for taxi_id in list(self._taxis_needing_redispatch):
+                if taxi_id not in active_vids:
+                    self._taxis_needing_redispatch.discard(taxi_id)
+                    continue
+                plan = self.taxi_plans.get(taxi_id)
+                if plan and plan.stops:
+                    self._redispatch_remaining(taxi_id, plan)
+            self._taxis_needing_redispatch.clear()
 
     # ------------------------------------------------------------------
     # New refactored decision helpers

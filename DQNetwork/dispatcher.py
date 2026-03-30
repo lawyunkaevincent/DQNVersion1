@@ -1216,6 +1216,7 @@ class HeuristicDispatcher:
         self._step_count  = 0   # steps since last tick
         self.TICK_STEPS   = 10  # how many sim steps per tick
         self._eligible_taxis_this_tick: set[str] = set()
+        self._cached_vtype_str: str = ""  # cached vehicle type string for route calculation
 
     # ------------------------------------------------------------------
     # SUMO lifecycle
@@ -1274,6 +1275,10 @@ class HeuristicDispatcher:
             real_capacity = int(traci.vehicle.getPersonCapacity(taxi_id))
             plan.capacity = max(1, real_capacity - SAFETY_BUFFER)
             _log(f"CAPACITY OF TAXI: {plan.capacity}")
+            # Cache the vehicle type string for route calculations.
+            # This avoids needing a live taxi for getTypeID() later.
+            if not self._cached_vtype_str:
+                self._cached_vtype_str = traci.vehicle.getTypeID(taxi_id)
         except traci.TraCIException:
             plan.capacity = 2
 
@@ -1296,6 +1301,15 @@ class HeuristicDispatcher:
         Dead IDs are purged from the local plan and the affected requests
         are reset to PENDING so they re-enter the dispatch pool.
         """
+        # Guard: verify taxi still exists in SUMO before any dispatch call
+        try:
+            active_vids = set(traci.vehicle.getIDList())
+        except Exception:
+            return
+        if taxi_id not in active_vids:
+            _log(f"  [REDISPATCH-SKIP] taxi={taxi_id} no longer in simulation")
+            return
+
         remaining_res_ids = _serialize_dispatch_res_ids(plan)
         if not remaining_res_ids:
             return
@@ -1351,6 +1365,9 @@ class HeuristicDispatcher:
         This avoids any dependency on reservation.state bitmasks or
         stage.type values, both of which proved unreliable here.
         """
+        # Track taxis whose plans were modified so we can re-dispatch
+        # them ONCE at the end, rather than per-event inside the loop.
+        self._taxis_needing_redispatch: set[str] = set()
         # --- lazy taxi registration ---
         for state_int in range(4):
             for vid in traci.vehicle.getTaxiFleet(state_int):
@@ -1374,8 +1391,23 @@ class HeuristicDispatcher:
             if not pid or pid in self.requests:
                 continue
             try:
-                vtype = next(iter(self.taxi_plans.keys()), "")
-                vtype_str = traci.vehicle.getTypeID(vtype) if vtype else ""
+                # Use cached vtype string to avoid calling getTypeID on a
+                # taxi that may have been removed from SUMO after completing
+                # all its work.
+                vtype_str = self._cached_vtype_str
+                if not vtype_str:
+                    # Fallback: try to get vtype from a taxi still alive
+                    try:
+                        active_vids_for_vtype = set(traci.vehicle.getIDList())
+                    except Exception:
+                        active_vids_for_vtype = set()
+                    alive_taxi = next(
+                        (tid for tid in self.taxi_plans if tid in active_vids_for_vtype),
+                        ""
+                    )
+                    if alive_taxi:
+                        vtype_str = traci.vehicle.getTypeID(alive_taxi)
+                        self._cached_vtype_str = vtype_str
                 route = traci.simulation.findRoute(
                     res.fromEdge, res.toEdge, vtype_str, routingMode=1)
                 dtt = route.travelTime
@@ -1421,8 +1453,20 @@ class HeuristicDispatcher:
                 from_edge = traci.person.getRoadID(pid)
                 to_edge   = ride.edges[-1] if getattr(ride, "edges", None) else from_edge
                 try:
-                    vtype = next(iter(self.taxi_plans.keys()), "")
-                    vtype_str = traci.vehicle.getTypeID(vtype) if vtype else ""
+                    # Use cached vtype string
+                    vtype_str = self._cached_vtype_str
+                    if not vtype_str:
+                        try:
+                            active_vids_for_vtype = set(traci.vehicle.getIDList())
+                        except Exception:
+                            active_vids_for_vtype = set()
+                        alive_taxi = next(
+                            (tid for tid in self.taxi_plans if tid in active_vids_for_vtype),
+                            ""
+                        )
+                        if alive_taxi:
+                            vtype_str = traci.vehicle.getTypeID(alive_taxi)
+                            self._cached_vtype_str = vtype_str
                     route = traci.simulation.findRoute(from_edge, to_edge, vtype_str, routingMode=1)
                     dtt = route.travelTime
                     max_wait = min(REQ_MAX_WAIT_CAP, REQ_BASE_WAIT + REQ_ALPHA * dtt)
@@ -1468,8 +1512,8 @@ class HeuristicDispatcher:
                         plan.assigned_request_ids.discard(pid)
                         plan.onboard_request_ids.discard(pid)
                         plan.onboard_count = len(plan.onboard_request_ids)
-                        # ── Re-dispatch so SUMO keeps routing to remaining stops ──
-                        self._redispatch_remaining(req.assigned_taxi_id, plan)
+                        # Mark for re-dispatch at end of _sync_reservations
+                        self._taxis_needing_redispatch.add(req.assigned_taxi_id)
                     _log(f"  [DROPOFF] person={pid}  t={now:.1f}s"
                          f"  ride_time={(req.dropoff_time - req.pickup_time):.1f}s"
                          f"  excess={req.excess_ride_time}")
@@ -1485,7 +1529,7 @@ class HeuristicDispatcher:
                         plan.assigned_request_ids.discard(pid)
                         plan.onboard_request_ids.discard(pid)
                         plan.onboard_count = len(plan.onboard_request_ids)
-                        self._redispatch_remaining(req.assigned_taxi_id, plan)
+                        self._taxis_needing_redispatch.add(req.assigned_taxi_id)
                     _log(f"  [DROPOFF] person={pid}  t={now:.1f}s (left sim, was {req.status.name})")
                 continue
 
@@ -1514,11 +1558,8 @@ class HeuristicDispatcher:
                         if not (s.request_id == req.request_id
                                 and s.stop_type == StopType.PICKUP)
                     ]
-                    # ── Re-dispatch so SUMO keeps routing to remaining stops ──
-                    # Without this, SUMO may consider its dispatch obligation
-                    # complete after the pickup and go idle, silently cancelling
-                    # reservations for other passengers still in the plan.
-                    self._redispatch_remaining(vehicle_id, taxi_plan)
+                    # Mark for re-dispatch at end of _sync_reservations
+                    self._taxis_needing_redispatch.add(vehicle_id)
                 _log(f"  [PERIODIC PICKUP] person={pid}  taxi={req.assigned_taxi_id}  t={now:.1f}s")
 
             elif not in_vehicle and req.status == RequestStatus.ONBOARD:
@@ -1528,6 +1569,26 @@ class HeuristicDispatcher:
                 # let the next tick resolve it via normal SUMO state sync.
                 req.status = RequestStatus.ASSIGNED
                 _log(f"  [WARN] person={pid} left vehicle but still in sim — marking ASSIGNED transiently")
+
+        # ── Batched re-dispatch ──────────────────────────────────────────
+        # Issue ONE dispatchTaxi call per taxi that had stops modified
+        # during this sync pass (pickup consumed, dropoff completed, etc.).
+        # This prevents SUMO from going idle and cancelling remaining
+        # reservations, while avoiding the N-calls-per-N-events storm
+        # that can overwhelm SUMO and cause vehicle teleportation/removal.
+        if hasattr(self, '_taxis_needing_redispatch'):
+            try:
+                active_vids = set(traci.vehicle.getIDList())
+            except Exception:
+                active_vids = set()
+
+            for taxi_id in self._taxis_needing_redispatch:
+                if taxi_id not in active_vids:
+                    continue
+                plan = self.taxi_plans.get(taxi_id)
+                if plan and plan.stops:
+                    self._redispatch_remaining(taxi_id, plan)
+            self._taxis_needing_redispatch.clear()
 
     # ------------------------------------------------------------------
     # Dispatch logic

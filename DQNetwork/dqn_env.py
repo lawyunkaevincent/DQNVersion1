@@ -134,6 +134,11 @@ class DQNStepEnvironment(RefactoredDRTEnvironment):
             #         self._pending_dispatches.discard(taxi_id)
             #         self._dispatch_snapshots.pop(taxi_id, None)
             for taxi_id, plan in list(self.taxi_plans.items()):
+                # Skip taxis not currently in the simulation to avoid
+                # TraCI errors that flood the console with
+                # "Vehicle 'X' is not known" messages.
+                if taxi_id not in active_vids:
+                    continue
                 try:
                     dist = traci.vehicle.getDistance(taxi_id)
                     delta = dist - plan.cumulative_distance
