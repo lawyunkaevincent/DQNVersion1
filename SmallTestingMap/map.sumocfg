@@ -9,6 +9,7 @@
         <net-file value="map.net.xml"/>
         <route-files value="map.rou.xml,persontrips_scale.rou.xml"/>
         <device.taxi.dispatch-algorithm value="traci"/>
+        <device.taxi.idle-algorithm value="stop"/>
     </input>
     
     <output>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-03-30T17:13:35.279606+08:00 by Eclipse SUMO sumo 1.26.0
+<!-- generated on 2026-03-30T17:43:18.189996+08:00 by Eclipse SUMO sumo 1.26.0
 <sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
@@ -26,10 +26,30 @@
 
     <taxi_device>
         <device.taxi.dispatch-algorithm value="traci"/>
+        <device.taxi.idle-algorithm value="stop"/>
     </taxi_device>
 
     <traci_server>
-        <remote-port value="58625"/>
+        <remote-port value="51604"/>
     </traci_server>
 
 </sumoConfiguration>
+-->
+
+<stops xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/stopinfo_file.xsd">
+    <stopinfo id="t_0" type="myTaxi" lane="A3A2_0" pos="5.10" parking="1" started="1.00" ended="11.00" initialPersons="0" loadedPersons="0" unloadedPersons="0" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="E14_0" pos="0.19" parking="1" started="65.00" ended="66.00" initialPersons="0" loadedPersons="1" unloadedPersons="0" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="E17_0" pos="0.20" parking="1" started="96.00" ended="157.00" initialPersons="1" loadedPersons="0" unloadedPersons="1" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="A3B3_0" pos="4.98" parking="1" started="178.00" ended="179.00" initialPersons="0" loadedPersons="1" unloadedPersons="0" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="D1C1_0" pos="83.20" parking="1" started="293.00" ended="354.00" initialPersons="1" loadedPersons="0" unloadedPersons="1" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="A3B3_0" pos="4.98" parking="1" started="399.00" ended="400.00" initialPersons="0" loadedPersons="1" unloadedPersons="0" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="E12_0" pos="0.20" parking="1" started="467.00" ended="528.00" initialPersons="1" loadedPersons="0" unloadedPersons="1" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="B3C3_0" pos="5.00" parking="1" started="600.00" ended="601.00" initialPersons="0" loadedPersons="1" unloadedPersons="0" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="E13_0" pos="0.20" parking="1" started="625.00" ended="650.00" initialPersons="1" loadedPersons="0" unloadedPersons="0" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="E13_0" pos="0.20" parking="1" started="651.00" ended="712.00" initialPersons="1" loadedPersons="0" unloadedPersons="1" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="E17_0" pos="0.19" parking="1" started="742.00" ended="743.00" initialPersons="0" loadedPersons="1" unloadedPersons="0" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="B2C2_0" pos="4.99" parking="1" started="758.00" ended="759.00" initialPersons="1" loadedPersons="1" unloadedPersons="0" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="E12_0" pos="0.20" parking="1" started="775.00" ended="836.00" initialPersons="2" loadedPersons="0" unloadedPersons="1" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_1" type="myTaxi" lane="D2D3_0" pos="5.10" parking="1" started="1.00" ended="921.00" initialPersons="0" loadedPersons="0" unloadedPersons="0" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="E17_0" pos="0.20" parking="1" started="867.00" ended="928.00" initialPersons="1" loadedPersons="0" unloadedPersons="1" initialContainers="0" loadedContainers="0" unloadedContainers="0" blockedDuration="0.00"/>
+    <stopinfo id="t_0" type="myTaxi" lane="B2A2_0" pos="4.99" parking="1" started="943.00" ended="944.00" initialPersons="0" loadedPersons="1" unloadedPersons="0

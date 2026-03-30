@@ -1217,6 +1217,9 @@ class HeuristicDispatcher:
         self.TICK_STEPS   = 10  # how many sim steps per tick
         self._eligible_taxis_this_tick: set[str] = set()
         self._cached_vtype_str: str = ""  # cached vehicle type string for route calculation
+        # Metadata for re-creating taxis that SUMO removes after they go idle.
+        # Stores {taxi_id: {"vtype": str, "route_id": str, "capacity": int}}
+        self._taxi_metadata: dict[str, dict] = {}
 
     # ------------------------------------------------------------------
     # SUMO lifecycle
@@ -1277,8 +1280,20 @@ class HeuristicDispatcher:
             _log(f"CAPACITY OF TAXI: {plan.capacity}")
             # Cache the vehicle type string for route calculations.
             # This avoids needing a live taxi for getTypeID() later.
+            vtype_id = traci.vehicle.getTypeID(taxi_id)
             if not self._cached_vtype_str:
-                self._cached_vtype_str = traci.vehicle.getTypeID(taxi_id)
+                self._cached_vtype_str = vtype_id
+            # Store metadata so we can re-create this taxi if SUMO removes it
+            try:
+                route_id = traci.vehicle.getRouteID(taxi_id)
+            except Exception:
+                route_id = ""
+            self._taxi_metadata[taxi_id] = {
+                "vtype": vtype_id,
+                "route_id": route_id,
+                "capacity": plan.capacity,
+                "initial_edge": plan.current_edge,
+            }
         except traci.TraCIException:
             plan.capacity = 2
 
@@ -1288,6 +1303,74 @@ class HeuristicDispatcher:
     # ------------------------------------------------------------------
     # Request tracking
     # ------------------------------------------------------------------
+
+    def _revive_missing_taxis(self) -> None:
+        """Re-add taxis that SUMO has removed after they completed all work.
+
+        SUMO removes taxi vehicles from the simulation once they finish their
+        last dispatched stop and have no remaining route. This is a problem
+        for DRT because we want taxis to stay available for future requests.
+
+        This method detects taxis in our local taxi_plans that are no longer
+        in SUMO's vehicle list and re-adds them using traci.vehicle.add()
+        with the same vehicle type. The taxi is placed on its last known edge.
+        """
+        try:
+            active_vids = set(traci.vehicle.getIDList())
+        except Exception:
+            return
+
+        for taxi_id, plan in list(self.taxi_plans.items()):
+            if taxi_id in active_vids:
+                continue
+
+            # Only revive taxis that have no remaining work (stops/onboard).
+            # If a taxi has stops but is missing, something else is wrong.
+            if plan.stops or plan.onboard_count > 0:
+                continue
+
+            meta = self._taxi_metadata.get(taxi_id)
+            if not meta:
+                continue
+
+            vtype = meta["vtype"]
+            # Use the last known edge as the departure edge
+            depart_edge = plan.current_edge or meta.get("initial_edge", "")
+            if not depart_edge or depart_edge.startswith(":"):
+                # Internal junction edge — use the initial edge instead
+                depart_edge = meta.get("initial_edge", "")
+            if not depart_edge:
+                _log(f"  [REVIVE-SKIP] taxi={taxi_id}: no valid edge to place taxi on")
+                continue
+
+            try:
+                # Create a single-edge route for the taxi to depart on
+                route_id = f"revive_route_{taxi_id}"
+                try:
+                    traci.route.add(route_id, [depart_edge])
+                except traci.TraCIException:
+                    # Route may already exist from a previous revive
+                    pass
+
+                traci.vehicle.add(
+                    taxi_id,
+                    route_id,
+                    typeID=vtype,
+                    departPos="random_free",
+                    departSpeed="0",
+                )
+                # Reset the plan state for a fresh idle taxi
+                plan.status = TaxiStatus.IDLE
+                plan.cumulative_distance = 0.0
+                # Re-read position after adding
+                try:
+                    plan.current_edge = traci.vehicle.getRoadID(taxi_id)
+                except Exception:
+                    plan.current_edge = depart_edge
+
+                _log(f"  [REVIVE] Re-added taxi={taxi_id} on edge={depart_edge} (vtype={vtype})")
+            except traci.TraCIException as e:
+                _log(f"  [REVIVE-FAIL] Could not re-add taxi={taxi_id}: {e}")
 
     def _redispatch_remaining(self, taxi_id: str, plan: TaxiPlan) -> None:
         """Re-issue dispatchTaxi with the remaining stops after a pickup or
@@ -1368,6 +1451,10 @@ class HeuristicDispatcher:
         # Track taxis whose plans were modified so we can re-dispatch
         # them ONCE at the end, rather than per-event inside the loop.
         self._taxis_needing_redispatch: set[str] = set()
+
+        # --- revive taxis that SUMO removed after they went idle ---
+        self._revive_missing_taxis()
+
         # --- lazy taxi registration ---
         for state_int in range(4):
             for vid in traci.vehicle.getTaxiFleet(state_int):

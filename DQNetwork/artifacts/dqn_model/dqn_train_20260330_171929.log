@@ -1,0 +1,33 @@
+  [LAZY-REGISTER] state=0 taxi=t_0 known=False
+CAPACITY OF TAXI: 10
+  [INIT] Registered taxi t_0 (capacity=10)
+  [LAZY-REGISTER] state=0 taxi=t_1 known=False
+CAPACITY OF TAXI: 10
+  [INIT] Registered taxi t_1 (capacity=10)
+  [NEW REQUEST] person=0  res=0  E14 → E17  direct_tt=20.2s
+New arrivals: ['0'], pickups: [], dropoffs: []
+  → ASSIGNED req=0 → taxi=t_0  pu_eta=38.8s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['0', '0']
+  [NEW REQUEST] person=1  res=1  A3B3 → D1C1  direct_tt=44.0s
+New arrivals: ['1'], pickups: [], dropoffs: []
+  → ASSIGNED req=1 → taxi=t_0  pu_eta=93.0s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['0', '0', '1', '1']
+  [PERIODIC PICKUP] person=0  taxi=t_0  t=70.0s
+  [REDISPATCH] taxi=t_0 reservations=['0', '1', '1']
+New arrivals: [], pickups: ['0'], dropoffs: []
+  [DROPOFF] person=0  t=160.0s  ride_time=90.0s  excess=69.79698810263221
+  [REDISPATCH] taxi=t_0 reservations=['1', '1']
+New arrivals: [], pickups: [], dropoffs: ['0']
+  [PERIODIC PICKUP] person=1  taxi=t_0  t=180.0s
+  [REDISPATCH] taxi=t_0 reservations=['1']
+New arrivals: [], pickups: ['1'], dropoffs: []
+  [NEW REQUEST] person=2  res=2  A3B3 → E12  direct_tt=26.9s
+New arrivals: ['2'], pickups: [], dropoffs: []
+  → ASSIGNED req=2 → taxi=t_0  pu_eta=301.6s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['1', '2', '2']
+  [DROPOFF] person=1  t=360.0s  ride_time=180.0s  excess=135.95520123579135
+  [REDISPATCH] taxi=t_0 reservations=['2', '2']
+New arrivals: [], pickups: [], dropoffs: ['1']
+  [PERIODIC PICKUP] person=2  taxi=t_0  t=400.0s
+  [REDISPATCH] taxi=t_0 reservations=['2']
+New arrivals: [], pickups: ['2'], dropoffs: []
