@@ -21,7 +21,7 @@ python .\collect_imitation_dataset.py --cfg D:\6Sumo\DQNImitation\SmallTestingMa
 To train the DQN model:
 python train_dqn.py --cfg D:\FYP\DQNVersion1\SmallTestingMap\map.sumocfg --imitation-model-dir artifacts\imitation_model --output-dir artifacts\dqn_model --episodes 40 --batch-size 64 --replay-size 20000 --warmup-transitions 100 --gamma 0.99 --lr 0.0001 --tau 0.01 --epsilon-start 0.10 --epsilon-end 0.02
 
-python train_dqn.py --cfg D:\FYP\DQNVersion1\SmallTestingMap\map.sumocfg --imitation-model-dir artifacts/imitation_model --output-dir artifacts/dqn_model --episodes 100 --warmup-episodes 3 --train-every 4 --batch-size 128 --replay-size 50000 --gamma 0.95 --lr 1e-4 --lr-min 1e-5 --tau 0.005 --epsilon-start 0.10 --epsilon-end 0.01 --eval-every 5
+python train_dqn.py --cfg D:\FYP\DQNVersion1\SmallTestingMap\map.sumocfg --imitation-model-dir artifacts/imitation_model --output-dir artifacts/dqn_model --episodes 100 --warmup-episodes 3 --train-every 4 --batch-size 128 --replay-size 50000 --gamma 0.95 --lr 1e-4 --lr-min 1e-5 --tau 0.005 --epsilon-start 0.10 --epsilon-end 0.01 --eval-every 3
 
 To test the DQN model: 
 python run_dqn_policy.py --cfg D:\path\to\map.sumocfg --model-dir artifacts\dqn_model

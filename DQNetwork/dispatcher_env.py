@@ -66,15 +66,26 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
         super()._sync_reservations(now)
 
         # Legacy-compatible cleanup: only clear completed requests from local taxi plans.
+        # Track which taxis had stops removed so we can re-dispatch them.
+        taxis_needing_redispatch: set[str] = set()
         for req in self.requests.values():
             if req.status == RequestStatus.COMPLETED and req.assigned_taxi_id in self.taxi_plans:
                 plan = self.taxi_plans[req.assigned_taxi_id]
+                old_len = len(plan.stops)
                 plan.stops = [s for s in plan.stops if s.request_id != req.request_id]
+                if len(plan.stops) != old_len:
+                    taxis_needing_redispatch.add(req.assigned_taxi_id)
                 plan.assigned_request_ids.discard(req.person_id)
                 plan.assigned_request_ids.discard(req.request_id)
                 plan.onboard_request_ids.discard(req.person_id)
                 plan.onboard_request_ids.discard(req.request_id)
                 plan.onboard_count = len(plan.onboard_request_ids)
+
+        # Re-dispatch taxis that had stops removed so SUMO continues routing
+        for taxi_id in taxis_needing_redispatch:
+            plan = self.taxi_plans.get(taxi_id)
+            if plan and plan.stops:
+                self._redispatch_remaining(taxi_id, plan)
 
     # ------------------------------------------------------------------
     # New refactored decision helpers
@@ -429,24 +440,33 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
                             )
 
                         else:
-                            # IMPORTANT FIX:
-                            # Still in sim, not onboard, stale in reservation list.
-                            # This is NOT safe to purge. SUMO may still expect this
-                            # request in the taxi's future chain.
+                            # Reservation is dead in SUMO but person is still in
+                            # sim waiting. SUMO has unilaterally cancelled this
+                            # reservation (e.g. after the taxi completed an earlier
+                            # passenger's service and went idle before reaching
+                            # this pickup). We MUST remove these stops or the taxi
+                            # will be permanently broken — every future dispatchTaxi
+                            # call that includes this dead ID will fail.
+                            #
+                            # The person may still get a fresh reservation from
+                            # SUMO on the next _sync_reservations tick. Reset the
+                            # request to PENDING so it re-enters the dispatch pool.
+                            plan.stops = [
+                                s for s in plan.stops
+                                if s.request_id != stale_rid
+                            ]
+                            plan.assigned_request_ids.discard(stale_rid)
+                            plan.assigned_request_ids.discard(pid)
+                            plan.onboard_request_ids.discard(stale_rid)
+                            plan.onboard_request_ids.discard(pid)
+
                             if req is not None:
-                                req.assigned_taxi_id = taxi_id
-                                if req.status == RequestStatus.COMPLETED:
-                                    req.status = RequestStatus.ASSIGNED
-                                elif req.status not in (
-                                    RequestStatus.PENDING,
-                                    RequestStatus.DEFERRED,
-                                    RequestStatus.ASSIGNED,
-                                ):
-                                    req.status = RequestStatus.ASSIGNED
+                                req.assigned_taxi_id = None
+                                req.status = RequestStatus.PENDING
 
                             _log(
-                                f"    → {stale_rid} still in sim and not onboard — "
-                                f"keeping stops; not safe to purge"
+                                f"    → {stale_rid} reservation dead in SUMO, person still "
+                                f"waiting — purged stops, reset to PENDING for re-dispatch"
                             )
 
                     plan.onboard_count = len(plan.onboard_request_ids)
@@ -468,6 +488,38 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
                 _log(f" Current passenger onboard: {traci.vehicle.getPersonIDList(taxi_id)}")
                 _log(f"          ordered_res_ids = {ordered_res_ids}")
 
+                # ── Attempt to retry after purging the dead reservation ──
+                import re
+                match = re.search(r"Reservation id '(\w+)' is not known", str(e))
+                if match:
+                    dead_rid = match.group(1)
+                    _log(f"  [RETRY] purging dead reservation '{dead_rid}' and retrying dispatch")
+                    plan.stops = [s for s in plan.stops if s.request_id != dead_rid]
+                    dead_pid = self.resid_to_pid.get(dead_rid, dead_rid)
+                    plan.assigned_request_ids.discard(dead_rid)
+                    plan.assigned_request_ids.discard(dead_pid)
+                    plan.onboard_request_ids.discard(dead_rid)
+                    plan.onboard_request_ids.discard(dead_pid)
+                    dead_req = self.requests.get(dead_pid)
+                    if dead_req and dead_req.status not in (RequestStatus.ONBOARD, RequestStatus.COMPLETED):
+                        dead_req.assigned_taxi_id = None
+                        dead_req.status = RequestStatus.PENDING
+
+                    retry_res_ids = _serialize_dispatch_res_ids(plan)
+                    if retry_res_ids:
+                        try:
+                            traci.vehicle.dispatchTaxi(taxi_id, retry_res_ids)
+                            _log(f"  → RETRY DISPATCHED taxi={taxi_id} reservations={retry_res_ids}")
+                            self._dispatch_snapshots.pop(taxi_id, None)
+                            continue  # success — skip rollback
+                        except traci.TraCIException as retry_e:
+                            _log(f"  [RETRY-FAIL] {retry_e}")
+                    elif not plan.stops:
+                        # All stops were dead — nothing to dispatch
+                        self._dispatch_snapshots.pop(taxi_id, None)
+                        continue
+
+                # ── Full rollback if retry didn't work ──
                 prev_stops, prev_assigned_ids = self._dispatch_snapshots.pop(
                     taxi_id, (_clone_stops(plan.stops), set(plan.assigned_request_ids))
                 )
@@ -482,6 +534,35 @@ class RefactoredDRTEnvironment(LegacyHeuristicDispatcher):
 
                 plan.stops = prev_stops
                 plan.assigned_request_ids = set(prev_assigned_ids)
+
+                # ── Post-rollback: purge dead reservations from restored stops ──
+                # The rolled-back snapshot may itself contain dead reservation IDs
+                # (e.g. 142 in the original bug). Without this check the dead ID
+                # persists forever and blocks every future dispatch for this taxi.
+                try:
+                    post_live = {r.id for r in traci.person.getTaxiReservations(0)}
+                except Exception:
+                    post_live = None
+
+                if post_live is not None:
+                    dead_in_restored = {
+                        s.request_id for s in plan.stops
+                        if s.request_id not in post_live
+                    }
+                    if dead_in_restored:
+                        _log(f"  [ROLLBACK-CLEANUP] purging dead IDs from restored plan: {dead_in_restored}")
+                        for dead_rid in dead_in_restored:
+                            plan.stops = [s for s in plan.stops if s.request_id != dead_rid]
+                            dead_pid = self.resid_to_pid.get(dead_rid, dead_rid)
+                            plan.assigned_request_ids.discard(dead_rid)
+                            plan.assigned_request_ids.discard(dead_pid)
+                            plan.onboard_request_ids.discard(dead_rid)
+                            plan.onboard_request_ids.discard(dead_pid)
+                            dead_req = self.requests.get(dead_pid)
+                            if dead_req and dead_req.status not in (RequestStatus.ONBOARD, RequestStatus.COMPLETED):
+                                dead_req.assigned_taxi_id = None
+                                dead_req.status = RequestStatus.PENDING
+                        plan.onboard_count = len(plan.onboard_request_ids)
 
     # ------------------------------------------------------------------
     # Refactored tick loop: mechanics separated from policy

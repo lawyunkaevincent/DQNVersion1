@@ -1284,6 +1284,57 @@ class HeuristicDispatcher:
     # Request tracking
     # ------------------------------------------------------------------
 
+    def _redispatch_remaining(self, taxi_id: str, plan: TaxiPlan) -> None:
+        """Re-issue dispatchTaxi with the remaining stops after a pickup or
+        dropoff so SUMO keeps routing to the next assigned passengers.
+
+        Without this call SUMO may consider its dispatch obligation complete
+        after finishing the last stop it was actively routing to, go IDLE,
+        and silently cancel reservations for passengers still in our plan.
+
+        Only reservation IDs that SUMO still recognises are included.
+        Dead IDs are purged from the local plan and the affected requests
+        are reset to PENDING so they re-enter the dispatch pool.
+        """
+        remaining_res_ids = _serialize_dispatch_res_ids(plan)
+        if not remaining_res_ids:
+            return
+
+        # Check which reservation IDs are still alive in SUMO
+        try:
+            live_res_ids = {r.id for r in traci.person.getTaxiReservations(0)}
+        except Exception:
+            live_res_ids = None
+
+        if live_res_ids is not None:
+            dead_rids = {rid for rid in remaining_res_ids if rid not in live_res_ids}
+            if dead_rids:
+                _log(f"  [REDISPATCH] purging dead reservation IDs from taxi={taxi_id}: {dead_rids}")
+                for dead_rid in dead_rids:
+                    plan.stops = [s for s in plan.stops if s.request_id != dead_rid]
+                    pid = self.resid_to_pid.get(dead_rid, dead_rid)
+                    plan.assigned_request_ids.discard(dead_rid)
+                    plan.assigned_request_ids.discard(pid)
+                    plan.onboard_request_ids.discard(dead_rid)
+                    plan.onboard_request_ids.discard(pid)
+                    req = self.requests.get(pid)
+                    if req and req.status not in (RequestStatus.ONBOARD, RequestStatus.COMPLETED):
+                        req.assigned_taxi_id = None
+                        req.status = RequestStatus.PENDING
+                        _log(f"    → {dead_rid} reservation dead — reset to PENDING for re-dispatch")
+                plan.onboard_count = len(plan.onboard_request_ids)
+                # Rebuild after purge
+                remaining_res_ids = _serialize_dispatch_res_ids(plan)
+
+        if not remaining_res_ids:
+            return
+
+        try:
+            traci.vehicle.dispatchTaxi(taxi_id, remaining_res_ids)
+            _log(f"  [REDISPATCH] taxi={taxi_id} reservations={remaining_res_ids}")
+        except traci.TraCIException as e:
+            _log(f"  [REDISPATCH-WARN] dispatchTaxi failed for taxi={taxi_id}: {e}")
+
     def _sync_reservations(self, now: float) -> None:
         """
         Sync all request and taxi state from SUMO.
@@ -1417,6 +1468,8 @@ class HeuristicDispatcher:
                         plan.assigned_request_ids.discard(pid)
                         plan.onboard_request_ids.discard(pid)
                         plan.onboard_count = len(plan.onboard_request_ids)
+                        # ── Re-dispatch so SUMO keeps routing to remaining stops ──
+                        self._redispatch_remaining(req.assigned_taxi_id, plan)
                     _log(f"  [DROPOFF] person={pid}  t={now:.1f}s"
                          f"  ride_time={(req.dropoff_time - req.pickup_time):.1f}s"
                          f"  excess={req.excess_ride_time}")
@@ -1425,6 +1478,14 @@ class HeuristicDispatcher:
                     # _log("CLEARUR UNKNOWN REQ") luckily this not happen for SmallTestingMap
                     req.status = RequestStatus.COMPLETED
                     req.dropoff_time = now
+                    if req.assigned_taxi_id and req.assigned_taxi_id in self.taxi_plans:
+                        plan = self.taxi_plans[req.assigned_taxi_id]
+                        plan.stops = [s for s in plan.stops
+                                      if s.request_id != req.request_id]
+                        plan.assigned_request_ids.discard(pid)
+                        plan.onboard_request_ids.discard(pid)
+                        plan.onboard_count = len(plan.onboard_request_ids)
+                        self._redispatch_remaining(req.assigned_taxi_id, plan)
                     _log(f"  [DROPOFF] person={pid}  t={now:.1f}s (left sim, was {req.status.name})")
                 continue
 
@@ -1453,6 +1514,11 @@ class HeuristicDispatcher:
                         if not (s.request_id == req.request_id
                                 and s.stop_type == StopType.PICKUP)
                     ]
+                    # ── Re-dispatch so SUMO keeps routing to remaining stops ──
+                    # Without this, SUMO may consider its dispatch obligation
+                    # complete after the pickup and go idle, silently cancelling
+                    # reservations for other passengers still in the plan.
+                    self._redispatch_remaining(vehicle_id, taxi_plan)
                 _log(f"  [PERIODIC PICKUP] person={pid}  taxi={req.assigned_taxi_id}  t={now:.1f}s")
 
             elif not in_vehicle and req.status == RequestStatus.ONBOARD:
