@@ -23,6 +23,8 @@ python train_dqn.py --cfg D:\FYP\DQNVersion1\SmallTestingMap\map.sumocfg --imita
 
 python train_dqn.py --cfg D:\FYP\DQNVersion1\SmallTestingMap\map.sumocfg --imitation-model-dir artifacts/imitation_model --output-dir artifacts/dqn_model --episodes 100 --warmup-episodes 3 --train-every 4 --batch-size 128 --replay-size 50000 --gamma 0.95 --lr 1e-4 --lr-min 1e-5 --tau 0.005 --epsilon-start 0.10 --epsilon-end 0.01 --eval-every 3
 
+python train_dqn.py --cfg D:\FYP\DQNVersion1\SmallTestingMap\map.sumocfg --imitation-model-dir artifacts/imitation_model --output-dir artifacts/dqn_model --episodes 200 --warmup-episodes 2 --train-every 8 --batch-size 64 --replay-size 100000 --gamma 0.90 --lr 5e-5 --lr-min 1e-6 --tau 0.002 --epsilon-start 0.05 --epsilon-end 0.01 --eval-every 5
+
 To test the DQN model: 
 python run_dqn_policy.py --cfg D:\path\to\map.sumocfg --model-dir artifacts\dqn_model
 
@@ -31,6 +33,11 @@ with fallback:
 python run_imitation_policy.py --cfg D:\6Sumo\DQNImitation\SmallTestingMap\map.sumocfg  --model-dir artifacts/imitation_model --heuristic-fallback-gap 0.25
 without fallback:
 python run_imitation_policy.py --cfg D:\6Sumo\DQNImitation\SmallTestingMap\map.sumocfg  --model-dir artifacts/imitation_model --heuristic-fallback-gap -1
+
+<!-- To analyze the training -->
+python analyze_training.py --csv D:\FYP\DQNVersion1\DQNetwork\artifacts\dqn_model\training_history.csv --out results.png
+# or with a wider smoothing window:
+python analyze_training.py --csv D:\FYP\DQNVersion1\DQNetwork\artifacts\dqn_model\training_history.csv --smooth-window 20
 
 
 how the top K (K is how many) candidates is chosen, if the list for t_1 is long and for t_0 is short then most likely there

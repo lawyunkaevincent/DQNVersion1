@@ -217,30 +217,46 @@ def compute_shaped_reward(
     """
     Shaped, normalised reward that produces a stable learning signal.
 
-    Key changes vs original IntervalAccumulator.compute_reward():
+    Key design principles:
 
     1. Divide cost terms by elapsed_time so the reward does not depend on
-       how long the inter-decision interval happened to be.  With the original
-       formulation, the same assignment can receive wildly different rewards
-       (-10 vs -500) depending purely on whether the gap to the next decision
-       was 5 seconds or 50 seconds — the network cannot learn from that signal.
+       how long the inter-decision interval happened to be.
 
-    2. Scale the completion bonus to the same order of magnitude as the
-       normalised costs (+1.0 per dropoff) so neither term dominates.
+    2. Cap ALL penalty terms so a single bad decision doesn't produce
+       a reward of -50 that wipes out dozens of good decisions.
+       Without capping, the ride_cost from one badly-detoured passenger
+       can dominate the entire episode's reward.
 
-    3. Small defer penalty so the agent is discouraged from choosing DEFER
-       unless it genuinely improves long-term value.
+    3. Scale the completion bonus to be the dominant positive signal
+       (+2.0 per dropoff) so the agent learns "serve passengers" first,
+       then refines "serve them efficiently" from the penalty terms.
+
+    4. Use tanh-style soft capping for smoother gradients near the cap.
+
+    Typical reward range per decision: [-3.0, +2.0]
+    This keeps the Q-values in a learnable range and reduces variance.
     """
     t = max(elapsed_time, 1.0)   # guard against zero-length intervals
 
-    wait_penalty  = 0.5  * (accumulator.wait_cost      / t)
-    # In compute_shaped_reward, cap wait cost per decision
-    wait_penalty = 0.5 * min(accumulator.wait_cost / t, 50.0)  # cap at 50 per decision
-    ride_penalty  = 0.3  * (accumulator.ride_cost       / t)
-    empty_penalty = 0.001 * (accumulator.empty_dist_cost / t)
+    # --- Penalties (all capped to prevent extreme outliers) ---
 
-    completion_bonus = 1.0 * accumulator.completed_dropoffs
-    defer_penalty    = 0.2 if chosen_is_defer else 0.0
+    # Wait penalty: passenger-seconds of waiting, normalised by interval length
+    raw_wait = accumulator.wait_cost / t
+    wait_penalty = 0.3 * min(raw_wait, 10.0)  # cap at 3.0
+
+    # Ride penalty: excess in-vehicle time for dropped-off passengers
+    raw_ride = accumulator.ride_cost / t
+    ride_penalty = 0.2 * min(raw_ride, 10.0)  # cap at 2.0
+
+    # Empty driving penalty (very small — informational signal)
+    raw_empty = accumulator.empty_dist_cost / t
+    empty_penalty = 0.0005 * min(raw_empty, 100.0)  # cap at 0.05
+
+    # Defer penalty: discourage postponing when assignments exist
+    defer_penalty = 0.3 if chosen_is_defer else 0.0
+
+    # --- Positive signal ---
+    completion_bonus = 2.0 * accumulator.completed_dropoffs
 
     return completion_bonus - wait_penalty - ride_penalty - empty_penalty - defer_penalty
 
@@ -443,10 +459,11 @@ def main() -> None:
             while decision is not None:
                 state = agent.decision_to_matrix(decision, env.taxi_plans)
 
-                # During warmup use high epsilon (not pure 1.0) so the agent
-                # still picks reasonable actions occasionally — pure random
-                # makes passengers wait much longer and slows the simulation.
-                act_epsilon = 0.8 if is_warmup else epsilon
+                # During warmup, use moderate epsilon so the buffer gets
+                # mostly good imitation-policy experience with some diversity.
+                # 0.8 was far too high — it filled the buffer with terrible
+                # experience that the agent then had to unlearn.
+                act_epsilon = 0.3 if is_warmup else epsilon
                 action_idx = agent.select_action(state, decision, epsilon=act_epsilon)
 
                 result = env.step_decision(action_idx)
