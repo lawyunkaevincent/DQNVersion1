@@ -1,26 +1,24 @@
 """
-Improved reward shaping for DQN training.
+Reward shaping for DQN training.
 
-Key problems with the old compute_shaped_reward:
-    1. completion_bonus = 2.0 * completed_dropoffs dominates everything.
-       Since all 200 requests complete every episode, the bonus is always
-       ~400 total, drowning out wait/ride penalties.
-    2. wait_penalty is capped at 3.0 — a passenger waiting 700s produces
-       the same penalty as one waiting 100s.
-    3. ride_cost is also capped too aggressively.
-    4. The penalty terms are normalized by elapsed_time, which varies wildly
-       between decisions (10s to 200s), making the signal noisy.
+PRIMARY objective: minimise avg_wait_until_pickup and avg_excess_ride_time.
+All other metrics are secondary.
 
-New design principles:
-    1. Remove the per-decision completion bonus since it's constant.
-       Replace with a per-dropoff quality bonus that rewards LOW wait
-       and LOW detour for the specific passengers who completed.
-    2. Make wait penalty scale with actual passenger-seconds, no cap.
-       Use sqrt scaling to compress but not clip extreme values.
-    3. Add an explicit per-decision detour penalty based on the chosen
-       candidate's predicted excess ride time.
-    4. Add a penalty proportional to how many constraint violations
-       the chosen action creates.
+Key bug fixed in compute_shaped_reward_v2 (v2 revision):
+    The quality_bonus previously looped over ALL requests in requests_dict
+    and credited every historically-completed passenger at every decision step.
+    With 200 requests, by step 150 the bonus was ~150 × 1.5 × 0.7 ≈ 157 per
+    step — completely overwhelming the wait/ride penalties and allowing the
+    agent to achieve high reward while wait times actually increased.
+    Fix: use accumulator.completed_dropoffs (new completions this interval
+    only) for the bonus, matching the accumulator's reset semantics.
+
+Signal priorities in compute_shaped_reward_v2:
+    1. wait_penalty  — coefficient 1.5 (tripled)  — PRIMARY
+    2. ride_penalty  — coefficient 0.6 (doubled)   — PRIMARY
+    3. action_penalty (predicted wait/ride)         — SECONDARY
+    4. quality_bonus (per new completion)           — SECONDARY
+    5. defer_penalty, empty_penalty                 — minor signals
 """
 from __future__ import annotations
 
@@ -33,30 +31,38 @@ def compute_shaped_reward_v2(
     chosen_is_defer: bool,
     chosen_candidate=None,
     request=None,
-    requests_dict=None,
+    requests_dict=None,  # kept for API compatibility but no longer used
 ) -> float:
     """
-    Improved reward function focused on minimizing wait time and detour.
+    Reward function focused on minimising avg_wait_until_pickup and
+    avg_excess_ride_time as the PRIMARY objectives.
 
-    Reward range per decision: roughly [-5.0, +3.0]
+    Key fixes vs the previous version:
+      - quality_bonus now uses accumulator.completed_dropoffs (new dropoffs
+        this interval ONLY) instead of re-counting all historical completions
+        from requests_dict on every step — that bug inflated rewards and
+        caused high-reward episodes to still have high wait times.
+      - wait_penalty coefficient tripled (1.5) to dominate the reward signal.
+      - ride_penalty coefficient doubled (0.6) as second-priority signal.
+      - action_penalty for predicted excess wait strengthened (0.005).
     """
     t = max(elapsed_time, 1.0)
 
     # ────────────────────────────────────────────────────────
-    # 1. WAIT PENALTY — the dominant signal for your goal
+    # 1. WAIT PENALTY — PRIMARY dominant signal
     # ────────────────────────────────────────────────────────
-    # passenger-seconds of waiting, normalized by time interval
-    # Use sqrt to compress but NOT clip — 700s wait should hurt
-    # much more than 100s wait
+    # passenger-seconds of waiting, normalized by time interval.
+    # Coefficient tripled (1.5 vs old 0.5) so this term dominates.
     raw_wait_rate = accumulator.wait_cost / t
-    wait_penalty = 0.5 * math.sqrt(max(0.0, raw_wait_rate))
+    wait_penalty = 1.5 * math.sqrt(max(0.0, raw_wait_rate))
 
     # ────────────────────────────────────────────────────────
-    # 2. RIDE / DETOUR PENALTY
+    # 2. RIDE / DETOUR PENALTY — PRIMARY signal
     # ────────────────────────────────────────────────────────
-    # excess ride time for passengers dropped off this interval
+    # excess ride time for passengers dropped off this interval.
+    # Coefficient doubled (0.6 vs old 0.3).
     raw_ride_rate = accumulator.ride_cost / t
-    ride_penalty = 0.3 * math.sqrt(max(0.0, raw_ride_rate))
+    ride_penalty = 0.6 * math.sqrt(max(0.0, raw_ride_rate))
 
     # ────────────────────────────────────────────────────────
     # 3. CHOSEN-ACTION QUALITY PENALTY
@@ -64,21 +70,21 @@ def compute_shaped_reward_v2(
     # ────────────────────────────────────────────────────────
     action_penalty = 0.0
     if chosen_candidate is not None and not getattr(chosen_candidate, 'is_defer', True):
-        # Penalize predicted wait time for the new passenger
+        # Penalize predicted wait time for the new passenger (PRIMARY)
         if request is not None:
             predicted_wait = max(0.0, chosen_candidate.pickup_eta_new - request.request_time)
-            # Quadratic penalty once wait exceeds 120s baseline
+            # Penalty once wait exceeds 120s baseline — strengthened (0.005 vs old 0.002)
             excess_wait = max(0.0, predicted_wait - 120.0)
-            action_penalty += 0.002 * excess_wait
+            action_penalty += 0.005 * excess_wait
 
-        # Penalize predicted detour for the new passenger
+        # Penalize predicted detour for the new passenger (PRIMARY)
         if request is not None and request.direct_travel_time > 0:
             predicted_ride = chosen_candidate.dropoff_eta_new - chosen_candidate.pickup_eta_new
             excess_ride = max(0.0, predicted_ride - request.direct_travel_time)
-            action_penalty += 0.001 * excess_ride
+            action_penalty += 0.002 * excess_ride
 
-        # Penalize delay imposed on existing passengers
-        action_penalty += 0.003 * chosen_candidate.max_existing_delay
+        # Penalize delay imposed on existing passengers (SECONDARY — reduced)
+        action_penalty += 0.001 * chosen_candidate.max_existing_delay
 
         # Constraint violation penalties (squared for emphasis)
         action_penalty += 0.001 * (chosen_candidate.new_wait_violation ** 2) / 100.0
@@ -87,35 +93,13 @@ def compute_shaped_reward_v2(
         action_penalty += 0.002 * (chosen_candidate.existing_ride_violation_sum ** 2) / 100.0
 
     # ────────────────────────────────────────────────────────
-    # 4. COMPLETION QUALITY BONUS (replaces flat +2.0 per dropoff)
-    #    Only rewards dropoffs with good service quality
+    # 4. COMPLETION BONUS
+    #    BUG FIX: use accumulator.completed_dropoffs (NEW dropoffs this
+    #    interval only) instead of looping all requests_dict — the old loop
+    #    re-counted every historically-completed passenger at each step,
+    #    inflating the bonus and masking the wait/ride penalties.
     # ────────────────────────────────────────────────────────
-    quality_bonus = 0.0
-    if accumulator.completed_dropoffs > 0 and requests_dict is not None:
-        # Give bonus scaled by how well each completed passenger was served
-        for pid, req in requests_dict.items():
-            if req.status.name != "COMPLETED":
-                continue
-            if req.pickup_time is None or req.dropoff_time is None:
-                continue
-
-            actual_wait = req.pickup_time - req.request_time
-            max_wait = getattr(req, 'max_wait', 300.0)
-
-            # Bonus: +1.0 for perfect service, scaled down for worse service
-            wait_quality = max(0.0, 1.0 - actual_wait / max(max_wait, 1.0))
-
-            excess = req.excess_ride_time or 0.0
-            dtt = max(req.direct_travel_time, 1.0)
-            ride_quality = max(0.0, 1.0 - excess / dtt)
-
-            # Combined quality score [0, 1]
-            q = 0.6 * wait_quality + 0.4 * ride_quality
-            quality_bonus += 1.5 * q
-
-    # Use a simpler completion bonus when we don't have request details
-    if quality_bonus == 0.0:
-        quality_bonus = 0.5 * accumulator.completed_dropoffs
+    quality_bonus = 1.0 * accumulator.completed_dropoffs
 
     # ────────────────────────────────────────────────────────
     # 5. DEFER PENALTY
