@@ -19,6 +19,7 @@ from dispatcher import setup_logger
 from feature_extractor import flatten_decision_features
 from q_network import ParametricQNetwork
 from replay_buffer import ReplayBuffer, Transition
+from reward_shaping import compute_shaped_reward_v2
 
 
 def set_seed(seed: int) -> None:
@@ -206,59 +207,11 @@ class DQNAgent:
 
 
 # ---------------------------------------------------------------------------
-# Reward shaping
+# Reward shaping — moved to reward_shaping.py
+# The old compute_shaped_reward is kept here only as a fallback import.
+# All new training should use compute_shaped_reward_v2 from reward_shaping.py.
 # ---------------------------------------------------------------------------
-
-def compute_shaped_reward(
-    accumulator,
-    elapsed_time: float,
-    chosen_is_defer: bool,
-) -> float:
-    """
-    Shaped, normalised reward that produces a stable learning signal.
-
-    Key design principles:
-
-    1. Divide cost terms by elapsed_time so the reward does not depend on
-       how long the inter-decision interval happened to be.
-
-    2. Cap ALL penalty terms so a single bad decision doesn't produce
-       a reward of -50 that wipes out dozens of good decisions.
-       Without capping, the ride_cost from one badly-detoured passenger
-       can dominate the entire episode's reward.
-
-    3. Scale the completion bonus to be the dominant positive signal
-       (+2.0 per dropoff) so the agent learns "serve passengers" first,
-       then refines "serve them efficiently" from the penalty terms.
-
-    4. Use tanh-style soft capping for smoother gradients near the cap.
-
-    Typical reward range per decision: [-3.0, +2.0]
-    This keeps the Q-values in a learnable range and reduces variance.
-    """
-    t = max(elapsed_time, 1.0)   # guard against zero-length intervals
-
-    # --- Penalties (all capped to prevent extreme outliers) ---
-
-    # Wait penalty: passenger-seconds of waiting, normalised by interval length
-    raw_wait = accumulator.wait_cost / t
-    wait_penalty = 0.3 * min(raw_wait, 10.0)  # cap at 3.0
-
-    # Ride penalty: excess in-vehicle time for dropped-off passengers
-    raw_ride = accumulator.ride_cost / t
-    ride_penalty = 0.2 * min(raw_ride, 10.0)  # cap at 2.0
-
-    # Empty driving penalty (very small — informational signal)
-    raw_empty = accumulator.empty_dist_cost / t
-    empty_penalty = 0.0005 * min(raw_empty, 100.0)  # cap at 0.05
-
-    # Defer penalty: discourage postponing when assignments exist
-    defer_penalty = 0.3 if chosen_is_defer else 0.0
-
-    # --- Positive signal ---
-    completion_bonus = 2.0 * accumulator.completed_dropoffs
-
-    return completion_bonus - wait_penalty - ride_penalty - empty_penalty - defer_penalty
+# (Old function removed — see reward_shaping.py for both v1 and v2)
 
 
 # ---------------------------------------------------------------------------
@@ -303,11 +256,15 @@ def evaluate_policy(
         while decision is not None:
             state = agent.decision_to_matrix(decision, env.taxi_plans)
             action = agent.select_action(state, decision, epsilon=0.0)
+            prev_decision = decision  # save before step overwrites it
             result = env.step_decision(action)
-            shaped = compute_shaped_reward(
+            shaped = compute_shaped_reward_v2(
                 env.accumulator,
                 env.accumulator.elapsed_time,
                 bool(result.info.get("chosen_is_defer", False)),
+                chosen_candidate=prev_decision.candidate_actions[action],
+                request=prev_decision.request,
+                requests_dict=env.requests,
             )
             total_reward += shaped
             steps += 1
@@ -466,6 +423,9 @@ def main() -> None:
                 act_epsilon = 0.3 if is_warmup else epsilon
                 action_idx = agent.select_action(state, decision, epsilon=act_epsilon)
 
+                # Save decision before step_decision overwrites env.current_decision
+                prev_decision = decision
+
                 result = env.step_decision(action_idx)
                 global_decision_count += 1
 
@@ -476,10 +436,13 @@ def main() -> None:
                         flush=True,
                     )
 
-                shaped_r = compute_shaped_reward(
+                shaped_r = compute_shaped_reward_v2(
                     env.accumulator,
                     env.accumulator.elapsed_time,
                     bool(result.info.get("chosen_is_defer", False)),
+                    chosen_candidate=prev_decision.candidate_actions[action_idx],
+                    request=prev_decision.request,
+                    requests_dict=env.requests,
                 )
 
                 next_state = (

@@ -15,6 +15,7 @@ from dispatcher import (
 )
 from dispatcher_env import RefactoredDRTEnvironment
 from drt_policy_types import DecisionPoint
+from reward_shaping import compute_shaped_reward_v2
 
 
 @dataclass
@@ -61,7 +62,17 @@ class DQNStepEnvironment(RefactoredDRTEnvironment):
         self.accumulator.reset()
 
         next_decision, done = self._advance_until_next_decision()
-        reward = self.accumulator.compute_reward(**self.reward_weights)
+        # Use improved reward that directly penalizes wait time and detour
+        # instead of the old IntervalAccumulator.compute_reward() which had
+        # tiny default weights (w_wait=0.01, w_ride=0.02).
+        reward = compute_shaped_reward_v2(
+            self.accumulator,
+            self.accumulator.elapsed_time,
+            bool(chosen.is_defer),
+            chosen_candidate=chosen,
+            request=request,
+            requests_dict=self.requests,
+        )
         info = {
             "decision_id": self.current_decision.decision_id,
             "request_id": self.current_decision.request.request_id,

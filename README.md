@@ -26,7 +26,7 @@ python train_dqn.py --cfg D:\FYP\DQNVersion1\SmallTestingMap\map.sumocfg --imita
 python train_dqn.py --cfg D:\FYP\DQNVersion1\SmallTestingMap\map.sumocfg --imitation-model-dir artifacts/imitation_model --output-dir artifacts/dqn_model --episodes 200 --warmup-episodes 2 --train-every 8 --batch-size 64 --replay-size 100000 --gamma 0.90 --lr 5e-5 --lr-min 1e-6 --tau 0.002 --epsilon-start 0.05 --epsilon-end 0.01 --eval-every 5
 
 To test the DQN model: 
-python run_dqn_policy.py --cfg D:\path\to\map.sumocfg --model-dir artifacts\dqn_model
+python run_dqn_policy.py --cfg D:\FYP\DQNVersion1\SmallTestingMap\map.sumocfg --model-dir D:\FYP\DQNVersion1\DQNetwork\artifacts\dqn_model
 
 To test the imitation model:
 with fallback: 
@@ -40,5 +40,29 @@ python analyze_training.py --csv D:\FYP\DQNVersion1\DQNetwork\artifacts\dqn_mode
 python analyze_training.py --csv D:\FYP\DQNVersion1\DQNetwork\artifacts\dqn_model\training_history.csv --smooth-window 20
 
 
-how the top K (K is how many) candidates is chosen, if the list for t_1 is long and for t_0 is short then most likely there
-will be more t_1 candidate then t_0 candidate, how to solve this?
+<!--  best DQN training result now -->
+{
+  "total_requests": 200,
+  "completed_requests": 200,
+  "completion_rate": 1.0,
+  "picked_up_requests": 200,
+  "avg_wait_until_pickup": 189.05,
+  "max_wait_until_pickup": 550.0,
+  "avg_excess_ride_time": 105.306016660960s45,
+  "decisions_seen": 200
+}
+
+{
+  "total_requests": 200,
+  "completed_requests": 200,
+  "completion_rate": 1.0,
+  "picked_up_requests": 200,
+  "avg_wait_until_pickup": 205.65,
+  "max_wait_until_pickup": 920.0,
+  "avg_excess_ride_time": 102.3169778933576,s
+  "decisions_seen": 200
+}
+
+
+
+want the code to focus on create better waiting time and detour time and give other param less weight

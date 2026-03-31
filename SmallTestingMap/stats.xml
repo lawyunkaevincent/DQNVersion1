@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-03-30T19:29:24.827439+08:00 by Eclipse SUMO sumo 1.26.0
+<!-- generated on 2026-03-31T14:49:12.041161+08:00 by Eclipse SUMO sumo 1.26.0
 <sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
@@ -30,14 +30,14 @@
     </taxi_device>
 
     <traci_server>
-        <remote-port value="63102"/>
+        <remote-port value="57822"/>
     </traci_server>
 
 </sumoConfiguration>
 -->
 
 <statistics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/statistic_file.xsd">
-    <performance clockBegin="1666235.98" clockEnd="1666258.13" clockDuration="22.15" traciDuration="21.79" realTimeFactor="952.81" vehicleUpdatesPerSecond="1905.62" personUpdatesPerSecond="5199.19" begin="0.00" end="21100.00" duration="21100.00"/>
+    <performance clockBegin="1735822.70" clockEnd="1735835.42" clockDuration="12.72" traciDuration="12.38" realTimeFactor="1615.72" vehicleUpdatesPerSecond="3231.45" personUpdatesPerSecond="5335.93" begin="0.00" end="20552.00" duration="20552.00"/>
     <vehicles loaded="2" inserted="2" running="2" waiting="0"/>
     <teleports total="0" jam="0" yield="0" wrongLane="0"/>
     <safety collisions="0" emergencyStops="0" emergencyBraking="0"/>
@@ -45,6 +45,6 @@
     <personTeleports total="0" abortWait="0" wrongDest="0"/>
     <vehicleTripStatistics count="0" routeLength="0.00" speed="0.00" duration="0.00" waitingTime="0.00" timeLoss="0.00" departDelay="0.00" departDelayWaiting="-1.00" totalTravelTime="0.00" totalDepartDelay="0.00"/>
     <pedestrianStatistics number="0" routeLength="0.00" duration="0.00" timeLoss="0.00"/>
-    <rideStatistics number="200" waitingTime="398.90" routeLength="484.32" duration="176.78" bus="0" train="0" taxi="200" bike="0" aborted="0"/>
+    <rideStatistics number="200" waitingTime="206.68" routeLength="373.44" duration="132.69" bus="0" train="0" taxi="200" bike="0" aborted="0"/>
     <transportStatistics number="0"/>
 </statistics>

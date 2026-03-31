@@ -637,6 +637,32 @@ def generate_candidates(
                 )
                 candidates.append(c)
 
+    # ── Per-taxi candidate capping ──────────────────────────────────
+    # A taxi with N existing stops generates O(N²) insertion candidates.
+    # An idle taxi generates exactly 1. Without capping, the candidate
+    # set is heavily skewed toward busy taxis, biasing both random
+    # exploration and greedy action selection.
+    #
+    # Fix: keep only the top-K candidates per taxi, ranked by a quick
+    # heuristic (low added route time + low pickup ETA = best).
+    # This bounds the total set to ≤ K*num_taxis + 1 (defer).
+    MAX_CANDIDATES_PER_TAXI = 5
+    from collections import defaultdict
+    taxi_groups: dict[str, list[CandidateInsertion]] = defaultdict(list)
+    for c in candidates:
+        taxi_groups[c.taxi_id].append(c)
+
+    capped: list[CandidateInsertion] = []
+    for taxi_id, group in taxi_groups.items():
+        if len(group) <= MAX_CANDIDATES_PER_TAXI:
+            capped.extend(group)
+        else:
+            # Quick rank: prefer candidates with low added route time
+            # and early pickup (i.e., short wait for the new passenger)
+            group.sort(key=lambda c: c.added_route_time + 0.5 * (c.pickup_eta_new - now))
+            capped.extend(group[:MAX_CANDIDATES_PER_TAXI])
+    candidates = capped
+
     # always include DEFER
     candidates.append(CandidateInsertion.make_defer(request.request_id))
     return candidates
