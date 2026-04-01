@@ -3770,3 +3770,1898 @@ New arrivals: [], pickups: [], dropoffs: ['196']
 New arrivals: [], pickups: [], dropoffs: ['198']
   [DROPOFF] person=199  t=20550.0s  ride_time=280.0s  excess=231.85066614892568
 New arrivals: [], pickups: [], dropoffs: ['199']
+  [LAZY-REGISTER] state=0 taxi=t_0 known=False
+CAPACITY OF TAXI: 10
+  [INIT] Registered taxi t_0 (capacity=10)
+  [LAZY-REGISTER] state=0 taxi=t_1 known=False
+CAPACITY OF TAXI: 10
+  [INIT] Registered taxi t_1 (capacity=10)
+  [NEW REQUEST] person=0  res=0  E14 → E17  direct_tt=20.2s
+New arrivals: ['0'], pickups: [], dropoffs: []
+  → ASSIGNED req=0 → taxi=t_1  pu_eta=36.1s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['0', '0']
+  [NEW REQUEST] person=1  res=1  A3B3 → D1C1  direct_tt=44.0s
+New arrivals: ['1'], pickups: [], dropoffs: []
+  → ASSIGNED req=1 → taxi=t_0  pu_eta=54.7s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['1', '1']
+  [PERIODIC PICKUP] person=1  taxi=t_0  t=60.0s
+  [REDISPATCH] taxi=t_0 reservations=['1']
+New arrivals: [], pickups: ['1'], dropoffs: []
+  [PERIODIC PICKUP] person=0  taxi=t_1  t=70.0s
+  [REDISPATCH] taxi=t_1 reservations=['0']
+New arrivals: [], pickups: ['0'], dropoffs: []
+  [DROPOFF] person=0  t=160.0s  ride_time=90.0s  excess=69.79698810263221
+New arrivals: [], pickups: [], dropoffs: ['0']
+  [DROPOFF] person=1  t=180.0s  ride_time=120.0s  excess=75.95520123579135
+New arrivals: [], pickups: [], dropoffs: ['1']
+  [NEW REQUEST] person=2  res=2  A3B3 → E12  direct_tt=26.8s
+New arrivals: ['2'], pickups: [], dropoffs: []
+  → ASSIGNED req=2 → taxi=t_1  pu_eta=263.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['2', '2']
+  [PERIODIC PICKUP] person=2  taxi=t_1  t=270.0s
+  [REDISPATCH] taxi=t_1 reservations=['2']
+New arrivals: [], pickups: ['2'], dropoffs: []
+  [DROPOFF] person=2  t=360.0s  ride_time=90.0s  excess=63.232155387785866
+New arrivals: [], pickups: [], dropoffs: ['2']
+  [NEW REQUEST] person=3  res=3  B3C3 → E13  direct_tt=16.2s
+New arrivals: ['3'], pickups: [], dropoffs: []
+  → ASSIGNED req=3 → taxi=t_1  pu_eta=465.1s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['3', '3']
+  [NEW REQUEST] person=4  res=4  E17 → E12  direct_tt=19.3s
+New arrivals: ['4'], pickups: [], dropoffs: []
+  → ASSIGNED req=4 → taxi=t_0  pu_eta=494.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['4', '4']
+  [PERIODIC PICKUP] person=4  taxi=t_0  t=500.0s
+  [REDISPATCH] taxi=t_0 reservations=['4']
+New arrivals: [], pickups: ['4'], dropoffs: []
+  [PERIODIC PICKUP] person=3  taxi=t_1  t=520.0s
+  [REDISPATCH] taxi=t_1 reservations=['3']
+New arrivals: [], pickups: ['3'], dropoffs: []
+  [DROPOFF] person=3  t=600.0s  ride_time=80.0s  excess=63.82468278494626
+New arrivals: [], pickups: [], dropoffs: ['3']
+  [DROPOFF] person=4  t=620.0s  ride_time=120.0s  excess=100.74793289413651
+New arrivals: [], pickups: [], dropoffs: ['4']
+  [NEW REQUEST] person=5  res=5  B2C2 → E17  direct_tt=31.5s
+New arrivals: ['5'], pickups: [], dropoffs: []
+  → ASSIGNED req=5 → taxi=t_1  pu_eta=677.8s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['5', '5']
+  [PERIODIC PICKUP] person=5  taxi=t_1  t=730.0s
+  [REDISPATCH] taxi=t_1 reservations=['5']
+New arrivals: [], pickups: ['5'], dropoffs: []
+  [DROPOFF] person=5  t=830.0s  ride_time=100.0s  excess=68.45302857265386
+New arrivals: [], pickups: [], dropoffs: ['5']
+  [NEW REQUEST] person=6  res=6  B2A2 → B1A1  direct_tt=32.2s
+New arrivals: ['6'], pickups: [], dropoffs: []
+  → ASSIGNED req=6 → taxi=t_1  pu_eta=853.6s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['6', '6']
+  [PERIODIC PICKUP] person=6  taxi=t_1  t=860.0s
+  [REDISPATCH] taxi=t_1 reservations=['6']
+New arrivals: [], pickups: ['6'], dropoffs: []
+  [NEW REQUEST] person=7  res=7  C2B2 → B3A3  direct_tt=24.3s
+New arrivals: ['7'], pickups: [], dropoffs: []
+  → ASSIGNED req=7 → taxi=t_0  pu_eta=929.7s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['7', '7']
+  [PERIODIC PICKUP] person=7  taxi=t_0  t=940.0s
+  [REDISPATCH] taxi=t_0 reservations=['7']
+New arrivals: [], pickups: ['7'], dropoffs: []
+  [NEW REQUEST] person=8  res=8  E18 → A3A4  direct_tt=13.9s
+New arrivals: ['8'], pickups: [], dropoffs: []
+  → ASSIGNED req=8 → taxi=t_1  pu_eta=983.6s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['6', '8', '8']
+  [NEW REQUEST] person=9  res=9  C3D3 → D1C1  direct_tt=26.9s
+New arrivals: ['9'], pickups: [], dropoffs: []
+  → ASSIGNED req=9 → taxi=t_0  pu_eta=1004.8s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['7', '9', '9']
+  [NEW REQUEST] person=10  res=10  A3A4 → C3D3  direct_tt=36.2s
+New arrivals: ['10'], pickups: [], dropoffs: []
+  → ASSIGNED req=10 → taxi=t_0  pu_eta=1104.0s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['7', '9', '9', '10', '10']
+  [DROPOFF] person=6  t=1020.0s  ride_time=160.0s  excess=127.84786233097817
+  [REDISPATCH] taxi=t_1 reservations=['8', '8']
+New arrivals: [], pickups: [], dropoffs: ['6']
+  [PERIODIC PICKUP] person=8  taxi=t_1  t=1050.0s
+  [REDISPATCH] taxi=t_1 reservations=['8']
+New arrivals: [], pickups: ['8'], dropoffs: []
+  [NEW REQUEST] person=11  res=11  E12 → C3C2  direct_tt=20.0s
+  [DROPOFF] person=7  t=1070.0s  ride_time=130.0s  excess=105.73944190455708
+  [REDISPATCH] taxi=t_0 reservations=['9', '9', '10', '10']
+New arrivals: ['11'], pickups: [], dropoffs: ['7']
+  → ASSIGNED req=11 → taxi=t_1  pu_eta=1109.2s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['8', '11', '11']
+  [DROPOFF] person=8  t=1140.0s  ride_time=90.0s  excess=76.11696826645687
+  [PERIODIC PICKUP] person=9  taxi=t_0  t=1140.0s
+  [REDISPATCH] taxi=t_1 reservations=['11', '11']
+  [REDISPATCH] taxi=t_0 reservations=['9', '10', '10']
+New arrivals: [], pickups: ['9'], dropoffs: ['8']
+  [PERIODIC PICKUP] person=11  taxi=t_1  t=1210.0s
+  [REDISPATCH] taxi=t_1 reservations=['11']
+New arrivals: [], pickups: ['11'], dropoffs: []
+  [DROPOFF] person=9  t=1260.0s  ride_time=120.0s  excess=93.07015526102825
+  [REDISPATCH] taxi=t_0 reservations=['10', '10']
+New arrivals: [], pickups: [], dropoffs: ['9']
+  [NEW REQUEST] person=12  res=12  A2A3 → E16  direct_tt=16.2s
+New arrivals: ['12'], pickups: [], dropoffs: []
+  → ASSIGNED req=12 → taxi=t_1  pu_eta=1298.4s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['11', '12', '12']
+  [NEW REQUEST] person=13  res=13  D4D3 → C2D2  direct_tt=33.7s
+New arrivals: ['13'], pickups: [], dropoffs: []
+  → ASSIGNED req=13 → taxi=t_1  pu_eta=1374.0s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['11', '12', '12', '13', '13']
+  [PERIODIC PICKUP] person=10  taxi=t_0  t=1310.0s
+  [REDISPATCH] taxi=t_0 reservations=['10']
+New arrivals: [], pickups: ['10'], dropoffs: []
+  [DROPOFF] person=11  t=1370.0s  ride_time=160.0s  excess=139.95430080625874
+  [REDISPATCH] taxi=t_1 reservations=['12', '12', '13', '13']
+New arrivals: [], pickups: [], dropoffs: ['11']
+  [PERIODIC PICKUP] person=12  taxi=t_1  t=1420.0s
+  [REDISPATCH] taxi=t_1 reservations=['12', '13', '13']
+New arrivals: [], pickups: ['12'], dropoffs: []
+  [DROPOFF] person=10  t=1450.0s  ride_time=140.0s  excess=103.77857858716216
+New arrivals: [], pickups: [], dropoffs: ['10']
+  [DROPOFF] person=12  t=1500.0s  ride_time=80.0s  excess=63.78510086258292
+  [REDISPATCH] taxi=t_1 reservations=['13', '13']
+New arrivals: [], pickups: [], dropoffs: ['12']
+  [NEW REQUEST] person=14  res=14  A1B1 → B2B3  direct_tt=22.4s
+New arrivals: ['14'], pickups: [], dropoffs: []
+  → ASSIGNED req=14 → taxi=t_0  pu_eta=1563.8s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['14', '14']
+  [NEW REQUEST] person=15  res=15  C3C2 → B3B2  direct_tt=34.7s
+New arrivals: ['15'], pickups: [], dropoffs: []
+  → ASSIGNED req=15 → taxi=t_0  pu_eta=1613.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['14', '14', '15', '15']
+  [PERIODIC PICKUP] person=13  taxi=t_1  t=1550.0s
+  [REDISPATCH] taxi=t_1 reservations=['13']
+New arrivals: [], pickups: ['13'], dropoffs: []
+  [NEW REQUEST] person=16  res=16  E16 → B1C1  direct_tt=26.3s
+New arrivals: ['16'], pickups: [], dropoffs: []
+  → ASSIGNED req=16 → taxi=t_0  pu_eta=1619.7s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['14', '14', '16', '15', '15', '16']
+  [NEW REQUEST] person=17  res=17  E13 → A1A2  direct_tt=27.7s
+New arrivals: ['17'], pickups: [], dropoffs: []
+  → ASSIGNED req=17 → taxi=t_1  pu_eta=1612.8s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['13', '17', '17']
+  [PERIODIC PICKUP] person=14  taxi=t_0  t=1600.0s
+  [REDISPATCH] taxi=t_0 reservations=['14', '16', '15', '15', '16']
+New arrivals: [], pickups: ['14'], dropoffs: []
+  [DROPOFF] person=13  t=1660.0s  ride_time=110.0s  excess=76.2576357038091
+  [REDISPATCH] taxi=t_1 reservations=['17', '17']
+New arrivals: [], pickups: [], dropoffs: ['13']
+  [NEW REQUEST] person=18  res=18  C3B3 → D1C1  direct_tt=47.3s
+New arrivals: ['18'], pickups: [], dropoffs: []
+  → ASSIGNED req=18 → taxi=t_1  pu_eta=1749.6s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['17', '17', '18', '18']
+  [PERIODIC PICKUP] person=17  taxi=t_1  t=1690.0s
+  [REDISPATCH] taxi=t_1 reservations=['17', '18', '18']
+New arrivals: [], pickups: ['17'], dropoffs: []
+  [DROPOFF] person=14  t=1710.0s  ride_time=110.0s  excess=87.55867530597553
+  [PERIODIC PICKUP] person=16  taxi=t_0  t=1710.0s
+  [REDISPATCH] taxi=t_0 reservations=['15', '15', '16']
+New arrivals: [], pickups: ['16'], dropoffs: ['14']
+  [NEW REQUEST] person=19  res=19  C3B3 → D3D4  direct_tt=34.5s
+New arrivals: ['19'], pickups: [], dropoffs: []
+  → ASSIGNED req=19 → taxi=t_0  pu_eta=1842.5s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['15', '15', '16', '19', '19']
+  [PERIODIC PICKUP] person=15  taxi=t_0  t=1770.0s
+  [REDISPATCH] taxi=t_0 reservations=['15', '16', '19', '19']
+New arrivals: [], pickups: ['15'], dropoffs: []
+  [DROPOFF] person=17  t=1800.0s  ride_time=110.0s  excess=82.26608495250659
+  [REDISPATCH] taxi=t_1 reservations=['18', '18']
+New arrivals: [], pickups: [], dropoffs: ['17']
+  [DROPOFF] person=15  t=1880.0s  ride_time=110.0s  excess=75.32971138226196
+  [REDISPATCH] taxi=t_0 reservations=['16', '19', '19']
+New arrivals: [], pickups: [], dropoffs: ['15']
+  [PERIODIC PICKUP] person=18  taxi=t_1  t=1900.0s
+  [REDISPATCH] taxi=t_1 reservations=['18']
+New arrivals: [], pickups: ['18'], dropoffs: []
+  [NEW REQUEST] person=20  res=20  B1C1 → D1C1  direct_tt=30.6s
+New arrivals: ['20'], pickups: [], dropoffs: []
+  → ASSIGNED req=20 → taxi=t_1  pu_eta=2005.2s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['18', '20', '20']
+  [DROPOFF] person=16  t=2010.0s  ride_time=300.0s  excess=273.7177969496602
+  [REDISPATCH] taxi=t_0 reservations=['19', '19']
+New arrivals: [], pickups: [], dropoffs: ['16']
+  [DROPOFF] person=18  t=2070.0s  ride_time=170.0s  excess=122.70972148351953
+  [REDISPATCH] taxi=t_1 reservations=['20', '20']
+New arrivals: [], pickups: [], dropoffs: ['18']
+  [PERIODIC PICKUP] person=19  taxi=t_0  t=2080.0s
+  [REDISPATCH] taxi=t_0 reservations=['19']
+New arrivals: [], pickups: ['19'], dropoffs: []
+  [PERIODIC PICKUP] person=20  taxi=t_1  t=2090.0s
+  [REDISPATCH] taxi=t_1 reservations=['20']
+New arrivals: [], pickups: ['20'], dropoffs: []
+  [NEW REQUEST] person=21  res=21  B2A2 → E14  direct_tt=31.5s
+New arrivals: ['21'], pickups: [], dropoffs: []
+  → ASSIGNED req=21 → taxi=t_0  pu_eta=2206.3s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['19', '21', '21']
+  [NEW REQUEST] person=22  res=22  B3C3 → A4A3  direct_tt=38.7s
+  [DROPOFF] person=20  t=2190.0s  ride_time=100.0s  excess=69.44735228275002
+New arrivals: ['22'], pickups: [], dropoffs: ['20']
+  → ASSIGNED req=22 → taxi=t_1  pu_eta=2226.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['22', '22']
+  [DROPOFF] person=19  t=2230.0s  ride_time=150.0s  excess=115.5294955665143
+  [REDISPATCH] taxi=t_0 reservations=['21', '21']
+New arrivals: [], pickups: [], dropoffs: ['19']
+  [PERIODIC PICKUP] person=22  taxi=t_1  t=2270.0s
+  [REDISPATCH] taxi=t_1 reservations=['22']
+New arrivals: [], pickups: ['22'], dropoffs: []
+  [PERIODIC PICKUP] person=21  taxi=t_0  t=2310.0s
+  [REDISPATCH] taxi=t_0 reservations=['21']
+New arrivals: [], pickups: ['21'], dropoffs: []
+  [NEW REQUEST] person=23  res=23  C3B3 → D1C1  direct_tt=47.7s
+New arrivals: ['23'], pickups: [], dropoffs: []
+  → ASSIGNED req=23 → taxi=t_1  pu_eta=2437.7s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['22', '23', '23']
+  [DROPOFF] person=21  t=2410.0s  ride_time=100.0s  excess=68.50667886763394
+New arrivals: [], pickups: [], dropoffs: ['21']
+  [DROPOFF] person=22  t=2470.0s  ride_time=200.0s  excess=161.3375293156447
+  [REDISPATCH] taxi=t_1 reservations=['23', '23']
+New arrivals: [], pickups: [], dropoffs: ['22']
+  [NEW REQUEST] person=24  res=24  D2D1 → B1B2  direct_tt=26.9s
+New arrivals: ['24'], pickups: [], dropoffs: []
+  → ASSIGNED req=24 → taxi=t_0  pu_eta=2497.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['24', '24']
+  [PERIODIC PICKUP] person=23  taxi=t_1  t=2490.0s
+  [REDISPATCH] taxi=t_1 reservations=['23']
+New arrivals: [], pickups: ['23'], dropoffs: []
+  [NEW REQUEST] person=25  res=25  A3A2 → E15  direct_tt=27.7s
+  [PERIODIC PICKUP] person=24  taxi=t_0  t=2500.0s
+  [REDISPATCH] taxi=t_0 reservations=['24']
+New arrivals: ['25'], pickups: ['24'], dropoffs: []
+  → ASSIGNED req=25 → taxi=t_0  pu_eta=2559.2s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['24', '25', '25']
+  [NEW REQUEST] person=26  res=26  A2A3 → C4B4  direct_tt=39.0s
+New arrivals: ['26'], pickups: [], dropoffs: []
+  → ASSIGNED req=26 → taxi=t_1  pu_eta=2624.7s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['23', '26', '26']
+  [DROPOFF] person=24  t=2610.0s  ride_time=110.0s  excess=83.07015526102825
+  [REDISPATCH] taxi=t_0 reservations=['25', '25']
+New arrivals: [], pickups: [], dropoffs: ['24']
+  [PERIODIC PICKUP] person=25  taxi=t_0  t=2670.0s
+  [REDISPATCH] taxi=t_0 reservations=['25']
+New arrivals: [], pickups: ['25'], dropoffs: []
+  [DROPOFF] person=23  t=2700.0s  ride_time=210.0s  excess=162.3416062822671
+  [REDISPATCH] taxi=t_1 reservations=['26', '26']
+New arrivals: [], pickups: [], dropoffs: ['23']
+  [PERIODIC PICKUP] person=26  taxi=t_1  t=2740.0s
+  [REDISPATCH] taxi=t_1 reservations=['26']
+New arrivals: [], pickups: ['26'], dropoffs: []
+  [NEW REQUEST] person=27  res=27  D2D3 → B3B2  direct_tt=33.7s
+New arrivals: ['27'], pickups: [], dropoffs: []
+  → ASSIGNED req=27 → taxi=t_0  pu_eta=2806.7s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['25', '27', '27']
+  [DROPOFF] person=25  t=2840.0s  ride_time=170.0s  excess=142.28876607129843
+  [REDISPATCH] taxi=t_0 reservations=['27', '27']
+New arrivals: [], pickups: [], dropoffs: ['25']
+  [NEW REQUEST] person=28  res=28  B2A2 → C1B1  direct_tt=40.9s
+New arrivals: ['28'], pickups: [], dropoffs: []
+  → ASSIGNED req=28 → taxi=t_1  pu_eta=2882.2s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['26', '28', '28']
+  [NEW REQUEST] person=29  res=29  B2A2 → C1D1  direct_tt=36.6s
+New arrivals: ['29'], pickups: [], dropoffs: []
+  → ASSIGNED req=29 → taxi=t_0  pu_eta=2950.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['27', '27', '29', '29']
+  [DROPOFF] person=26  t=2920.0s  ride_time=180.0s  excess=140.97837593435096
+  [REDISPATCH] taxi=t_1 reservations=['28', '28']
+New arrivals: [], pickups: [], dropoffs: ['26']
+  [PERIODIC PICKUP] person=27  taxi=t_0  t=2940.0s
+  [REDISPATCH] taxi=t_0 reservations=['27', '29', '29']
+New arrivals: [], pickups: ['27'], dropoffs: []
+  [PERIODIC PICKUP] person=28  taxi=t_1  t=2980.0s
+  [REDISPATCH] taxi=t_1 reservations=['28']
+New arrivals: [], pickups: ['28'], dropoffs: []
+  [NEW REQUEST] person=30  res=30  D2C2 → A3B3  direct_tt=37.6s
+New arrivals: ['30'], pickups: [], dropoffs: []
+  → ASSIGNED req=30 → taxi=t_1  pu_eta=3112.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['28', '30', '30']
+  [DROPOFF] person=27  t=3110.0s  ride_time=170.0s  excess=136.29933020850967
+  [REDISPATCH] taxi=t_0 reservations=['29', '29']
+New arrivals: [], pickups: [], dropoffs: ['27']
+  [DROPOFF] person=28  t=3140.0s  ride_time=160.0s  excess=119.05488896933758
+  [REDISPATCH] taxi=t_1 reservations=['30', '30']
+New arrivals: [], pickups: [], dropoffs: ['28']
+  [NEW REQUEST] person=31  res=31  A4A3 → B3B2  direct_tt=24.6s
+New arrivals: ['31'], pickups: [], dropoffs: []
+  → ASSIGNED req=31 → taxi=t_1  pu_eta=3255.9s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['30', '30', '31', '31']
+  [PERIODIC PICKUP] person=29  taxi=t_0  t=3160.0s
+  [REDISPATCH] taxi=t_0 reservations=['29']
+New arrivals: [], pickups: ['29'], dropoffs: []
+  [NEW REQUEST] person=32  res=32  C2D2 → C3C2  direct_tt=32.4s
+New arrivals: ['32'], pickups: [], dropoffs: []
+  → ASSIGNED req=32 → taxi=t_0  pu_eta=3254.0s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['29', '32', '32']
+  [PERIODIC PICKUP] person=30  taxi=t_1  t=3210.0s
+  [REDISPATCH] taxi=t_1 reservations=['30', '31', '31']
+New arrivals: [], pickups: ['30'], dropoffs: []
+  [NEW REQUEST] person=33  res=33  D4D3 → B4B3  direct_tt=37.2s
+New arrivals: ['33'], pickups: [], dropoffs: []
+  → ASSIGNED req=33 → taxi=t_1  pu_eta=3356.5s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['30', '31', '31', '33', '33']
+  [NEW REQUEST] person=34  res=34  E15 → D4D3  direct_tt=27.7s
+New arrivals: ['34'], pickups: [], dropoffs: []
+  → ASSIGNED req=34 → taxi=t_0  pu_eta=3374.3s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['29', '32', '32', '34', '34']
+  [DROPOFF] person=30  t=3320.0s  ride_time=110.0s  excess=72.41001377315463
+  [REDISPATCH] taxi=t_1 reservations=['31', '31', '33', '33']
+New arrivals: [], pickups: [], dropoffs: ['30']
+  [NEW REQUEST] person=35  res=35  A2B2 → B1C1  direct_tt=20.6s
+  [DROPOFF] person=29  t=3350.0s  ride_time=190.0s  excess=153.36847146091128
+  [PERIODIC PICKUP] person=31  taxi=t_1  t=3350.0s
+  [REDISPATCH] taxi=t_1 reservations=['31', '33', '33']
+  [REDISPATCH] taxi=t_0 reservations=['32', '32', '34', '34']
+New arrivals: ['35'], pickups: ['31'], dropoffs: ['29']
+  → ASSIGNED req=35 → taxi=t_1  pu_eta=3489.8s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['31', '33', '33', '35', '35']
+  [PERIODIC PICKUP] person=32  taxi=t_0  t=3380.0s
+  [REDISPATCH] taxi=t_0 reservations=['32', '34', '34']
+New arrivals: [], pickups: ['32'], dropoffs: []
+  [DROPOFF] person=31  t=3440.0s  ride_time=90.0s  excess=65.4340394209326
+  [REDISPATCH] taxi=t_1 reservations=['33', '33', '35', '35']
+New arrivals: [], pickups: [], dropoffs: ['31']
+  [DROPOFF] person=32  t=3540.0s  ride_time=160.0s  excess=127.57595321582298
+  [REDISPATCH] taxi=t_0 reservations=['34', '34']
+New arrivals: [], pickups: [], dropoffs: ['32']
+  [NEW REQUEST] person=36  res=36  C3B3 → C2D2  direct_tt=36.5s
+  [PERIODIC PICKUP] person=34  taxi=t_0  t=3570.0s
+  [REDISPATCH] taxi=t_0 reservations=['34']
+New arrivals: ['36'], pickups: ['34'], dropoffs: []
+  → ASSIGNED req=36 → taxi=t_0  pu_eta=3618.7s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['34', '36', '36']
+  [PERIODIC PICKUP] person=33  taxi=t_1  t=3580.0s
+  [REDISPATCH] taxi=t_1 reservations=['33', '35', '35']
+New arrivals: [], pickups: ['33'], dropoffs: []
+  [DROPOFF] person=33  t=3680.0s  ride_time=100.0s  excess=62.78844144081377
+  [REDISPATCH] taxi=t_1 reservations=['35', '35']
+New arrivals: [], pickups: [], dropoffs: ['33']
+  [DROPOFF] person=34  t=3690.0s  ride_time=120.0s  excess=92.26608495250659
+  [REDISPATCH] taxi=t_0 reservations=['36', '36']
+New arrivals: [], pickups: [], dropoffs: ['34']
+  [PERIODIC PICKUP] person=36  taxi=t_0  t=3750.0s
+  [REDISPATCH] taxi=t_0 reservations=['36']
+New arrivals: [], pickups: ['36'], dropoffs: []
+  [NEW REQUEST] person=37  res=37  B4A4 → D1D2  direct_tt=60.5s
+  [PERIODIC PICKUP] person=35  taxi=t_1  t=3790.0s
+  [REDISPATCH] taxi=t_1 reservations=['35']
+New arrivals: ['37'], pickups: ['35'], dropoffs: []
+  → ASSIGNED req=37 → taxi=t_0  pu_eta=3849.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['36', '37', '37']
+  [DROPOFF] person=36  t=3870.0s  ride_time=120.0s  excess=83.5404069982959
+  [REDISPATCH] taxi=t_0 reservations=['37', '37']
+New arrivals: [], pickups: [], dropoffs: ['36']
+  [DROPOFF] person=35  t=3910.0s  ride_time=120.0s  excess=99.4093692343488
+New arrivals: [], pickups: [], dropoffs: ['35']
+  [NEW REQUEST] person=38  res=38  E18 → B1B2  direct_tt=27.3s
+New arrivals: ['38'], pickups: [], dropoffs: []
+  → ASSIGNED req=38 → taxi=t_1  pu_eta=4007.1s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['38', '38']
+  [PERIODIC PICKUP] person=37  taxi=t_0  t=4000.0s
+  [REDISPATCH] taxi=t_0 reservations=['37']
+New arrivals: [], pickups: ['37'], dropoffs: []
+  [PERIODIC PICKUP] person=38  taxi=t_1  t=4010.0s
+  [REDISPATCH] taxi=t_1 reservations=['38']
+New arrivals: [], pickups: ['38'], dropoffs: []
+  [NEW REQUEST] person=39  res=39  B4A4 → A3A4  direct_tt=27.3s
+New arrivals: ['39'], pickups: [], dropoffs: []
+  → ASSIGNED req=39 → taxi=t_1  pu_eta=4106.5s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['38', '39', '39']
+  [NEW REQUEST] person=40  res=40  C3D3 → E11  direct_tt=21.7s
+New arrivals: ['40'], pickups: [], dropoffs: []
+  → ASSIGNED req=40 → taxi=t_0  pu_eta=4150.8s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['37', '40', '40']
+  [DROPOFF] person=38  t=4180.0s  ride_time=170.0s  excess=142.6935296457519
+  [REDISPATCH] taxi=t_1 reservations=['39', '39']
+New arrivals: [], pickups: [], dropoffs: ['38']
+  [DROPOFF] person=37  t=4190.0s  ride_time=190.0s  excess=129.52759911283027
+  [REDISPATCH] taxi=t_0 reservations=['40', '40']
+New arrivals: [], pickups: [], dropoffs: ['37']
+  [PERIODIC PICKUP] person=39  taxi=t_1  t=4210.0s
+  [REDISPATCH] taxi=t_1 reservations=['39']
+New arrivals: [], pickups: ['39'], dropoffs: []
+  [PERIODIC PICKUP] person=40  taxi=t_0  t=4260.0s
+  [REDISPATCH] taxi=t_0 reservations=['40']
+New arrivals: [], pickups: ['40'], dropoffs: []
+  [DROPOFF] person=39  t=4310.0s  ride_time=100.0s  excess=72.70763022342761
+New arrivals: [], pickups: [], dropoffs: ['39']
+  [NEW REQUEST] person=41  res=41  C1C2 → E18  direct_tt=28.4s
+New arrivals: ['41'], pickups: [], dropoffs: []
+  → ASSIGNED req=41 → taxi=t_1  pu_eta=4394.0s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['41', '41']
+  [NEW REQUEST] person=42  res=42  D1C1 → B4B3  direct_tt=47.3s
+  [DROPOFF] person=40  t=4360.0s  ride_time=100.0s  excess=78.28808146961146
+New arrivals: ['42'], pickups: [], dropoffs: ['40']
+  → ASSIGNED req=42 → taxi=t_0  pu_eta=4385.3s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['42', '42']
+  [PERIODIC PICKUP] person=42  taxi=t_0  t=4400.0s
+  [REDISPATCH] taxi=t_0 reservations=['42']
+New arrivals: [], pickups: ['42'], dropoffs: []
+  [NEW REQUEST] person=43  res=43  E12 → B2B1  direct_tt=19.3s
+New arrivals: ['43'], pickups: [], dropoffs: []
+  → ASSIGNED req=43 → taxi=t_0  pu_eta=4492.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['42', '43', '43']
+  [NEW REQUEST] person=44  res=44  B4C4 → B2C2  direct_tt=41.3s
+New arrivals: ['44'], pickups: [], dropoffs: []
+  → ASSIGNED req=44 → taxi=t_1  pu_eta=4531.8s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['41', '41', '44', '44']
+  [PERIODIC PICKUP] person=41  taxi=t_1  t=4510.0s
+  [REDISPATCH] taxi=t_1 reservations=['41', '44', '44']
+New arrivals: [], pickups: ['41'], dropoffs: []
+  [DROPOFF] person=42  t=4580.0s  ride_time=180.0s  excess=132.69583960856028
+  [REDISPATCH] taxi=t_0 reservations=['43', '43']
+New arrivals: [], pickups: [], dropoffs: ['42']
+  [DROPOFF] person=41  t=4610.0s  ride_time=100.0s  excess=71.63121602153727
+  [PERIODIC PICKUP] person=43  taxi=t_0  t=4610.0s
+  [REDISPATCH] taxi=t_1 reservations=['44', '44']
+  [REDISPATCH] taxi=t_0 reservations=['43']
+New arrivals: [], pickups: ['43'], dropoffs: ['41']
+  [PERIODIC PICKUP] person=44  taxi=t_1  t=4650.0s
+  [REDISPATCH] taxi=t_1 reservations=['44']
+New arrivals: [], pickups: ['44'], dropoffs: []
+  [NEW REQUEST] person=45  res=45  A3A4 → D3D4  direct_tt=44.8s
+New arrivals: ['45'], pickups: [], dropoffs: []
+  → ASSIGNED req=45 → taxi=t_0  pu_eta=4724.5s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['43', '45', '45']
+  [DROPOFF] person=43  t=4760.0s  ride_time=150.0s  excess=130.67051953833274
+  [REDISPATCH] taxi=t_0 reservations=['45', '45']
+New arrivals: [], pickups: [], dropoffs: ['43']
+  [DROPOFF] person=44  t=4780.0s  ride_time=130.0s  excess=88.66515177675187
+New arrivals: [], pickups: [], dropoffs: ['44']
+  [PERIODIC PICKUP] person=45  taxi=t_0  t=4790.0s
+  [REDISPATCH] taxi=t_0 reservations=['45']
+New arrivals: [], pickups: ['45'], dropoffs: []
+  [NEW REQUEST] person=46  res=46  B4A4 → E18  direct_tt=30.1s
+New arrivals: ['46'], pickups: [], dropoffs: []
+  → ASSIGNED req=46 → taxi=t_1  pu_eta=4919.8s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['46', '46']
+  [NEW REQUEST] person=47  res=47  E16 → D4D3  direct_tt=29.3s
+  [PERIODIC PICKUP] person=46  taxi=t_1  t=4960.0s
+  [REDISPATCH] taxi=t_1 reservations=['46']
+New arrivals: ['47'], pickups: ['46'], dropoffs: []
+  → ASSIGNED req=47 → taxi=t_0  pu_eta=4996.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['45', '47', '47']
+  [NEW REQUEST] person=48  res=48  A1B1 → A2B2  direct_tt=32.0s
+  [DROPOFF] person=45  t=5030.0s  ride_time=240.0s  excess=195.2082410791774
+  [REDISPATCH] taxi=t_0 reservations=['47', '47']
+New arrivals: ['48'], pickups: [], dropoffs: ['45']
+  → ASSIGNED req=48 → taxi=t_1  pu_eta=5059.9s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['46', '48', '48']
+  [NEW REQUEST] person=49  res=49  D2C2 → B3B2  direct_tt=34.9s
+New arrivals: ['49'], pickups: [], dropoffs: []
+  → ASSIGNED req=49 → taxi=t_0  pu_eta=5120.2s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['47', '47', '49', '49']
+  [PERIODIC PICKUP] person=47  taxi=t_0  t=5070.0s
+  [REDISPATCH] taxi=t_0 reservations=['47', '49', '49']
+New arrivals: [], pickups: ['47'], dropoffs: []
+  [NEW REQUEST] person=50  res=50  C1B1 → A2A1  direct_tt=30.2s
+New arrivals: ['50'], pickups: [], dropoffs: []
+  → ASSIGNED req=50 → taxi=t_0  pu_eta=5192.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['47', '49', '49', '50', '50']
+  [NEW REQUEST] person=51  res=51  B4A4 → A3A2  direct_tt=21.5s
+  [DROPOFF] person=46  t=5100.0s  ride_time=140.0s  excess=109.94733938923926
+  [REDISPATCH] taxi=t_1 reservations=['48', '48']
+New arrivals: ['51'], pickups: [], dropoffs: ['46']
+  → ASSIGNED req=51 → taxi=t_1  pu_eta=5194.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['48', '48', '51', '51']
+  [NEW REQUEST] person=52  res=52  C1C2 → B3B4  direct_tt=33.3s
+New arrivals: ['52'], pickups: [], dropoffs: []
+  → ASSIGNED req=52 → taxi=t_1  pu_eta=5276.8s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['48', '48', '51', '51', '52', '52']
+  [NEW REQUEST] person=53  res=53  B2C2 → C2C1  direct_tt=14.0s
+  [PERIODIC PICKUP] person=48  taxi=t_1  t=5150.0s
+  [REDISPATCH] taxi=t_1 reservations=['48', '51', '51', '52', '52']
+New arrivals: ['53'], pickups: ['48'], dropoffs: []
+  → ASSIGNED req=53 → taxi=t_1  pu_eta=5259.4s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['48', '51', '51', '53', '53', '52', '52']
+  [DROPOFF] person=47  t=5220.0s  ride_time=150.0s  excess=120.66945306962006
+  [REDISPATCH] taxi=t_0 reservations=['49', '49', '50', '50']
+New arrivals: [], pickups: [], dropoffs: ['47']
+  [PERIODIC PICKUP] person=49  taxi=t_0  t=5240.0s
+  [REDISPATCH] taxi=t_0 reservations=['49', '50', '50']
+New arrivals: [], pickups: ['49'], dropoffs: []
+  [DROPOFF] person=48  t=5260.0s  ride_time=110.0s  excess=78.00020644597456
+  [REDISPATCH] taxi=t_1 reservations=['51', '51', '53', '53', '52', '52']
+New arrivals: [], pickups: [], dropoffs: ['48']
+  [PERIODIC PICKUP] person=51  taxi=t_1  t=5300.0s
+  [REDISPATCH] taxi=t_1 reservations=['51', '53', '53', '52', '52']
+New arrivals: [], pickups: ['51'], dropoffs: []
+  [NEW REQUEST] person=54  res=54  A3A4 → A4B4  direct_tt=12.6s
+New arrivals: ['54'], pickups: [], dropoffs: []
+  → ASSIGNED req=54 → taxi=t_1  pu_eta=5460.9s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['51', '53', '53', '52', '52', '54', '54']
+  [DROPOFF] person=49  t=5350.0s  ride_time=110.0s  excess=75.13692045681604
+  [REDISPATCH] taxi=t_0 reservations=['50', '50']
+New arrivals: [], pickups: [], dropoffs: ['49']
+  [PERIODIC PICKUP] person=50  taxi=t_0  t=5370.0s
+  [REDISPATCH] taxi=t_0 reservations=['50']
+New arrivals: [], pickups: ['50'], dropoffs: []
+  [DROPOFF] person=51  t=5410.0s  ride_time=110.0s  excess=88.51516698291377
+  [REDISPATCH] taxi=t_1 reservations=['53', '53', '52', '52', '54', '54']
+New arrivals: [], pickups: [], dropoffs: ['51']
+  [PERIODIC PICKUP] person=53  taxi=t_1  t=5460.0s
+  [REDISPATCH] taxi=t_1 reservations=['53', '52', '52', '54', '54']
+New arrivals: [], pickups: ['53'], dropoffs: []
+  [DROPOFF] person=50  t=5530.0s  ride_time=160.0s  excess=129.83788522724635
+New arrivals: [], pickups: [], dropoffs: ['50']
+  [DROPOFF] person=53  t=5540.0s  ride_time=80.0s  excess=65.97454740206149
+  [REDISPATCH] taxi=t_1 reservations=['52', '52', '54', '54']
+New arrivals: [], pickups: [], dropoffs: ['53']
+  [NEW REQUEST] person=55  res=55  C4C3 → C2C3  direct_tt=26.0s
+  [PERIODIC PICKUP] person=52  taxi=t_1  t=5550.0s
+  [REDISPATCH] taxi=t_1 reservations=['52', '54', '54']
+New arrivals: ['55'], pickups: ['52'], dropoffs: []
+  → ASSIGNED req=55 → taxi=t_0  pu_eta=5605.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['55', '55']
+  [NEW REQUEST] person=56  res=56  C1D1 → B4A4  direct_tt=51.7s
+New arrivals: ['56'], pickups: [], dropoffs: []
+  → ASSIGNED req=56 → taxi=t_0  pu_eta=5702.5s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['55', '55', '56', '56']
+  [PERIODIC PICKUP] person=55  taxi=t_0  t=5640.0s
+  [REDISPATCH] taxi=t_0 reservations=['55', '56', '56']
+New arrivals: [], pickups: ['55'], dropoffs: []
+  [DROPOFF] person=52  t=5670.0s  ride_time=120.0s  excess=86.65412374128017
+  [REDISPATCH] taxi=t_1 reservations=['54', '54']
+New arrivals: [], pickups: [], dropoffs: ['52']
+  [NEW REQUEST] person=57  res=57  D2D1 → E14  direct_tt=24.8s
+New arrivals: ['57'], pickups: [], dropoffs: []
+  → ASSIGNED req=57 → taxi=t_1  pu_eta=5778.9s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['54', '54', '57', '57']
+  [PERIODIC PICKUP] person=54  taxi=t_1  t=5740.0s
+  [REDISPATCH] taxi=t_1 reservations=['54', '57', '57']
+New arrivals: [], pickups: ['54'], dropoffs: []
+  [DROPOFF] person=55  t=5760.0s  ride_time=120.0s  excess=93.99905967884159
+  [REDISPATCH] taxi=t_0 reservations=['56', '56']
+New arrivals: [], pickups: [], dropoffs: ['55']
+  [DROPOFF] person=54  t=5820.0s  ride_time=80.0s  excess=67.35861992579055
+  [PERIODIC PICKUP] person=56  taxi=t_0  t=5820.0s
+  [REDISPATCH] taxi=t_1 reservations=['57', '57']
+  [REDISPATCH] taxi=t_0 reservations=['56']
+New arrivals: [], pickups: ['56'], dropoffs: ['54']
+  [NEW REQUEST] person=58  res=58  B3B4 → D2D1  direct_tt=42.0s
+New arrivals: ['58'], pickups: [], dropoffs: []
+  → ASSIGNED req=58 → taxi=t_0  pu_eta=5926.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['56', '58', '58']
+  [PERIODIC PICKUP] person=57  taxi=t_1  t=5900.0s
+  [REDISPATCH] taxi=t_1 reservations=['57']
+New arrivals: [], pickups: ['57'], dropoffs: []
+  [DROPOFF] person=56  t=5960.0s  ride_time=140.0s  excess=88.31001707589024
+  [REDISPATCH] taxi=t_0 reservations=['58', '58']
+New arrivals: [], pickups: [], dropoffs: ['56']
+  [DROPOFF] person=57  t=5990.0s  ride_time=90.0s  excess=65.16073781731198
+  [PERIODIC PICKUP] person=58  taxi=t_0  t=5990.0s
+  [REDISPATCH] taxi=t_0 reservations=['58']
+New arrivals: [], pickups: ['58'], dropoffs: ['57']
+  [NEW REQUEST] person=59  res=59  E14 → A4B4  direct_tt=34.9s
+New arrivals: ['59'], pickups: [], dropoffs: []
+  → ASSIGNED req=59 → taxi=t_1  pu_eta=6060.0s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['59', '59']
+  [PERIODIC PICKUP] person=59  taxi=t_1  t=6070.0s
+  [REDISPATCH] taxi=t_1 reservations=['59']
+New arrivals: [], pickups: ['59'], dropoffs: []
+  [NEW REQUEST] person=60  res=60  E14 → E16  direct_tt=15.5s
+  [DROPOFF] person=58  t=6130.0s  ride_time=140.0s  excess=97.96073580824623
+New arrivals: ['60'], pickups: [], dropoffs: ['58']
+  → ASSIGNED req=60 → taxi=t_0  pu_eta=6154.8s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['60', '60']
+  [PERIODIC PICKUP] person=60  taxi=t_0  t=6160.0s
+  [REDISPATCH] taxi=t_0 reservations=['60']
+New arrivals: [], pickups: ['60'], dropoffs: []
+  [DROPOFF] person=59  t=6210.0s  ride_time=140.0s  excess=105.06654100044125
+New arrivals: [], pickups: [], dropoffs: ['59']
+  [DROPOFF] person=60  t=6250.0s  ride_time=90.0s  excess=74.51849407969601
+New arrivals: [], pickups: [], dropoffs: ['60']
+  [NEW REQUEST] person=61  res=61  D1D2 → C4D4  direct_tt=36.9s
+New arrivals: ['61'], pickups: [], dropoffs: []
+  → ASSIGNED req=61 → taxi=t_0  pu_eta=6359.8s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['61', '61']
+  [PERIODIC PICKUP] person=61  taxi=t_0  t=6380.0s
+  [REDISPATCH] taxi=t_0 reservations=['61']
+New arrivals: [], pickups: ['61'], dropoffs: []
+  [DROPOFF] person=61  t=6520.0s  ride_time=140.0s  excess=103.05302027450708
+New arrivals: [], pickups: [], dropoffs: ['61']
+  [NEW REQUEST] person=62  res=62  B3C3 → D4D3  direct_tt=29.1s
+New arrivals: ['62'], pickups: [], dropoffs: []
+  → ASSIGNED req=62 → taxi=t_1  pu_eta=6564.6s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['62', '62']
+  [PERIODIC PICKUP] person=62  taxi=t_1  t=6560.0s
+  [REDISPATCH] taxi=t_1 reservations=['62']
+New arrivals: [], pickups: ['62'], dropoffs: []
+  [NEW REQUEST] person=63  res=63  B3B2 → B3B4  direct_tt=38.4s
+New arrivals: ['63'], pickups: [], dropoffs: []
+  → ASSIGNED req=63 → taxi=t_0  pu_eta=6648.6s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['63', '63']
+  [PERIODIC PICKUP] person=63  taxi=t_0  t=6650.0s
+  [REDISPATCH] taxi=t_0 reservations=['63']
+New arrivals: [], pickups: ['63'], dropoffs: []
+  [NEW REQUEST] person=64  res=64  C1C2 → A2A3  direct_tt=31.7s
+New arrivals: ['64'], pickups: [], dropoffs: []
+  → ASSIGNED req=64 → taxi=t_1  pu_eta=6714.6s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['62', '64', '64']
+  [DROPOFF] person=62  t=6750.0s  ride_time=190.0s  excess=160.88735321332325
+  [REDISPATCH] taxi=t_1 reservations=['64', '64']
+New arrivals: [], pickups: [], dropoffs: ['62']
+  [NEW REQUEST] person=65  res=65  E12 → B1C1  direct_tt=26.8s
+New arrivals: ['65'], pickups: [], dropoffs: []
+  → ASSIGNED req=65 → taxi=t_0  pu_eta=6792.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['63', '65', '65']
+  [PERIODIC PICKUP] person=64  taxi=t_1  t=6790.0s
+  [REDISPATCH] taxi=t_1 reservations=['64']
+New arrivals: [], pickups: ['64'], dropoffs: []
+  [DROPOFF] person=63  t=6830.0s  ride_time=180.0s  excess=141.56196705792343
+  [REDISPATCH] taxi=t_0 reservations=['65', '65']
+New arrivals: [], pickups: [], dropoffs: ['63']
+  [PERIODIC PICKUP] person=65  taxi=t_0  t=6860.0s
+  [REDISPATCH] taxi=t_0 reservations=['65']
+New arrivals: [], pickups: ['65'], dropoffs: []
+  [DROPOFF] person=64  t=6890.0s  ride_time=100.0s  excess=68.31670103306502
+New arrivals: [], pickups: [], dropoffs: ['64']
+  [NEW REQUEST] person=66  res=66  C2C3 → C1C2  direct_tt=39.6s
+New arrivals: ['66'], pickups: [], dropoffs: []
+  → ASSIGNED req=66 → taxi=t_1  pu_eta=6982.0s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['66', '66']
+  [NEW REQUEST] person=67  res=67  B2A2 → B2B1  direct_tt=24.8s
+New arrivals: ['67'], pickups: [], dropoffs: []
+  → ASSIGNED req=67 → taxi=t_0  pu_eta=6994.2s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['65', '67', '67']
+  [NEW REQUEST] person=68  res=68  A4A3 → C3D3  direct_tt=32.4s
+New arrivals: ['68'], pickups: [], dropoffs: []
+  → ASSIGNED req=68 → taxi=t_1  pu_eta=7065.9s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['66', '66', '68', '68']
+  [PERIODIC PICKUP] person=66  taxi=t_1  t=6990.0s
+  [REDISPATCH] taxi=t_1 reservations=['66', '68', '68']
+New arrivals: [], pickups: ['66'], dropoffs: []
+  [DROPOFF] person=65  t=7030.0s  ride_time=170.0s  excess=143.22679004782466
+  [REDISPATCH] taxi=t_0 reservations=['67', '67']
+New arrivals: [], pickups: [], dropoffs: ['65']
+  [NEW REQUEST] person=69  res=69  D3C3 → B3C3  direct_tt=26.0s
+New arrivals: ['69'], pickups: [], dropoffs: []
+  → ASSIGNED req=69 → taxi=t_0  pu_eta=7120.6s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['67', '67', '69', '69']
+  [PERIODIC PICKUP] person=67  taxi=t_0  t=7060.0s
+  [REDISPATCH] taxi=t_0 reservations=['67', '69', '69']
+New arrivals: [], pickups: ['67'], dropoffs: []
+  [NEW REQUEST] person=70  res=70  D3D2 → C4D4  direct_tt=36.3s
+New arrivals: ['70'], pickups: [], dropoffs: []
+  → ASSIGNED req=70 → taxi=t_0  pu_eta=7221.7s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['67', '69', '69', '70', '70']
+  [DROPOFF] person=66  t=7140.0s  ride_time=150.0s  excess=110.37786763061457
+  [REDISPATCH] taxi=t_1 reservations=['68', '68']
+New arrivals: [], pickups: [], dropoffs: ['66']
+  [DROPOFF] person=67  t=7200.0s  ride_time=140.0s  excess=115.19775365985949
+  [REDISPATCH] taxi=t_0 reservations=['69', '69', '70', '70']
+New arrivals: [], pickups: [], dropoffs: ['67']
+  [PERIODIC PICKUP] person=69  taxi=t_0  t=7240.0s
+  [REDISPATCH] taxi=t_0 reservations=['69', '70', '70']
+New arrivals: [], pickups: ['69'], dropoffs: []
+  [NEW REQUEST] person=71  res=71  E14 → C1D1  direct_tt=16.2s
+  [PERIODIC PICKUP] person=68  taxi=t_1  t=7310.0s
+  [REDISPATCH] taxi=t_1 reservations=['68']
+New arrivals: ['71'], pickups: ['68'], dropoffs: []
+  → ASSIGNED req=71 → taxi=t_1  pu_eta=7365.9s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['68', '71', '71']
+  [NEW REQUEST] person=72  res=72  B2A2 → B4A4  direct_tt=39.2s
+  [DROPOFF] person=69  t=7340.0s  ride_time=100.0s  excess=73.99904666960204
+  [REDISPATCH] taxi=t_0 reservations=['70', '70']
+New arrivals: ['72'], pickups: [], dropoffs: ['69']
+  → ASSIGNED req=72 → taxi=t_1  pu_eta=7420.1s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['68', '71', '71', '72', '72']
+  [NEW REQUEST] person=73  res=73  A3A4 → A1A2  direct_tt=50.9s
+  [PERIODIC PICKUP] person=70  taxi=t_0  t=7360.0s
+  [REDISPATCH] taxi=t_0 reservations=['70']
+New arrivals: ['73'], pickups: ['70'], dropoffs: []
+  → ASSIGNED req=73 → taxi=t_0  pu_eta=7441.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['70', '73', '73']
+  [NEW REQUEST] person=74  res=74  C1B1 → C1C2  direct_tt=26.9s
+New arrivals: ['74'], pickups: [], dropoffs: []
+  → ASSIGNED req=74 → taxi=t_0  pu_eta=7534.6s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['70', '73', '73', '74', '74']
+  [DROPOFF] person=68  t=7420.0s  ride_time=110.0s  excess=77.56666218116672
+  [REDISPATCH] taxi=t_1 reservations=['71', '71', '72', '72']
+New arrivals: [], pickups: [], dropoffs: ['68']
+  [NEW REQUEST] person=75  res=75  E15 → D3D2  direct_tt=26.2s
+  [PERIODIC PICKUP] person=71  taxi=t_1  t=7450.0s
+  [REDISPATCH] taxi=t_1 reservations=['71', '72', '72']
+New arrivals: ['75'], pickups: ['71'], dropoffs: []
+  → ASSIGNED req=75 → taxi=t_1  pu_eta=7531.7s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['71', '72', '75', '72', '75']
+  [DROPOFF] person=70  t=7500.0s  ride_time=140.0s  excess=103.67773934739927
+  [REDISPATCH] taxi=t_0 reservations=['73', '73', '74', '74']
+New arrivals: [], pickups: [], dropoffs: ['70']
+  [NEW REQUEST] person=76  res=76  C2D2 → D1D2  direct_tt=30.3s
+New arrivals: ['76'], pickups: [], dropoffs: []
+  → ASSIGNED req=76 → taxi=t_0  pu_eta=7670.6s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['73', '73', '74', '74', '76', '76']
+  [DROPOFF] person=71  t=7540.0s  ride_time=90.0s  excess=73.81918731258094
+  [REDISPATCH] taxi=t_1 reservations=['72', '75', '72', '75']
+New arrivals: [], pickups: [], dropoffs: ['71']
+  [PERIODIC PICKUP] person=73  taxi=t_0  t=7550.0s
+  [REDISPATCH] taxi=t_0 reservations=['73', '74', '74', '76', '76']
+New arrivals: [], pickups: ['73'], dropoffs: []
+  [PERIODIC PICKUP] person=72  taxi=t_1  t=7620.0s
+  [REDISPATCH] taxi=t_1 reservations=['75', '72', '75']
+New arrivals: [], pickups: ['72'], dropoffs: []
+  [PERIODIC PICKUP] person=75  taxi=t_1  t=7650.0s
+  [REDISPATCH] taxi=t_1 reservations=['72', '75']
+New arrivals: [], pickups: ['75'], dropoffs: []
+  [DROPOFF] person=73  t=7690.0s  ride_time=140.0s  excess=89.10891035238228
+  [REDISPATCH] taxi=t_0 reservations=['74', '74', '76', '76']
+New arrivals: [], pickups: [], dropoffs: ['73']
+  [PERIODIC PICKUP] person=74  taxi=t_0  t=7720.0s
+  [REDISPATCH] taxi=t_0 reservations=['74', '76', '76']
+New arrivals: [], pickups: ['74'], dropoffs: []
+  [NEW REQUEST] person=77  res=77  B1A1 → A4A3  direct_tt=54.8s
+New arrivals: ['77'], pickups: [], dropoffs: []
+  → ASSIGNED req=77 → taxi=t_1  pu_eta=7812.4s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['72', '75', '77', '77']
+  [NEW REQUEST] person=78  res=78  C1B1 → D4C4  direct_tt=52.0s
+New arrivals: ['78'], pickups: [], dropoffs: []
+  → ASSIGNED req=78 → taxi=t_0  pu_eta=7836.7s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['74', '76', '76', '78', '78']
+  [DROPOFF] person=72  t=7800.0s  ride_time=180.0s  excess=140.7850141151401
+  [REDISPATCH] taxi=t_1 reservations=['75', '77', '77']
+New arrivals: [], pickups: [], dropoffs: ['72']
+  [DROPOFF] person=74  t=7830.0s  ride_time=110.0s  excess=83.06468041460792
+  [REDISPATCH] taxi=t_0 reservations=['76', '76', '78', '78']
+New arrivals: [], pickups: [], dropoffs: ['74']
+  [PERIODIC PICKUP] person=76  taxi=t_0  t=7840.0s
+  [REDISPATCH] taxi=t_0 reservations=['76', '78', '78']
+New arrivals: [], pickups: ['76'], dropoffs: []
+  [NEW REQUEST] person=79  res=79  E15 → B3A3  direct_tt=8.1s
+  [DROPOFF] person=76  t=7960.0s  ride_time=120.0s  excess=89.69126254610192
+  [REDISPATCH] taxi=t_0 reservations=['78', '78']
+New arrivals: ['79'], pickups: [], dropoffs: ['76']
+  → ASSIGNED req=79 → taxi=t_0  pu_eta=8068.7s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['78', '78', '79', '79']
+  [DROPOFF] person=75  t=7970.0s  ride_time=320.0s  excess=293.8107751822363
+  [REDISPATCH] taxi=t_1 reservations=['77', '77']
+New arrivals: [], pickups: [], dropoffs: ['75']
+  [NEW REQUEST] person=80  res=80  A3B3 → C4B4  direct_tt=33.2s
+New arrivals: ['80'], pickups: [], dropoffs: []
+  → ASSIGNED req=80 → taxi=t_0  pu_eta=8095.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['78', '78', '79', '79', '80', '80']
+  [PERIODIC PICKUP] person=78  taxi=t_0  t=8020.0s
+  [REDISPATCH] taxi=t_0 reservations=['78', '79', '79', '80', '80']
+New arrivals: [], pickups: ['78'], dropoffs: []
+  [PERIODIC PICKUP] person=77  taxi=t_1  t=8050.0s
+  [REDISPATCH] taxi=t_1 reservations=['77']
+New arrivals: [], pickups: ['77'], dropoffs: []
+  [DROPOFF] person=78  t=8150.0s  ride_time=130.0s  excess=77.97624863049079
+  [REDISPATCH] taxi=t_0 reservations=['79', '79', '80', '80']
+New arrivals: [], pickups: [], dropoffs: ['78']
+  [NEW REQUEST] person=81  res=81  C1B1 → B4B3  direct_tt=42.0s
+New arrivals: ['81'], pickups: [], dropoffs: []
+  → ASSIGNED req=81 → taxi=t_1  pu_eta=8215.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['77', '81', '81']
+  [NEW REQUEST] person=82  res=82  B4C4 → E13  direct_tt=23.4s
+New arrivals: ['82'], pickups: [], dropoffs: []
+  → ASSIGNED req=82 → taxi=t_0  pu_eta=8291.2s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['79', '79', '80', '80', '82', '82']
+  [NEW REQUEST] person=83  res=83  E14 → B1B2  direct_tt=22.3s
+  [PERIODIC PICKUP] person=79  taxi=t_0  t=8220.0s
+  [REDISPATCH] taxi=t_0 reservations=['79', '80', '80', '82', '82']
+New arrivals: ['83'], pickups: ['79'], dropoffs: []
+  → ASSIGNED req=83 → taxi=t_0  pu_eta=8309.9s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['79', '80', '80', '82', '83', '82', '83']
+  [DROPOFF] person=77  t=8240.0s  ride_time=190.0s  excess=135.24212308866873
+  [REDISPATCH] taxi=t_1 reservations=['81', '81']
+New arrivals: [], pickups: [], dropoffs: ['77']
+  [DROPOFF] person=79  t=8300.0s  ride_time=80.0s  excess=71.90196462127138
+  [REDISPATCH] taxi=t_0 reservations=['80', '80', '82', '83', '82', '83']
+New arrivals: [], pickups: [], dropoffs: ['79']
+  [PERIODIC PICKUP] person=80  taxi=t_0  t=8330.0s
+  [REDISPATCH] taxi=t_0 reservations=['80', '82', '83', '82', '83']
+New arrivals: [], pickups: ['80'], dropoffs: []
+  [PERIODIC PICKUP] person=81  taxi=t_1  t=8350.0s
+  [REDISPATCH] taxi=t_1 reservations=['81']
+New arrivals: [], pickups: ['81'], dropoffs: []
+  [NEW REQUEST] person=84  res=84  B3B4 → D2C2  direct_tt=41.6s
+New arrivals: ['84'], pickups: [], dropoffs: []
+  → ASSIGNED req=84 → taxi=t_1  pu_eta=8439.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['81', '84', '84']
+  [DROPOFF] person=80  t=8440.0s  ride_time=110.0s  excess=76.84917233755006
+  [REDISPATCH] taxi=t_0 reservations=['82', '83', '82', '83']
+New arrivals: [], pickups: [], dropoffs: ['80']
+  [PERIODIC PICKUP] person=82  taxi=t_0  t=8470.0s
+  [REDISPATCH] taxi=t_0 reservations=['83', '82', '83']
+New arrivals: [], pickups: ['82'], dropoffs: []
+  [DROPOFF] person=81  t=8490.0s  ride_time=140.0s  excess=97.98534133434207
+  [REDISPATCH] taxi=t_1 reservations=['84', '84']
+New arrivals: [], pickups: [], dropoffs: ['81']
+  [NEW REQUEST] person=85  res=85  B2B3 → E13  direct_tt=24.6s
+  [PERIODIC PICKUP] person=83  taxi=t_0  t=8500.0s
+  [REDISPATCH] taxi=t_0 reservations=['82', '83']
+New arrivals: ['85'], pickups: ['83'], dropoffs: []
+  → ASSIGNED req=85 → taxi=t_0  pu_eta=8535.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['82', '83', '85', '85']
+  [PERIODIC PICKUP] person=84  taxi=t_1  t=8510.0s
+  [REDISPATCH] taxi=t_1 reservations=['84']
+New arrivals: [], pickups: ['84'], dropoffs: []
+  [DROPOFF] person=82  t=8570.0s  ride_time=100.0s  excess=76.5856768165066
+  [REDISPATCH] taxi=t_0 reservations=['83', '85', '85']
+New arrivals: [], pickups: [], dropoffs: ['82']
+  [NEW REQUEST] person=86  res=86  B3B2 → B4B3  direct_tt=41.2s
+New arrivals: ['86'], pickups: [], dropoffs: []
+  → ASSIGNED req=86 → taxi=t_1  pu_eta=8621.9s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['84', '86', '86']
+  [DROPOFF] person=84  t=8660.0s  ride_time=150.0s  excess=108.43696791575226
+  [REDISPATCH] taxi=t_1 reservations=['86', '86']
+New arrivals: [], pickups: [], dropoffs: ['84']
+  [DROPOFF] person=83  t=8680.0s  ride_time=180.0s  excess=157.7238833838994
+  [REDISPATCH] taxi=t_0 reservations=['85', '85']
+New arrivals: [], pickups: [], dropoffs: ['83']
+  [PERIODIC PICKUP] person=85  taxi=t_0  t=8690.0s
+  [PERIODIC PICKUP] person=86  taxi=t_1  t=8690.0s
+  [REDISPATCH] taxi=t_1 reservations=['86']
+  [REDISPATCH] taxi=t_0 reservations=['85']
+New arrivals: [], pickups: ['85', '86'], dropoffs: []
+  [NEW REQUEST] person=87  res=87  D2D3 → B1C1  direct_tt=49.5s
+New arrivals: ['87'], pickups: [], dropoffs: []
+  → ASSIGNED req=87 → taxi=t_0  pu_eta=8785.9s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['85', '87', '87']
+  [NEW REQUEST] person=88  res=88  D1D2 → C2C3  direct_tt=23.7s
+New arrivals: ['88'], pickups: [], dropoffs: []
+  → ASSIGNED req=88 → taxi=t_1  pu_eta=8874.2s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['86', '88', '88']
+  [DROPOFF] person=85  t=8840.0s  ride_time=150.0s  excess=125.3932335573791
+  [REDISPATCH] taxi=t_0 reservations=['87', '87']
+New arrivals: [], pickups: [], dropoffs: ['85']
+  [NEW REQUEST] person=89  res=89  C4C3 → C1C2  direct_tt=34.8s
+  [PERIODIC PICKUP] person=87  taxi=t_0  t=8880.0s
+  [REDISPATCH] taxi=t_0 reservations=['87']
+New arrivals: ['89'], pickups: ['87'], dropoffs: []
+  → ASSIGNED req=89 → taxi=t_0  pu_eta=8973.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['87', '89', '89']
+  [DROPOFF] person=86  t=8920.0s  ride_time=230.0s  excess=188.8378190956601
+  [REDISPATCH] taxi=t_1 reservations=['88', '88']
+New arrivals: [], pickups: [], dropoffs: ['86']
+  [NEW REQUEST] person=90  res=90  E14 → E18  direct_tt=18.6s
+New arrivals: ['90'], pickups: [], dropoffs: []
+  → ASSIGNED req=90 → taxi=t_1  pu_eta=9022.4s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['88', '88', '90', '90']
+  [NEW REQUEST] person=91  res=91  B3B2 → E12  direct_tt=18.5s
+New arrivals: ['91'], pickups: [], dropoffs: []
+  → ASSIGNED req=91 → taxi=t_1  pu_eta=9071.5s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['88', '88', '90', '90', '91', '91']
+  [NEW REQUEST] person=92  res=92  B4B3 → D1D2  direct_tt=47.8s
+New arrivals: ['92'], pickups: [], dropoffs: []
+  → ASSIGNED req=92 → taxi=t_1  pu_eta=9109.2s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['88', '88', '90', '90', '92', '91', '91', '92']
+  [PERIODIC PICKUP] person=88  taxi=t_1  t=9020.0s
+  [REDISPATCH] taxi=t_1 reservations=['88', '90', '90', '92', '91', '91', '92']
+New arrivals: [], pickups: ['88'], dropoffs: []
+  [NEW REQUEST] person=93  res=93  E14 → D1D2  direct_tt=24.4s
+New arrivals: ['93'], pickups: [], dropoffs: []
+  → ASSIGNED req=93 → taxi=t_1  pu_eta=9099.6s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['88', '90', '93', '90', '92', '91', '91', '92', '93']
+  [DROPOFF] person=87  t=9130.0s  ride_time=250.0s  excess=200.5450138829571
+  [REDISPATCH] taxi=t_0 reservations=['89', '89']
+New arrivals: [], pickups: [], dropoffs: ['87']
+  [DROPOFF] person=88  t=9150.0s  ride_time=130.0s  excess=106.34917245626244
+  [REDISPATCH] taxi=t_1 reservations=['90', '93', '90', '92', '91', '91', '92', '93']
+New arrivals: [], pickups: [], dropoffs: ['88']
+  [PERIODIC PICKUP] person=90  taxi=t_1  t=9200.0s
+  [PERIODIC PICKUP] person=93  taxi=t_1  t=9200.0s
+  [REDISPATCH] taxi=t_1 reservations=['90', '92', '91', '91', '92', '93']
+New arrivals: [], pickups: ['90', '93'], dropoffs: []
+  [PERIODIC PICKUP] person=89  taxi=t_0  t=9240.0s
+  [REDISPATCH] taxi=t_0 reservations=['89']
+New arrivals: [], pickups: ['89'], dropoffs: []
+  [NEW REQUEST] person=94  res=94  C1D1 → A1B1  direct_tt=55.2s
+New arrivals: ['94'], pickups: [], dropoffs: []
+  → ASSIGNED req=94 → taxi=t_0  pu_eta=9334.6s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['89', '94', '94']
+  [DROPOFF] person=90  t=9310.0s  ride_time=110.0s  excess=91.38900932834673
+  [REDISPATCH] taxi=t_1 reservations=['92', '91', '91', '92', '93']
+New arrivals: [], pickups: [], dropoffs: ['90']
+  [PERIODIC PICKUP] person=92  taxi=t_1  t=9330.0s
+  [REDISPATCH] taxi=t_1 reservations=['91', '91', '92', '93']
+New arrivals: [], pickups: ['92'], dropoffs: []
+  [PERIODIC PICKUP] person=91  taxi=t_1  t=9350.0s
+  [REDISPATCH] taxi=t_1 reservations=['91', '92', '93']
+New arrivals: [], pickups: ['91'], dropoffs: []
+  [DROPOFF] person=89  t=9390.0s  ride_time=150.0s  excess=115.1944880210774
+  [REDISPATCH] taxi=t_0 reservations=['94', '94']
+New arrivals: [], pickups: [], dropoffs: ['89']
+  [PERIODIC PICKUP] person=94  taxi=t_0  t=9420.0s
+  [REDISPATCH] taxi=t_0 reservations=['94']
+New arrivals: [], pickups: ['94'], dropoffs: []
+  [DROPOFF] person=91  t=9440.0s  ride_time=90.0s  excess=71.52490428851995
+  [REDISPATCH] taxi=t_1 reservations=['92', '93']
+New arrivals: [], pickups: [], dropoffs: ['91']
+  [NEW REQUEST] person=95  res=95  B2C2 → A2A3  direct_tt=33.1s
+New arrivals: ['95'], pickups: [], dropoffs: []
+  → ASSIGNED req=95 → taxi=t_0  pu_eta=9512.5s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['94', '95', '95']
+  [DROPOFF] person=94  t=9560.0s  ride_time=140.0s  excess=84.7845084174088
+  [REDISPATCH] taxi=t_0 reservations=['95', '95']
+New arrivals: [], pickups: [], dropoffs: ['94']
+  [PERIODIC PICKUP] person=95  taxi=t_0  t=9570.0s
+  [REDISPATCH] taxi=t_0 reservations=['95']
+New arrivals: [], pickups: ['95'], dropoffs: []
+  [DROPOFF] person=92  t=9590.0s  ride_time=260.0s  excess=212.16484987352723
+  [DROPOFF] person=93  t=9590.0s  ride_time=390.0s  excess=365.5564675716761
+New arrivals: [], pickups: [], dropoffs: ['93', '92']
+  [NEW REQUEST] person=96  res=96  B2A2 → A2A1  direct_tt=13.8s
+  [DROPOFF] person=95  t=9680.0s  ride_time=110.0s  excess=76.87156979921784
+New arrivals: ['96'], pickups: [], dropoffs: ['95']
+  → ASSIGNED req=96 → taxi=t_0  pu_eta=9708.3s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['96', '96']
+  [NEW REQUEST] person=97  res=97  B2A2 → E12  direct_tt=28.4s
+New arrivals: ['97'], pickups: [], dropoffs: []
+  → ASSIGNED req=97 → taxi=t_1  pu_eta=9732.4s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['97', '97']
+  [PERIODIC PICKUP] person=96  taxi=t_0  t=9730.0s
+  [REDISPATCH] taxi=t_0 reservations=['96']
+New arrivals: [], pickups: ['96'], dropoffs: []
+  [PERIODIC PICKUP] person=97  taxi=t_1  t=9780.0s
+  [REDISPATCH] taxi=t_1 reservations=['97']
+New arrivals: [], pickups: ['97'], dropoffs: []
+  [DROPOFF] person=96  t=9850.0s  ride_time=120.0s  excess=106.2140481636537
+New arrivals: [], pickups: [], dropoffs: ['96']
+  [DROPOFF] person=97  t=9870.0s  ride_time=90.0s  excess=61.600807404884044
+New arrivals: [], pickups: [], dropoffs: ['97']
+  [NEW REQUEST] person=98  res=98  E11 → A3B3  direct_tt=30.7s
+New arrivals: ['98'], pickups: [], dropoffs: []
+  → ASSIGNED req=98 → taxi=t_1  pu_eta=9891.6s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['98', '98']
+  [PERIODIC PICKUP] person=98  taxi=t_1  t=9900.0s
+  [REDISPATCH] taxi=t_1 reservations=['98']
+New arrivals: [], pickups: ['98'], dropoffs: []
+  [NEW REQUEST] person=99  res=99  C4D4 → B2C2  direct_tt=47.7s
+New arrivals: ['99'], pickups: [], dropoffs: []
+  → ASSIGNED req=99 → taxi=t_0  pu_eta=9975.2s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['99', '99']
+  [PERIODIC PICKUP] person=99  taxi=t_0  t=10000.0s
+  [REDISPATCH] taxi=t_0 reservations=['99']
+New arrivals: [], pickups: ['99'], dropoffs: []
+  [DROPOFF] person=98  t=10040.0s  ride_time=140.0s  excess=109.33456162471873
+New arrivals: [], pickups: [], dropoffs: ['98']
+  [NEW REQUEST] person=100  res=100  D2D3 → B1B2  direct_tt=46.1s
+New arrivals: ['100'], pickups: [], dropoffs: []
+  → ASSIGNED req=100 → taxi=t_1  pu_eta=10171.6s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['100', '100']
+  [DROPOFF] person=99  t=10160.0s  ride_time=160.0s  excess=112.29441090417157
+New arrivals: [], pickups: [], dropoffs: ['99']
+  [NEW REQUEST] person=101  res=101  B4C4 → C1B1  direct_tt=37.0s
+New arrivals: ['101'], pickups: [], dropoffs: []
+  → ASSIGNED req=101 → taxi=t_0  pu_eta=10252.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['101', '101']
+  [PERIODIC PICKUP] person=100  taxi=t_1  t=10230.0s
+  [REDISPATCH] taxi=t_1 reservations=['100']
+New arrivals: [], pickups: ['100'], dropoffs: []
+  [NEW REQUEST] person=102  res=102  A1A2 → E15  direct_tt=25.3s
+New arrivals: ['102'], pickups: [], dropoffs: []
+  → ASSIGNED req=102 → taxi=t_0  pu_eta=10327.5s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['101', '101', '102', '102']
+  [NEW REQUEST] person=103  res=103  A1B1 → D1C1  direct_tt=37.9s
+New arrivals: ['103'], pickups: [], dropoffs: []
+  → ASSIGNED req=103 → taxi=t_1  pu_eta=10337.9s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['100', '103', '103']
+  [PERIODIC PICKUP] person=101  taxi=t_0  t=10320.0s
+  [REDISPATCH] taxi=t_0 reservations=['101', '102', '102']
+New arrivals: [], pickups: ['101'], dropoffs: []
+  [DROPOFF] person=100  t=10380.0s  ride_time=150.0s  excess=103.88933531566497
+  [REDISPATCH] taxi=t_1 reservations=['103', '103']
+New arrivals: [], pickups: [], dropoffs: ['100']
+  [PERIODIC PICKUP] person=103  taxi=t_1  t=10420.0s
+  [REDISPATCH] taxi=t_1 reservations=['103']
+New arrivals: [], pickups: ['103'], dropoffs: []
+  [DROPOFF] person=101  t=10470.0s  ride_time=150.0s  excess=113.00502089289867
+  [REDISPATCH] taxi=t_0 reservations=['102', '102']
+New arrivals: [], pickups: [], dropoffs: ['101']
+  [NEW REQUEST] person=104  res=104  A3A2 → D4D3  direct_tt=53.3s
+New arrivals: ['104'], pickups: [], dropoffs: []
+  → ASSIGNED req=104 → taxi=t_1  pu_eta=10526.8s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['103', '104', '104']
+  [PERIODIC PICKUP] person=102  taxi=t_0  t=10490.0s
+  [REDISPATCH] taxi=t_0 reservations=['102']
+New arrivals: [], pickups: ['102'], dropoffs: []
+  [NEW REQUEST] person=105  res=105  D3D2 → A3B3  direct_tt=44.2s
+  [DROPOFF] person=103  t=10550.0s  ride_time=130.0s  excess=92.05388127853881
+  [REDISPATCH] taxi=t_1 reservations=['104', '104']
+New arrivals: ['105'], pickups: [], dropoffs: ['103']
+  → ASSIGNED req=105 → taxi=t_0  pu_eta=10580.6s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['102', '105', '105']
+  [NEW REQUEST] person=106  res=106  C2C1 → B3B4  direct_tt=37.1s
+New arrivals: ['106'], pickups: [], dropoffs: []
+  → ASSIGNED req=106 → taxi=t_1  pu_eta=10678.4s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['104', '104', '106', '106']
+  [PERIODIC PICKUP] person=104  taxi=t_1  t=10600.0s
+  [REDISPATCH] taxi=t_1 reservations=['104', '106', '106']
+New arrivals: [], pickups: ['104'], dropoffs: []
+  [DROPOFF] person=102  t=10630.0s  ride_time=140.0s  excess=114.68990607459739
+  [REDISPATCH] taxi=t_0 reservations=['105', '105']
+New arrivals: [], pickups: [], dropoffs: ['102']
+  [PERIODIC PICKUP] person=105  taxi=t_0  t=10690.0s
+  [REDISPATCH] taxi=t_0 reservations=['105']
+New arrivals: [], pickups: ['105'], dropoffs: []
+  [DROPOFF] person=104  t=10740.0s  ride_time=140.0s  excess=86.73998961045534
+  [REDISPATCH] taxi=t_1 reservations=['106', '106']
+New arrivals: [], pickups: [], dropoffs: ['104']
+  [NEW REQUEST] person=107  res=107  B1A1 → D4C4  direct_tt=60.3s
+New arrivals: ['107'], pickups: [], dropoffs: []
+  → ASSIGNED req=107 → taxi=t_0  pu_eta=10808.5s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['105', '107', '107']
+  [PERIODIC PICKUP] person=106  taxi=t_1  t=10780.0s
+  [REDISPATCH] taxi=t_1 reservations=['106']
+New arrivals: [], pickups: ['106'], dropoffs: []
+  [DROPOFF] person=105  t=10850.0s  ride_time=160.0s  excess=115.75481384688342
+  [REDISPATCH] taxi=t_0 reservations=['107', '107']
+New arrivals: [], pickups: [], dropoffs: ['105']
+  [DROPOFF] person=106  t=10890.0s  ride_time=110.0s  excess=72.88717839305394
+New arrivals: [], pickups: [], dropoffs: ['106']
+  [NEW REQUEST] person=108  res=108  C3B3 → B3A3  direct_tt=15.6s
+New arrivals: ['108'], pickups: [], dropoffs: []
+  → ASSIGNED req=108 → taxi=t_1  pu_eta=10967.0s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['108', '108']
+  [PERIODIC PICKUP] person=107  taxi=t_0  t=10950.0s
+  [REDISPATCH] taxi=t_0 reservations=['107']
+New arrivals: [], pickups: ['107'], dropoffs: []
+  [PERIODIC PICKUP] person=108  taxi=t_1  t=10990.0s
+  [REDISPATCH] taxi=t_1 reservations=['108']
+New arrivals: [], pickups: ['108'], dropoffs: []
+  [NEW REQUEST] person=109  res=109  D4D3 → E16  direct_tt=27.0s
+New arrivals: ['109'], pickups: [], dropoffs: []
+  → ASSIGNED req=109 → taxi=t_1  pu_eta=11061.2s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['108', '109', '109']
+  [NEW REQUEST] person=110  res=110  A2B2 → E16  direct_tt=16.8s
+  [DROPOFF] person=108  t=11090.0s  ride_time=100.0s  excess=84.38252617634696
+  [REDISPATCH] taxi=t_1 reservations=['109', '109']
+New arrivals: ['110'], pickups: [], dropoffs: ['108']
+  → ASSIGNED req=110 → taxi=t_0  pu_eta=11135.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['107', '110', '110']
+  [NEW REQUEST] person=111  res=111  D1D2 → B1C1  direct_tt=42.4s
+New arrivals: ['111'], pickups: [], dropoffs: []
+  → ASSIGNED req=111 → taxi=t_1  pu_eta=11218.4s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['109', '109', '111', '111']
+  [DROPOFF] person=107  t=11160.0s  ride_time=210.0s  excess=149.71244159519074
+  [REDISPATCH] taxi=t_0 reservations=['110', '110']
+New arrivals: [], pickups: [], dropoffs: ['107']
+  [PERIODIC PICKUP] person=109  taxi=t_1  t=11190.0s
+  [REDISPATCH] taxi=t_1 reservations=['109', '111', '111']
+New arrivals: [], pickups: ['109'], dropoffs: []
+  [PERIODIC PICKUP] person=110  taxi=t_0  t=11210.0s
+  [REDISPATCH] taxi=t_0 reservations=['110']
+New arrivals: [], pickups: ['110'], dropoffs: []
+  [DROPOFF] person=109  t=11290.0s  ride_time=100.0s  excess=73.00550047986977
+  [REDISPATCH] taxi=t_1 reservations=['111', '111']
+New arrivals: [], pickups: [], dropoffs: ['109']
+  [DROPOFF] person=110  t=11300.0s  ride_time=90.0s  excess=73.15014781993499
+New arrivals: [], pickups: [], dropoffs: ['110']
+  [NEW REQUEST] person=112  res=112  B3C3 → C2C3  direct_tt=25.9s
+New arrivals: ['112'], pickups: [], dropoffs: []
+  → ASSIGNED req=112 → taxi=t_0  pu_eta=11326.6s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['112', '112']
+  [PERIODIC PICKUP] person=112  taxi=t_0  t=11330.0s
+  [REDISPATCH] taxi=t_0 reservations=['112']
+New arrivals: [], pickups: ['112'], dropoffs: []
+  [PERIODIC PICKUP] person=111  taxi=t_1  t=11340.0s
+  [REDISPATCH] taxi=t_1 reservations=['111']
+New arrivals: [], pickups: ['111'], dropoffs: []
+  [NEW REQUEST] person=113  res=113  D2C2 → D3D4  direct_tt=29.2s
+New arrivals: ['113'], pickups: [], dropoffs: []
+  → ASSIGNED req=113 → taxi=t_0  pu_eta=11403.2s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['112', '113', '113']
+  [DROPOFF] person=111  t=11470.0s  ride_time=130.0s  excess=87.63951012467335
+New arrivals: [], pickups: [], dropoffs: ['111']
+  [DROPOFF] person=112  t=11480.0s  ride_time=150.0s  excess=124.05924905653724
+  [REDISPATCH] taxi=t_0 reservations=['113', '113']
+New arrivals: [], pickups: [], dropoffs: ['112']
+  [NEW REQUEST] person=114  res=114  E17 → D3C3  direct_tt=27.9s
+New arrivals: ['114'], pickups: [], dropoffs: []
+  → ASSIGNED req=114 → taxi=t_1  pu_eta=11608.7s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['114', '114']
+  [PERIODIC PICKUP] person=113  taxi=t_0  t=11580.0s
+  [REDISPATCH] taxi=t_0 reservations=['113']
+New arrivals: [], pickups: ['113'], dropoffs: []
+  [PERIODIC PICKUP] person=114  taxi=t_1  t=11650.0s
+  [REDISPATCH] taxi=t_1 reservations=['114']
+New arrivals: [], pickups: ['114'], dropoffs: []
+  [DROPOFF] person=113  t=11740.0s  ride_time=160.0s  excess=130.7915643800257
+New arrivals: [], pickups: [], dropoffs: ['113']
+  [DROPOFF] person=114  t=11750.0s  ride_time=100.0s  excess=72.06302695108258
+New arrivals: [], pickups: [], dropoffs: ['114']
+  [NEW REQUEST] person=115  res=115  A2B2 → C2C3  direct_tt=24.6s
+New arrivals: ['115'], pickups: [], dropoffs: []
+  → ASSIGNED req=115 → taxi=t_1  pu_eta=11820.1s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['115', '115']
+  [NEW REQUEST] person=116  res=116  A2A3 → D2C2  direct_tt=44.0s
+New arrivals: ['116'], pickups: [], dropoffs: []
+  → ASSIGNED req=116 → taxi=t_0  pu_eta=11903.3s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['116', '116']
+  [PERIODIC PICKUP] person=115  taxi=t_1  t=11890.0s
+  [REDISPATCH] taxi=t_1 reservations=['115']
+New arrivals: [], pickups: ['115'], dropoffs: []
+  [NEW REQUEST] person=117  res=117  B1A1 → E12  direct_tt=31.0s
+New arrivals: ['117'], pickups: [], dropoffs: []
+  → ASSIGNED req=117 → taxi=t_1  pu_eta=11988.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['115', '117', '117']
+  [PERIODIC PICKUP] person=116  taxi=t_0  t=11950.0s
+  [REDISPATCH] taxi=t_0 reservations=['116']
+New arrivals: [], pickups: ['116'], dropoffs: []
+  [NEW REQUEST] person=118  res=118  A1A2 → C1C2  direct_tt=37.8s
+New arrivals: ['118'], pickups: [], dropoffs: []
+  → ASSIGNED req=118 → taxi=t_0  pu_eta=12035.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['116', '118', '118']
+  [DROPOFF] person=115  t=12020.0s  ride_time=130.0s  excess=105.42932615222455
+  [REDISPATCH] taxi=t_1 reservations=['117', '117']
+New arrivals: [], pickups: [], dropoffs: ['115']
+  [NEW REQUEST] person=119  res=119  C1D1 → C3C4  direct_tt=37.7s
+New arrivals: ['119'], pickups: [], dropoffs: []
+  → ASSIGNED req=119 → taxi=t_1  pu_eta=12121.7s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['117', '117', '119', '119']
+  [NEW REQUEST] person=120  res=120  D2D1 → D2C2  direct_tt=32.7s
+New arrivals: ['120'], pickups: [], dropoffs: []
+  → ASSIGNED req=120 → taxi=t_0  pu_eta=12157.8s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['116', '118', '118', '120', '120']
+  [PERIODIC PICKUP] person=117  taxi=t_1  t=12120.0s
+  [REDISPATCH] taxi=t_1 reservations=['117', '119', '119']
+New arrivals: [], pickups: ['117'], dropoffs: []
+  [DROPOFF] person=116  t=12130.0s  ride_time=180.0s  excess=135.95557710646608
+  [REDISPATCH] taxi=t_0 reservations=['118', '118', '120', '120']
+New arrivals: [], pickups: [], dropoffs: ['116']
+  [NEW REQUEST] person=121  res=121  C2C3 → C3D3  direct_tt=13.5s
+New arrivals: ['121'], pickups: [], dropoffs: []
+  → ASSIGNED req=121 → taxi=t_0  pu_eta=12213.9s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['118', '118', '121', '121', '120', '120']
+  [PERIODIC PICKUP] person=118  taxi=t_0  t=12170.0s
+  [REDISPATCH] taxi=t_0 reservations=['118', '121', '121', '120', '120']
+New arrivals: [], pickups: ['118'], dropoffs: []
+  [NEW REQUEST] person=122  res=122  A3A2 → D1C1  direct_tt=46.4s
+  [DROPOFF] person=117  t=12220.0s  ride_time=100.0s  excess=69.02096923059382
+  [REDISPATCH] taxi=t_1 reservations=['119', '119']
+New arrivals: ['122'], pickups: [], dropoffs: ['117']
+  → ASSIGNED req=122 → taxi=t_1  pu_eta=12310.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['119', '119', '122', '122']
+  [PERIODIC PICKUP] person=119  taxi=t_1  t=12240.0s
+  [REDISPATCH] taxi=t_1 reservations=['119', '122', '122']
+New arrivals: [], pickups: ['119'], dropoffs: []
+  [DROPOFF] person=118  t=12320.0s  ride_time=150.0s  excess=112.17788478276077
+  [REDISPATCH] taxi=t_0 reservations=['121', '121', '120', '120']
+New arrivals: [], pickups: [], dropoffs: ['118']
+  [PERIODIC PICKUP] person=121  taxi=t_0  t=12330.0s
+  [REDISPATCH] taxi=t_0 reservations=['121', '120', '120']
+New arrivals: [], pickups: ['121'], dropoffs: []
+  [DROPOFF] person=119  t=12360.0s  ride_time=120.0s  excess=82.26683185014465
+  [REDISPATCH] taxi=t_1 reservations=['122', '122']
+New arrivals: [], pickups: [], dropoffs: ['119']
+  [NEW REQUEST] person=123  res=123  C2C3 → B1B2  direct_tt=41.9s
+New arrivals: ['123'], pickups: [], dropoffs: []
+  → ASSIGNED req=123 → taxi=t_1  pu_eta=12508.4s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['122', '122', '123', '123']
+  [DROPOFF] person=121  t=12420.0s  ride_time=90.0s  excess=76.46398586475601
+  [REDISPATCH] taxi=t_0 reservations=['120', '120']
+New arrivals: [], pickups: [], dropoffs: ['121']
+  [PERIODIC PICKUP] person=120  taxi=t_0  t=12430.0s
+  [REDISPATCH] taxi=t_0 reservations=['120']
+New arrivals: [], pickups: ['120'], dropoffs: []
+  [PERIODIC PICKUP] person=122  taxi=t_1  t=12450.0s
+  [REDISPATCH] taxi=t_1 reservations=['122', '123', '123']
+New arrivals: [], pickups: ['122'], dropoffs: []
+  [NEW REQUEST] person=124  res=124  E17 → D4D3  direct_tt=30.9s
+New arrivals: ['124'], pickups: [], dropoffs: []
+  → ASSIGNED req=124 → taxi=t_0  pu_eta=12508.5s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['120', '124', '124']
+  [NEW REQUEST] person=125  res=125  D1C1 → E16  direct_tt=29.4s
+New arrivals: ['125'], pickups: [], dropoffs: []
+  → ASSIGNED req=125 → taxi=t_0  pu_eta=12597.0s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['120', '124', '124', '125', '125']
+  [DROPOFF] person=122  t=12570.0s  ride_time=120.0s  excess=73.62437362671338
+  [REDISPATCH] taxi=t_1 reservations=['123', '123']
+New arrivals: [], pickups: [], dropoffs: ['122']
+  [NEW REQUEST] person=126  res=126  C3C2 → A4A3  direct_tt=47.3s
+  [DROPOFF] person=120  t=12580.0s  ride_time=150.0s  excess=117.34210614171909
+  [REDISPATCH] taxi=t_0 reservations=['124', '124', '125', '125']
+New arrivals: ['126'], pickups: [], dropoffs: ['120']
+  → ASSIGNED req=126 → taxi=t_0  pu_eta=12701.5s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['124', '124', '125', '125', '126', '126']
+  [PERIODIC PICKUP] person=123  taxi=t_1  t=12590.0s
+  [REDISPATCH] taxi=t_1 reservations=['123']
+New arrivals: [], pickups: ['123'], dropoffs: []
+  [PERIODIC PICKUP] person=124  taxi=t_0  t=12620.0s
+  [REDISPATCH] taxi=t_0 reservations=['124', '125', '125', '126', '126']
+New arrivals: [], pickups: ['124'], dropoffs: []
+  [NEW REQUEST] person=127  res=127  B4C4 → E11  direct_tt=26.8s
+New arrivals: ['127'], pickups: [], dropoffs: []
+  → ASSIGNED req=127 → taxi=t_1  pu_eta=12690.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['123', '127', '127']
+  [NEW REQUEST] person=128  res=128  D2D3 → D1C1  direct_tt=31.8s
+New arrivals: ['128'], pickups: [], dropoffs: []
+  → ASSIGNED req=128 → taxi=t_1  pu_eta=12767.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['123', '127', '127', '128', '128']
+  [DROPOFF] person=123  t=12760.0s  ride_time=170.0s  excess=128.14931253021558
+  [REDISPATCH] taxi=t_1 reservations=['127', '127', '128', '128']
+New arrivals: [], pickups: [], dropoffs: ['123']
+  [DROPOFF] person=124  t=12780.0s  ride_time=160.0s  excess=129.08204250107752
+  [REDISPATCH] taxi=t_0 reservations=['125', '125', '126', '126']
+New arrivals: [], pickups: [], dropoffs: ['124']
+  [PERIODIC PICKUP] person=125  taxi=t_0  t=12810.0s
+  [REDISPATCH] taxi=t_0 reservations=['125', '126', '126']
+New arrivals: [], pickups: ['125'], dropoffs: []
+  [PERIODIC PICKUP] person=127  taxi=t_1  t=12840.0s
+  [REDISPATCH] taxi=t_1 reservations=['127', '128', '128']
+New arrivals: [], pickups: ['127'], dropoffs: []
+  [NEW REQUEST] person=129  res=129  E18 → B4A4  direct_tt=19.8s
+New arrivals: ['129'], pickups: [], dropoffs: []
+  → ASSIGNED req=129 → taxi=t_1  pu_eta=12985.1s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['127', '128', '128', '129', '129']
+  [DROPOFF] person=125  t=12950.0s  ride_time=140.0s  excess=110.6058415917624
+  [REDISPATCH] taxi=t_0 reservations=['126', '126']
+New arrivals: [], pickups: [], dropoffs: ['125']
+  [PERIODIC PICKUP] person=126  taxi=t_0  t=12970.0s
+  [DROPOFF] person=127  t=12970.0s  ride_time=130.0s  excess=103.2303102528928
+  [REDISPATCH] taxi=t_1 reservations=['128', '128', '129', '129']
+  [REDISPATCH] taxi=t_0 reservations=['126']
+New arrivals: [], pickups: ['126'], dropoffs: ['127']
+  [PERIODIC PICKUP] person=128  taxi=t_1  t=13020.0s
+  [REDISPATCH] taxi=t_1 reservations=['128', '129', '129']
+New arrivals: [], pickups: ['128'], dropoffs: []
+  [NEW REQUEST] person=130  res=130  A3B3 → A4A3  direct_tt=33.6s
+New arrivals: ['130'], pickups: [], dropoffs: []
+  → ASSIGNED req=130 → taxi=t_0  pu_eta=13095.3s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['126', '130', '130']
+  [DROPOFF] person=126  t=13150.0s  ride_time=180.0s  excess=132.68917283646203
+  [DROPOFF] person=128  t=13150.0s  ride_time=130.0s  excess=98.16111496425364
+  [REDISPATCH] taxi=t_1 reservations=['129', '129']
+  [REDISPATCH] taxi=t_0 reservations=['130', '130']
+New arrivals: [], pickups: [], dropoffs: ['128', '126']
+  [PERIODIC PICKUP] person=130  taxi=t_0  t=13160.0s
+  [REDISPATCH] taxi=t_0 reservations=['130']
+New arrivals: [], pickups: ['130'], dropoffs: []
+  [PERIODIC PICKUP] person=129  taxi=t_1  t=13190.0s
+  [REDISPATCH] taxi=t_1 reservations=['129']
+New arrivals: [], pickups: ['129'], dropoffs: []
+  [DROPOFF] person=130  t=13270.0s  ride_time=110.0s  excess=76.41451230941011
+New arrivals: [], pickups: [], dropoffs: ['130']
+  [DROPOFF] person=129  t=13280.0s  ride_time=90.0s  excess=70.19613033628903
+New arrivals: [], pickups: [], dropoffs: ['129']
+  [NEW REQUEST] person=131  res=131  C2C1 → E14  direct_tt=22.7s
+New arrivals: ['131'], pickups: [], dropoffs: []
+  → ASSIGNED req=131 → taxi=t_0  pu_eta=13338.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['131', '131']
+  [PERIODIC PICKUP] person=131  taxi=t_0  t=13390.0s
+  [REDISPATCH] taxi=t_0 reservations=['131']
+New arrivals: [], pickups: ['131'], dropoffs: []
+  [DROPOFF] person=131  t=13480.0s  ride_time=90.0s  excess=67.33758146249345
+New arrivals: [], pickups: [], dropoffs: ['131']
+  [NEW REQUEST] person=132  res=132  B2B3 → C4B4  direct_tt=31.1s
+New arrivals: ['132'], pickups: [], dropoffs: []
+  → ASSIGNED req=132 → taxi=t_0  pu_eta=13523.6s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['132', '132']
+  [PERIODIC PICKUP] person=132  taxi=t_0  t=13560.0s
+  [REDISPATCH] taxi=t_0 reservations=['132']
+New arrivals: [], pickups: ['132'], dropoffs: []
+  [DROPOFF] person=132  t=13660.0s  ride_time=100.0s  excess=68.89139405432931
+New arrivals: [], pickups: [], dropoffs: ['132']
+  [NEW REQUEST] person=133  res=133  A4A3 → C4C3  direct_tt=39.2s
+New arrivals: ['133'], pickups: [], dropoffs: []
+  → ASSIGNED req=133 → taxi=t_1  pu_eta=13724.2s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['133', '133']
+  [PERIODIC PICKUP] person=133  taxi=t_1  t=13720.0s
+  [REDISPATCH] taxi=t_1 reservations=['133']
+New arrivals: [], pickups: ['133'], dropoffs: []
+  [NEW REQUEST] person=134  res=134  C2C1 → C4B4  direct_tt=42.6s
+New arrivals: ['134'], pickups: [], dropoffs: []
+  → ASSIGNED req=134 → taxi=t_0  pu_eta=13821.9s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['134', '134']
+  [NEW REQUEST] person=135  res=135  B3B4 → D4D3  direct_tt=27.0s
+New arrivals: ['135'], pickups: [], dropoffs: []
+  → ASSIGNED req=135 → taxi=t_1  pu_eta=13831.2s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['133', '135', '135']
+  [PERIODIC PICKUP] person=134  taxi=t_0  t=13820.0s
+  [REDISPATCH] taxi=t_0 reservations=['134']
+New arrivals: [], pickups: ['134'], dropoffs: []
+  [DROPOFF] person=133  t=13880.0s  ride_time=160.0s  excess=120.80078239989822
+  [REDISPATCH] taxi=t_1 reservations=['135', '135']
+New arrivals: [], pickups: [], dropoffs: ['133']
+  [PERIODIC PICKUP] person=135  taxi=t_1  t=13900.0s
+  [REDISPATCH] taxi=t_1 reservations=['135']
+New arrivals: [], pickups: ['135'], dropoffs: []
+  [DROPOFF] person=134  t=13980.0s  ride_time=160.0s  excess=117.44698666334362
+New arrivals: [], pickups: [], dropoffs: ['134']
+  [NEW REQUEST] person=136  res=136  C2D2 → B1B2  direct_tt=34.0s
+New arrivals: ['136'], pickups: [], dropoffs: []
+  → ASSIGNED req=136 → taxi=t_0  pu_eta=14074.2s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['136', '136']
+  [DROPOFF] person=135  t=14040.0s  ride_time=140.0s  excess=113.04787641319813
+New arrivals: [], pickups: [], dropoffs: ['135']
+  [PERIODIC PICKUP] person=136  taxi=t_0  t=14080.0s
+  [REDISPATCH] taxi=t_0 reservations=['136']
+New arrivals: [], pickups: ['136'], dropoffs: []
+  [NEW REQUEST] person=137  res=137  B2C2 → B3B4  direct_tt=34.8s
+New arrivals: ['137'], pickups: [], dropoffs: []
+  → ASSIGNED req=137 → taxi=t_1  pu_eta=14141.2s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['137', '137']
+  [PERIODIC PICKUP] person=137  taxi=t_1  t=14140.0s
+  [REDISPATCH] taxi=t_1 reservations=['137']
+New arrivals: [], pickups: ['137'], dropoffs: []
+  [NEW REQUEST] person=138  res=138  A1B1 → E18  direct_tt=27.6s
+New arrivals: ['138'], pickups: [], dropoffs: []
+  → ASSIGNED req=138 → taxi=t_0  pu_eta=14201.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['136', '138', '138']
+  [DROPOFF] person=136  t=14240.0s  ride_time=160.0s  excess=126.02071147459569
+  [REDISPATCH] taxi=t_0 reservations=['138', '138']
+New arrivals: [], pickups: [], dropoffs: ['136']
+  [DROPOFF] person=137  t=14250.0s  ride_time=110.0s  excess=75.15731130728449
+New arrivals: [], pickups: [], dropoffs: ['137']
+  [PERIODIC PICKUP] person=138  taxi=t_0  t=14290.0s
+  [REDISPATCH] taxi=t_0 reservations=['138']
+New arrivals: [], pickups: ['138'], dropoffs: []
+  [NEW REQUEST] person=139  res=139  C2B2 → A2B2  direct_tt=25.2s
+New arrivals: ['139'], pickups: [], dropoffs: []
+  → ASSIGNED req=139 → taxi=t_1  pu_eta=14415.4s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['139', '139']
+  [DROPOFF] person=138  t=14400.0s  ride_time=110.0s  excess=82.38692374673695
+New arrivals: [], pickups: [], dropoffs: ['138']
+  [PERIODIC PICKUP] person=139  taxi=t_1  t=14420.0s
+  [REDISPATCH] taxi=t_1 reservations=['139']
+New arrivals: [], pickups: ['139'], dropoffs: []
+  [NEW REQUEST] person=140  res=140  C4B4 → C1C2  direct_tt=49.2s
+New arrivals: ['140'], pickups: [], dropoffs: []
+  → ASSIGNED req=140 → taxi=t_0  pu_eta=14476.8s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['140', '140']
+  [PERIODIC PICKUP] person=140  taxi=t_0  t=14490.0s
+  [REDISPATCH] taxi=t_0 reservations=['140']
+New arrivals: [], pickups: ['140'], dropoffs: []
+  [NEW REQUEST] person=141  res=141  D2D3 → B4B3  direct_tt=37.9s
+New arrivals: ['141'], pickups: [], dropoffs: []
+  → ASSIGNED req=141 → taxi=t_1  pu_eta=14560.8s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['139', '141', '141']
+  [NEW REQUEST] person=142  res=142  A2B2 → A4A3  direct_tt=41.3s
+New arrivals: ['142'], pickups: [], dropoffs: []
+  → ASSIGNED req=142 → taxi=t_0  pu_eta=14602.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['140', '142', '142']
+  [DROPOFF] person=139  t=14600.0s  ride_time=180.0s  excess=154.77957159208114
+  [REDISPATCH] taxi=t_1 reservations=['141', '141']
+New arrivals: [], pickups: [], dropoffs: ['139']
+  [DROPOFF] person=140  t=14660.0s  ride_time=170.0s  excess=120.84776787572274
+  [PERIODIC PICKUP] person=141  taxi=t_1  t=14660.0s
+  [REDISPATCH] taxi=t_1 reservations=['141']
+  [REDISPATCH] taxi=t_0 reservations=['142', '142']
+New arrivals: [], pickups: ['141'], dropoffs: ['140']
+  [PERIODIC PICKUP] person=142  taxi=t_0  t=14740.0s
+  [REDISPATCH] taxi=t_0 reservations=['142']
+New arrivals: [], pickups: ['142'], dropoffs: []
+  [NEW REQUEST] person=143  res=143  C4D4 → B4B3  direct_tt=39.8s
+New arrivals: ['143'], pickups: [], dropoffs: []
+  → ASSIGNED req=143 → taxi=t_1  pu_eta=14793.5s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['141', '143', '143']
+  [NEW REQUEST] person=144  res=144  C3D3 → E13  direct_tt=24.9s
+New arrivals: ['144'], pickups: [], dropoffs: []
+  → ASSIGNED req=144 → taxi=t_0  pu_eta=14844.8s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['142', '144', '144']
+  [NEW REQUEST] person=145  res=145  D2C2 → A2A3  direct_tt=30.8s
+New arrivals: ['145'], pickups: [], dropoffs: []
+  → ASSIGNED req=145 → taxi=t_0  pu_eta=14901.5s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['142', '144', '144', '145', '145']
+  [DROPOFF] person=141  t=14830.0s  ride_time=170.0s  excess=132.0554204180219
+  [REDISPATCH] taxi=t_1 reservations=['143', '143']
+New arrivals: [], pickups: [], dropoffs: ['141']
+  [PERIODIC PICKUP] person=143  taxi=t_1  t=14860.0s
+  [REDISPATCH] taxi=t_1 reservations=['143']
+New arrivals: [], pickups: ['143'], dropoffs: []
+  [NEW REQUEST] person=146  res=146  E16 → D1D2  direct_tt=39.8s
+New arrivals: ['146'], pickups: [], dropoffs: []
+  → ASSIGNED req=146 → taxi=t_1  pu_eta=14900.8s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['143', '146', '146']
+  [DROPOFF] person=142  t=14900.0s  ride_time=160.0s  excess=118.6672108459928
+  [REDISPATCH] taxi=t_0 reservations=['144', '144', '145', '145']
+New arrivals: [], pickups: [], dropoffs: ['142']
+  [NEW REQUEST] person=147  res=147  A3A2 → E14  direct_tt=28.8s
+  [DROPOFF] person=143  t=14960.0s  ride_time=100.0s  excess=60.173823125018586
+  [REDISPATCH] taxi=t_1 reservations=['146', '146']
+New arrivals: ['147'], pickups: [], dropoffs: ['143']
+  → ASSIGNED req=147 → taxi=t_0  pu_eta=15065.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['144', '144', '145', '145', '147', '147']
+  [PERIODIC PICKUP] person=146  taxi=t_1  t=14970.0s
+  [REDISPATCH] taxi=t_1 reservations=['146']
+New arrivals: [], pickups: ['146'], dropoffs: []
+  [NEW REQUEST] person=148  res=148  B2B1 → B3B4  direct_tt=34.9s
+New arrivals: ['148'], pickups: [], dropoffs: []
+  → ASSIGNED req=148 → taxi=t_1  pu_eta=15057.7s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['146', '148', '148']
+  [PERIODIC PICKUP] person=144  taxi=t_0  t=15000.0s
+  [REDISPATCH] taxi=t_0 reservations=['144', '145', '145', '147', '147']
+New arrivals: [], pickups: ['144'], dropoffs: []
+  [NEW REQUEST] person=149  res=149  C3B3 → B4C4  direct_tt=21.1s
+New arrivals: ['149'], pickups: [], dropoffs: []
+  → ASSIGNED req=149 → taxi=t_0  pu_eta=15177.0s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['144', '145', '145', '147', '147', '149', '149']
+  [NEW REQUEST] person=150  res=150  B2A2 → B1A1  direct_tt=32.2s
+New arrivals: ['150'], pickups: [], dropoffs: []
+  → ASSIGNED req=150 → taxi=t_1  pu_eta=15184.1s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['146', '148', '148', '150', '150']
+  [DROPOFF] person=144  t=15130.0s  ride_time=130.0s  excess=105.10416236997503
+  [REDISPATCH] taxi=t_0 reservations=['145', '145', '147', '147', '149', '149']
+New arrivals: [], pickups: [], dropoffs: ['144']
+  [NEW REQUEST] person=151  res=151  A3A2 → E12  direct_tt=25.6s
+  [DROPOFF] person=146  t=15150.0s  ride_time=180.0s  excess=140.24665560853873
+  [REDISPATCH] taxi=t_1 reservations=['148', '148', '150', '150']
+New arrivals: ['151'], pickups: [], dropoffs: ['146']
+  → ASSIGNED req=151 → taxi=t_1  pu_eta=15238.9s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['148', '148', '151', '151', '150', '150']
+  [PERIODIC PICKUP] person=145  taxi=t_0  t=15180.0s
+  [PERIODIC PICKUP] person=148  taxi=t_1  t=15180.0s
+  [REDISPATCH] taxi=t_1 reservations=['148', '151', '151', '150', '150']
+  [REDISPATCH] taxi=t_0 reservations=['145', '147', '147', '149', '149']
+New arrivals: [], pickups: ['145', '148'], dropoffs: []
+  [DROPOFF] person=145  t=15280.0s  ride_time=100.0s  excess=69.24867190085531
+  [REDISPATCH] taxi=t_0 reservations=['147', '147', '149', '149']
+New arrivals: [], pickups: [], dropoffs: ['145']
+  [DROPOFF] person=148  t=15300.0s  ride_time=120.0s  excess=85.14627377187989
+  [REDISPATCH] taxi=t_1 reservations=['151', '151', '150', '150']
+New arrivals: [], pickups: [], dropoffs: ['148']
+  [PERIODIC PICKUP] person=147  taxi=t_0  t=15310.0s
+  [REDISPATCH] taxi=t_0 reservations=['147', '149', '149']
+New arrivals: [], pickups: ['147'], dropoffs: []
+  [NEW REQUEST] person=152  res=152  A2A3 → B1B2  direct_tt=41.3s
+New arrivals: ['152'], pickups: [], dropoffs: []
+  → ASSIGNED req=152 → taxi=t_0  pu_eta=15448.2s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['147', '149', '149', '152', '152']
+  [NEW REQUEST] person=153  res=153  B3C3 → D2C2  direct_tt=27.0s
+New arrivals: ['153'], pickups: [], dropoffs: []
+  → ASSIGNED req=153 → taxi=t_1  pu_eta=15506.6s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['151', '151', '150', '150', '153', '153']
+  [PERIODIC PICKUP] person=151  taxi=t_1  t=15400.0s
+  [REDISPATCH] taxi=t_1 reservations=['151', '150', '150', '153', '153']
+New arrivals: [], pickups: ['151'], dropoffs: []
+  [DROPOFF] person=147  t=15430.0s  ride_time=120.0s  excess=91.19909830989745
+  [REDISPATCH] taxi=t_0 reservations=['149', '149', '152', '152']
+New arrivals: [], pickups: [], dropoffs: ['147']
+  [PERIODIC PICKUP] person=149  taxi=t_0  t=15490.0s
+  [REDISPATCH] taxi=t_0 reservations=['149', '152', '152']
+New arrivals: [], pickups: ['149'], dropoffs: []
+  [DROPOFF] person=151  t=15520.0s  ride_time=120.0s  excess=94.37725772551772
+  [REDISPATCH] taxi=t_1 reservations=['150', '150', '153', '153']
+New arrivals: [], pickups: [], dropoffs: ['151']
+  [PERIODIC PICKUP] person=150  taxi=t_1  t=15540.0s
+  [REDISPATCH] taxi=t_1 reservations=['150', '153', '153']
+New arrivals: [], pickups: ['150'], dropoffs: []
+  [NEW REQUEST] person=154  res=154  A2A3 → C1D1  direct_tt=43.6s
+New arrivals: ['154'], pickups: [], dropoffs: []
+  → ASSIGNED req=154 → taxi=t_1  pu_eta=15674.0s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['150', '153', '153', '154', '154']
+  [DROPOFF] person=149  t=15600.0s  ride_time=110.0s  excess=88.8855067833755
+  [REDISPATCH] taxi=t_0 reservations=['152', '152']
+New arrivals: [], pickups: [], dropoffs: ['149']
+  [DROPOFF] person=150  t=15650.0s  ride_time=110.0s  excess=77.84786233097817
+  [PERIODIC PICKUP] person=152  taxi=t_0  t=15650.0s
+  [REDISPATCH] taxi=t_1 reservations=['153', '153', '154', '154']
+  [REDISPATCH] taxi=t_0 reservations=['152']
+New arrivals: [], pickups: ['152'], dropoffs: ['150']
+  [NEW REQUEST] person=155  res=155  B3B4 → B2C2  direct_tt=37.2s
+New arrivals: ['155'], pickups: [], dropoffs: []
+  → ASSIGNED req=155 → taxi=t_0  pu_eta=15710.7s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['152', '155', '155']
+  [PERIODIC PICKUP] person=153  taxi=t_1  t=15690.0s
+  [REDISPATCH] taxi=t_1 reservations=['153', '154', '154']
+New arrivals: [], pickups: ['153'], dropoffs: []
+  [DROPOFF] person=152  t=15780.0s  ride_time=130.0s  excess=88.6774359389166
+  [REDISPATCH] taxi=t_0 reservations=['155', '155']
+New arrivals: [], pickups: [], dropoffs: ['152']
+  [PERIODIC PICKUP] person=155  taxi=t_0  t=15800.0s
+  [REDISPATCH] taxi=t_0 reservations=['155']
+New arrivals: [], pickups: ['155'], dropoffs: []
+  [DROPOFF] person=153  t=15810.0s  ride_time=120.0s  excess=92.99974453656611
+  [REDISPATCH] taxi=t_1 reservations=['154', '154']
+New arrivals: [], pickups: [], dropoffs: ['153']
+  [PERIODIC PICKUP] person=154  taxi=t_1  t=15830.0s
+  [REDISPATCH] taxi=t_1 reservations=['154']
+New arrivals: [], pickups: ['154'], dropoffs: []
+  [NEW REQUEST] person=156  res=156  C2B2 → B2B3  direct_tt=12.8s
+New arrivals: ['156'], pickups: [], dropoffs: []
+  → ASSIGNED req=156 → taxi=t_0  pu_eta=15898.9s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['155', '156', '156']
+  [DROPOFF] person=155  t=15950.0s  ride_time=150.0s  excess=112.84672813283049
+  [REDISPATCH] taxi=t_0 reservations=['156', '156']
+New arrivals: [], pickups: [], dropoffs: ['155']
+  [PERIODIC PICKUP] person=156  taxi=t_0  t=15960.0s
+  [REDISPATCH] taxi=t_0 reservations=['156']
+New arrivals: [], pickups: ['156'], dropoffs: []
+  [DROPOFF] person=154  t=16010.0s  ride_time=180.0s  excess=136.37073541738607
+New arrivals: [], pickups: [], dropoffs: ['154']
+  [DROPOFF] person=156  t=16050.0s  ride_time=90.0s  excess=77.24470880099702
+New arrivals: [], pickups: [], dropoffs: ['156']
+  [NEW REQUEST] person=157  res=157  C2C1 → A1B1  direct_tt=37.5s
+New arrivals: ['157'], pickups: [], dropoffs: []
+  → ASSIGNED req=157 → taxi=t_0  pu_eta=16101.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['157', '157']
+  [PERIODIC PICKUP] person=157  taxi=t_0  t=16100.0s
+  [REDISPATCH] taxi=t_0 reservations=['157']
+New arrivals: [], pickups: ['157'], dropoffs: []
+  [NEW REQUEST] person=158  res=158  D3D4 → A3B3  direct_tt=46.3s
+New arrivals: ['158'], pickups: [], dropoffs: []
+  → ASSIGNED req=158 → taxi=t_1  pu_eta=16178.8s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['158', '158']
+  [DROPOFF] person=157  t=16200.0s  ride_time=100.0s  excess=62.49183850002561
+New arrivals: [], pickups: [], dropoffs: ['157']
+  [PERIODIC PICKUP] person=158  taxi=t_1  t=16220.0s
+  [REDISPATCH] taxi=t_1 reservations=['158']
+New arrivals: [], pickups: ['158'], dropoffs: []
+  [NEW REQUEST] person=159  res=159  A3A4 → D2C2  direct_tt=48.2s
+New arrivals: ['159'], pickups: [], dropoffs: []
+  → ASSIGNED req=159 → taxi=t_0  pu_eta=16379.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['159', '159']
+  [DROPOFF] person=158  t=16390.0s  ride_time=170.0s  excess=123.74486228827325
+New arrivals: [], pickups: [], dropoffs: ['158']
+  [NEW REQUEST] person=160  res=160  A3A2 → B4B3  direct_tt=38.9s
+New arrivals: ['160'], pickups: [], dropoffs: []
+  → ASSIGNED req=160 → taxi=t_1  pu_eta=16446.7s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['160', '160']
+  [NEW REQUEST] person=161  res=161  D1C1 → C1D1  direct_tt=18.3s
+New arrivals: ['161'], pickups: [], dropoffs: []
+  → ASSIGNED req=161 → taxi=t_1  pu_eta=16532.4s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['160', '160', '161', '161']
+  [PERIODIC PICKUP] person=160  taxi=t_1  t=16450.0s
+  [REDISPATCH] taxi=t_1 reservations=['160', '161', '161']
+New arrivals: [], pickups: ['160'], dropoffs: []
+  [PERIODIC PICKUP] person=159  taxi=t_0  t=16480.0s
+  [REDISPATCH] taxi=t_0 reservations=['159']
+New arrivals: [], pickups: ['159'], dropoffs: []
+  [NEW REQUEST] person=162  res=162  D2C2 → C4D4  direct_tt=28.6s
+New arrivals: ['162'], pickups: [], dropoffs: []
+  → ASSIGNED req=162 → taxi=t_1  pu_eta=16597.4s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['160', '161', '161', '162', '162']
+  [NEW REQUEST] person=163  res=163  B3C3 → E13  direct_tt=16.2s
+New arrivals: ['163'], pickups: [], dropoffs: []
+  → ASSIGNED req=163 → taxi=t_0  pu_eta=16591.6s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['159', '163', '163']
+  [NEW REQUEST] person=164  res=164  C2D2 → B1A1  direct_tt=34.4s
+New arrivals: ['164'], pickups: [], dropoffs: []
+  → ASSIGNED req=164 → taxi=t_0  pu_eta=16636.3s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['159', '163', '163', '164', '164']
+  [DROPOFF] person=160  t=16580.0s  ride_time=130.0s  excess=91.1283561939947
+  [REDISPATCH] taxi=t_1 reservations=['161', '161', '162', '162']
+New arrivals: [], pickups: [], dropoffs: ['160']
+  [NEW REQUEST] person=165  res=165  E14 → C2C1  direct_tt=8.1s
+New arrivals: ['165'], pickups: [], dropoffs: []
+  → ASSIGNED req=165 → taxi=t_1  pu_eta=16678.2s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['161', '165', '165', '161', '162', '162']
+  [DROPOFF] person=159  t=16650.0s  ride_time=170.0s  excess=121.77146777141202
+  [REDISPATCH] taxi=t_0 reservations=['163', '163', '164', '164']
+New arrivals: [], pickups: [], dropoffs: ['159']
+  [NEW REQUEST] person=166  res=166  C1C2 → C2C3  direct_tt=15.6s
+New arrivals: ['166'], pickups: [], dropoffs: []
+  → ASSIGNED req=166 → taxi=t_0  pu_eta=16780.2s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['163', '163', '164', '164', '166', '166']
+  [PERIODIC PICKUP] person=161  taxi=t_1  t=16670.0s
+  [REDISPATCH] taxi=t_1 reservations=['165', '165', '161', '162', '162']
+New arrivals: [], pickups: ['161'], dropoffs: []
+  [PERIODIC PICKUP] person=165  taxi=t_1  t=16700.0s
+  [REDISPATCH] taxi=t_1 reservations=['165', '161', '162', '162']
+New arrivals: [], pickups: ['165'], dropoffs: []
+  [PERIODIC PICKUP] person=163  taxi=t_0  t=16720.0s
+  [REDISPATCH] taxi=t_0 reservations=['163', '164', '164', '166', '166']
+New arrivals: [], pickups: ['163'], dropoffs: []
+  [DROPOFF] person=165  t=16780.0s  ride_time=80.0s  excess=71.90196462127138
+  [REDISPATCH] taxi=t_1 reservations=['161', '162', '162']
+New arrivals: [], pickups: [], dropoffs: ['165']
+  [DROPOFF] person=163  t=16800.0s  ride_time=80.0s  excess=63.824697694836345
+  [REDISPATCH] taxi=t_0 reservations=['164', '164', '166', '166']
+New arrivals: [], pickups: [], dropoffs: ['163']
+  [PERIODIC PICKUP] person=164  taxi=t_0  t=16810.0s
+  [REDISPATCH] taxi=t_0 reservations=['164', '166', '166']
+New arrivals: [], pickups: ['164'], dropoffs: []
+  [DROPOFF] person=161  t=16870.0s  ride_time=200.0s  excess=181.7407063325345
+  [REDISPATCH] taxi=t_1 reservations=['162', '162']
+New arrivals: [], pickups: [], dropoffs: ['161']
+  [NEW REQUEST] person=167  res=167  C2C1 → C3B3  direct_tt=37.1s
+New arrivals: ['167'], pickups: [], dropoffs: []
+  → ASSIGNED req=167 → taxi=t_0  pu_eta=16963.3s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['164', '166', '166', '167', '167']
+  [PERIODIC PICKUP] person=162  taxi=t_1  t=16930.0s
+  [REDISPATCH] taxi=t_1 reservations=['162']
+New arrivals: [], pickups: ['162'], dropoffs: []
+  [DROPOFF] person=164  t=16950.0s  ride_time=140.0s  excess=105.62235108536231
+  [REDISPATCH] taxi=t_0 reservations=['166', '166', '167', '167']
+New arrivals: [], pickups: [], dropoffs: ['164']
+  [PERIODIC PICKUP] person=166  taxi=t_0  t=16970.0s
+  [REDISPATCH] taxi=t_0 reservations=['166', '167', '167']
+New arrivals: [], pickups: ['166'], dropoffs: []
+  [DROPOFF] person=162  t=17040.0s  ride_time=110.0s  excess=81.39683658010081
+New arrivals: [], pickups: [], dropoffs: ['162']
+  [DROPOFF] person=166  t=17060.0s  ride_time=90.0s  excess=74.38252617634696
+  [REDISPATCH] taxi=t_0 reservations=['167', '167']
+New arrivals: [], pickups: [], dropoffs: ['166']
+  [NEW REQUEST] person=168  res=168  E17 → A1A2  direct_tt=27.8s
+New arrivals: ['168'], pickups: [], dropoffs: []
+  → ASSIGNED req=168 → taxi=t_1  pu_eta=17102.1s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['168', '168']
+  [PERIODIC PICKUP] person=168  taxi=t_1  t=17110.0s
+  [REDISPATCH] taxi=t_1 reservations=['168']
+New arrivals: [], pickups: ['168'], dropoffs: []
+  [PERIODIC PICKUP] person=167  taxi=t_0  t=17120.0s
+  [REDISPATCH] taxi=t_0 reservations=['167']
+New arrivals: [], pickups: ['167'], dropoffs: []
+  [NEW REQUEST] person=169  res=169  E18 → C3C2  direct_tt=16.8s
+New arrivals: ['169'], pickups: [], dropoffs: []
+  → ASSIGNED req=169 → taxi=t_1  pu_eta=17189.5s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['168', '169', '169']
+  [NEW REQUEST] person=170  res=170  A1A2 → A2A1  direct_tt=18.5s
+New arrivals: ['170'], pickups: [], dropoffs: []
+  → ASSIGNED req=170 → taxi=t_0  pu_eta=17269.2s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['167', '170', '170']
+  [DROPOFF] person=168  t=17240.0s  ride_time=130.0s  excess=102.24939993633295
+  [REDISPATCH] taxi=t_1 reservations=['169', '169']
+New arrivals: [], pickups: [], dropoffs: ['168']
+  [DROPOFF] person=167  t=17300.0s  ride_time=180.0s  excess=142.86851630187653
+  [REDISPATCH] taxi=t_0 reservations=['170', '170']
+New arrivals: [], pickups: [], dropoffs: ['167']
+  [PERIODIC PICKUP] person=169  taxi=t_1  t=17310.0s
+  [REDISPATCH] taxi=t_1 reservations=['169']
+New arrivals: [], pickups: ['169'], dropoffs: []
+  [PERIODIC PICKUP] person=170  taxi=t_0  t=17340.0s
+  [REDISPATCH] taxi=t_0 reservations=['170']
+New arrivals: [], pickups: ['170'], dropoffs: []
+  [DROPOFF] person=169  t=17400.0s  ride_time=90.0s  excess=73.20343988087205
+New arrivals: [], pickups: [], dropoffs: ['169']
+  [NEW REQUEST] person=171  res=171  A4A3 → B4A4  direct_tt=34.9s
+New arrivals: ['171'], pickups: [], dropoffs: []
+  → ASSIGNED req=171 → taxi=t_1  pu_eta=17487.4s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['171', '171']
+  [DROPOFF] person=170  t=17450.0s  ride_time=110.0s  excess=91.5373392482701
+New arrivals: [], pickups: [], dropoffs: ['170']
+  [NEW REQUEST] person=172  res=172  C1B1 → D2D1  direct_tt=37.2s
+New arrivals: ['172'], pickups: [], dropoffs: []
+  → ASSIGNED req=172 → taxi=t_0  pu_eta=17553.5s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['172', '172']
+  [PERIODIC PICKUP] person=171  taxi=t_1  t=17530.0s
+  [REDISPATCH] taxi=t_1 reservations=['171']
+New arrivals: [], pickups: ['171'], dropoffs: []
+  [PERIODIC PICKUP] person=172  taxi=t_0  t=17570.0s
+  [REDISPATCH] taxi=t_0 reservations=['172']
+New arrivals: [], pickups: ['172'], dropoffs: []
+  [NEW REQUEST] person=173  res=173  E17 → C2D2  direct_tt=25.7s
+New arrivals: ['173'], pickups: [], dropoffs: []
+  → ASSIGNED req=173 → taxi=t_1  pu_eta=17630.5s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['171', '173', '173']
+  [DROPOFF] person=171  t=17680.0s  ride_time=150.0s  excess=115.09101437368541
+  [DROPOFF] person=172  t=17680.0s  ride_time=110.0s  excess=72.82742735844595
+  [REDISPATCH] taxi=t_1 reservations=['173', '173']
+New arrivals: [], pickups: [], dropoffs: ['171', '172']
+  [PERIODIC PICKUP] person=173  taxi=t_1  t=17750.0s
+  [REDISPATCH] taxi=t_1 reservations=['173']
+New arrivals: [], pickups: ['173'], dropoffs: []
+  [NEW REQUEST] person=174  res=174  A2A3 → C2D2  direct_tt=40.5s
+New arrivals: ['174'], pickups: [], dropoffs: []
+  → ASSIGNED req=174 → taxi=t_0  pu_eta=17821.3s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['174', '174']
+  [DROPOFF] person=173  t=17850.0s  ride_time=100.0s  excess=74.26609981489133
+New arrivals: [], pickups: [], dropoffs: ['173']
+  [PERIODIC PICKUP] person=174  taxi=t_0  t=17860.0s
+  [REDISPATCH] taxi=t_0 reservations=['174']
+New arrivals: [], pickups: ['174'], dropoffs: []
+  [NEW REQUEST] person=175  res=175  C1C2 → D4D3  direct_tt=36.8s
+New arrivals: ['175'], pickups: [], dropoffs: []
+  → ASSIGNED req=175 → taxi=t_1  pu_eta=18007.2s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['175', '175']
+  [DROPOFF] person=174  t=18000.0s  ride_time=140.0s  excess=99.49351260415847
+New arrivals: [], pickups: [], dropoffs: ['174']
+  [PERIODIC PICKUP] person=175  taxi=t_1  t=18010.0s
+  [REDISPATCH] taxi=t_1 reservations=['175']
+New arrivals: [], pickups: ['175'], dropoffs: []
+  [DROPOFF] person=175  t=18130.0s  ride_time=120.0s  excess=83.15462528186765
+New arrivals: [], pickups: [], dropoffs: ['175']
+  [NEW REQUEST] person=176  res=176  C2C3 → B3A3  direct_tt=24.9s
+New arrivals: ['176'], pickups: [], dropoffs: []
+  → ASSIGNED req=176 → taxi=t_0  pu_eta=18216.0s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['176', '176']
+  [PERIODIC PICKUP] person=176  taxi=t_0  t=18240.0s
+  [REDISPATCH] taxi=t_0 reservations=['176']
+New arrivals: [], pickups: ['176'], dropoffs: []
+  [NEW REQUEST] person=177  res=177  E13 → B2A2  direct_tt=18.5s
+New arrivals: ['177'], pickups: [], dropoffs: []
+  → ASSIGNED req=177 → taxi=t_1  pu_eta=18285.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['177', '177']
+  [NEW REQUEST] person=178  res=178  C1D1 → D3D2  direct_tt=33.3s
+New arrivals: ['178'], pickups: [], dropoffs: []
+  → ASSIGNED req=178 → taxi=t_0  pu_eta=18339.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['176', '178', '178']
+  [PERIODIC PICKUP] person=177  taxi=t_1  t=18300.0s
+  [REDISPATCH] taxi=t_1 reservations=['177']
+New arrivals: [], pickups: ['177'], dropoffs: []
+  [NEW REQUEST] person=179  res=179  C3D3 → D2D3  direct_tt=24.8s
+  [DROPOFF] person=176  t=18360.0s  ride_time=120.0s  excess=95.09610314609156
+  [REDISPATCH] taxi=t_0 reservations=['178', '178']
+New arrivals: ['179'], pickups: [], dropoffs: ['176']
+  → ASSIGNED req=179 → taxi=t_1  pu_eta=18397.1s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['177', '179', '179']
+  [NEW REQUEST] person=180  res=180  A3A4 → C3B3  direct_tt=34.0s
+  [DROPOFF] person=177  t=18430.0s  ride_time=130.0s  excess=111.518498123766
+  [REDISPATCH] taxi=t_1 reservations=['179', '179']
+New arrivals: ['180'], pickups: [], dropoffs: ['177']
+  → ASSIGNED req=180 → taxi=t_1  pu_eta=18525.2s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['179', '179', '180', '180']
+  [PERIODIC PICKUP] person=178  taxi=t_0  t=18490.0s
+  [REDISPATCH] taxi=t_0 reservations=['178']
+New arrivals: [], pickups: ['178'], dropoffs: []
+  [NEW REQUEST] person=181  res=181  A1B1 → C2C3  direct_tt=32.4s
+  [PERIODIC PICKUP] person=179  taxi=t_1  t=18510.0s
+  [REDISPATCH] taxi=t_1 reservations=['179', '180', '180']
+New arrivals: ['181'], pickups: ['179'], dropoffs: []
+  → ASSIGNED req=181 → taxi=t_0  pu_eta=18581.6s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['178', '181', '181']
+  [DROPOFF] person=178  t=18630.0s  ride_time=140.0s  excess=106.65371730989304
+  [DROPOFF] person=179  t=18630.0s  ride_time=120.0s  excess=95.2093518141859
+  [REDISPATCH] taxi=t_1 reservations=['180', '180']
+  [REDISPATCH] taxi=t_0 reservations=['181', '181']
+New arrivals: [], pickups: [], dropoffs: ['178', '179']
+  [PERIODIC PICKUP] person=181  taxi=t_0  t=18700.0s
+  [REDISPATCH] taxi=t_0 reservations=['181']
+New arrivals: [], pickups: ['181'], dropoffs: []
+  [PERIODIC PICKUP] person=180  taxi=t_1  t=18710.0s
+  [REDISPATCH] taxi=t_1 reservations=['180']
+New arrivals: [], pickups: ['180'], dropoffs: []
+  [NEW REQUEST] person=182  res=182  C1B1 → E17  direct_tt=26.6s
+New arrivals: ['182'], pickups: [], dropoffs: []
+  → ASSIGNED req=182 → taxi=t_1  pu_eta=18789.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['180', '182', '182']
+  [DROPOFF] person=180  t=18820.0s  ride_time=110.0s  excess=75.99897472712749
+  [DROPOFF] person=181  t=18820.0s  ride_time=120.0s  excess=87.58835647732224
+  [REDISPATCH] taxi=t_1 reservations=['182', '182']
+New arrivals: [], pickups: [], dropoffs: ['181', '180']
+  [PERIODIC PICKUP] person=182  taxi=t_1  t=18870.0s
+  [REDISPATCH] taxi=t_1 reservations=['182']
+New arrivals: [], pickups: ['182'], dropoffs: []
+  [NEW REQUEST] person=183  res=183  C3C2 → D2D1  direct_tt=24.6s
+New arrivals: ['183'], pickups: [], dropoffs: []
+  → ASSIGNED req=183 → taxi=t_0  pu_eta=18917.7s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['183', '183']
+  [PERIODIC PICKUP] person=183  taxi=t_0  t=18910.0s
+  [REDISPATCH] taxi=t_0 reservations=['183']
+New arrivals: [], pickups: ['183'], dropoffs: []
+  [NEW REQUEST] person=184  res=184  B2A2 → E16  direct_tt=23.3s
+New arrivals: ['184'], pickups: [], dropoffs: []
+  → ASSIGNED req=184 → taxi=t_0  pu_eta=18979.8s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['183', '184', '184']
+  [NEW REQUEST] person=185  res=185  D2D3 → A1B1  direct_tt=55.6s
+New arrivals: ['185'], pickups: [], dropoffs: []
+  → ASSIGNED req=185 → taxi=t_1  pu_eta=18983.9s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['182', '185', '185']
+  [DROPOFF] person=182  t=19020.0s  ride_time=150.0s  excess=123.40015059856206
+  [REDISPATCH] taxi=t_1 reservations=['185', '185']
+New arrivals: [], pickups: [], dropoffs: ['182']
+  [NEW REQUEST] person=186  res=186  D2C2 → D4D3  direct_tt=35.3s
+  [DROPOFF] person=183  t=19030.0s  ride_time=120.0s  excess=95.41348737010338
+  [REDISPATCH] taxi=t_0 reservations=['184', '184']
+New arrivals: ['186'], pickups: [], dropoffs: ['183']
+  → ASSIGNED req=186 → taxi=t_0  pu_eta=19111.2s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['184', '184', '186', '186']
+  [PERIODIC PICKUP] person=185  taxi=t_1  t=19050.0s
+  [REDISPATCH] taxi=t_1 reservations=['185']
+New arrivals: [], pickups: ['185'], dropoffs: []
+  [NEW REQUEST] person=187  res=187  B3B2 → D2D3  direct_tt=33.5s
+  [PERIODIC PICKUP] person=184  taxi=t_0  t=19110.0s
+  [REDISPATCH] taxi=t_0 reservations=['184', '186', '186']
+New arrivals: ['187'], pickups: ['184'], dropoffs: []
+  → ASSIGNED req=187 → taxi=t_1  pu_eta=19192.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['185', '187', '187']
+  [NEW REQUEST] person=188  res=188  A3A2 → C3C2  direct_tt=39.7s
+New arrivals: ['188'], pickups: [], dropoffs: []
+  → ASSIGNED req=188 → taxi=t_0  pu_eta=19248.0s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['184', '186', '186', '188', '188']
+  [NEW REQUEST] person=189  res=189  A3B3 → B1A1  direct_tt=28.7s
+New arrivals: ['189'], pickups: [], dropoffs: []
+  → ASSIGNED req=189 → taxi=t_0  pu_eta=19286.7s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['184', '186', '186', '188', '189', '188', '189']
+  [NEW REQUEST] person=190  res=190  D3D4 → C4B4  direct_tt=21.4s
+New arrivals: ['190'], pickups: [], dropoffs: []
+  → ASSIGNED req=190 → taxi=t_1  pu_eta=19276.7s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['185', '187', '187', '190', '190']
+  [DROPOFF] person=184  t=19230.0s  ride_time=120.0s  excess=96.69589959423773
+  [REDISPATCH] taxi=t_0 reservations=['186', '186', '188', '189', '188', '189']
+New arrivals: [], pickups: [], dropoffs: ['184']
+  [DROPOFF] person=185  t=19260.0s  ride_time=210.0s  excess=154.43091868001682
+  [PERIODIC PICKUP] person=186  taxi=t_0  t=19260.0s
+  [REDISPATCH] taxi=t_1 reservations=['187', '187', '190', '190']
+  [REDISPATCH] taxi=t_0 reservations=['186', '188', '189', '188', '189']
+New arrivals: [], pickups: ['186'], dropoffs: ['185']
+  [PERIODIC PICKUP] person=187  taxi=t_1  t=19300.0s
+  [REDISPATCH] taxi=t_1 reservations=['187', '190', '190']
+New arrivals: [], pickups: ['187'], dropoffs: []
+  [DROPOFF] person=186  t=19390.0s  ride_time=130.0s  excess=94.73087395323054
+  [REDISPATCH] taxi=t_0 reservations=['188', '189', '188', '189']
+New arrivals: [], pickups: [], dropoffs: ['186']
+  [NEW REQUEST] person=191  res=191  C4C3 → B3B2  direct_tt=24.4s
+  [DROPOFF] person=187  t=19400.0s  ride_time=100.0s  excess=66.52142224510555
+  [REDISPATCH] taxi=t_1 reservations=['190', '190']
+New arrivals: ['191'], pickups: [], dropoffs: ['187']
+  → ASSIGNED req=191 → taxi=t_1  pu_eta=19459.5s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['190', '190', '191', '191']
+  [PERIODIC PICKUP] person=188  taxi=t_0  t=19430.0s
+  [REDISPATCH] taxi=t_0 reservations=['189', '188', '189']
+New arrivals: [], pickups: ['188'], dropoffs: []
+  [PERIODIC PICKUP] person=190  taxi=t_1  t=19450.0s
+  [REDISPATCH] taxi=t_1 reservations=['190', '191', '191']
+New arrivals: [], pickups: ['190'], dropoffs: []
+  [PERIODIC PICKUP] person=189  taxi=t_0  t=19460.0s
+  [REDISPATCH] taxi=t_0 reservations=['188', '189']
+New arrivals: [], pickups: ['189'], dropoffs: []
+  [DROPOFF] person=190  t=19550.0s  ride_time=100.0s  excess=78.64744914269674
+  [REDISPATCH] taxi=t_1 reservations=['191', '191']
+New arrivals: [], pickups: [], dropoffs: ['190']
+  [DROPOFF] person=188  t=19560.0s  ride_time=130.0s  excess=90.34195026789673
+  [REDISPATCH] taxi=t_0 reservations=['189']
+New arrivals: [], pickups: [], dropoffs: ['188']
+  [PERIODIC PICKUP] person=191  taxi=t_1  t=19570.0s
+  [REDISPATCH] taxi=t_1 reservations=['191']
+New arrivals: [], pickups: ['191'], dropoffs: []
+  [NEW REQUEST] person=192  res=192  C3B3 → C2C3  direct_tt=38.1s
+New arrivals: ['192'], pickups: [], dropoffs: []
+  → ASSIGNED req=192 → taxi=t_1  pu_eta=19625.8s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['191', '192', '192']
+  [DROPOFF] person=191  t=19660.0s  ride_time=90.0s  excess=65.57732178690843
+  [REDISPATCH] taxi=t_1 reservations=['192', '192']
+New arrivals: [], pickups: [], dropoffs: ['191']
+  [DROPOFF] person=189  t=19700.0s  ride_time=240.0s  excess=211.33435589204086
+New arrivals: [], pickups: [], dropoffs: ['189']
+  [PERIODIC PICKUP] person=192  taxi=t_1  t=19720.0s
+  [REDISPATCH] taxi=t_1 reservations=['192']
+New arrivals: [], pickups: ['192'], dropoffs: []
+  [NEW REQUEST] person=193  res=193  B3A3 → B1A1  direct_tt=37.3s
+New arrivals: ['193'], pickups: [], dropoffs: []
+  → ASSIGNED req=193 → taxi=t_0  pu_eta=19820.1s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['193', '193']
+  [DROPOFF] person=192  t=19830.0s  ride_time=110.0s  excess=71.91833465236964
+New arrivals: [], pickups: [], dropoffs: ['192']
+  [PERIODIC PICKUP] person=193  taxi=t_0  t=19840.0s
+  [REDISPATCH] taxi=t_0 reservations=['193']
+New arrivals: [], pickups: ['193'], dropoffs: []
+  [NEW REQUEST] person=194  res=194  B1B2 → A3A2  direct_tt=32.5s
+New arrivals: ['194'], pickups: [], dropoffs: []
+  → ASSIGNED req=194 → taxi=t_1  pu_eta=19902.3s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['194', '194']
+  [NEW REQUEST] person=195  res=195  B3A3 → A2A3  direct_tt=26.1s
+New arrivals: ['195'], pickups: [], dropoffs: []
+  → ASSIGNED req=195 → taxi=t_0  pu_eta=19950.4s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['193', '195', '195']
+  [NEW REQUEST] person=196  res=196  B3B4 → A2B2  direct_tt=39.2s
+New arrivals: ['196'], pickups: [], dropoffs: []
+  → ASSIGNED req=196 → taxi=t_1  pu_eta=19997.9s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['194', '194', '196', '196']
+  [PERIODIC PICKUP] person=194  taxi=t_1  t=19960.0s
+  [REDISPATCH] taxi=t_1 reservations=['194', '196', '196']
+New arrivals: [], pickups: ['194'], dropoffs: []
+  [NEW REQUEST] person=197  res=197  C2C1 → B1C1  direct_tt=25.2s
+New arrivals: ['197'], pickups: [], dropoffs: []
+  → ASSIGNED req=197 → taxi=t_0  pu_eta=20085.9s  (flush pending)
+  → DISPATCHED taxi=t_0 reservations=['193', '195', '195', '197', '197']
+  [NEW REQUEST] person=198  res=198  B2B1 → C3D3  direct_tt=40.3s
+New arrivals: ['198'], pickups: [], dropoffs: []
+  → ASSIGNED req=198 → taxi=t_1  pu_eta=20102.9s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['194', '196', '196', '198', '198']
+  [NEW REQUEST] person=199  res=199  A2A1 → B4C4  direct_tt=48.1s
+New arrivals: ['199'], pickups: [], dropoffs: []
+  → ASSIGNED req=199 → taxi=t_1  pu_eta=20102.7s  (flush pending)
+  → DISPATCHED taxi=t_1 reservations=['194', '196', '199', '196', '198', '198', '199']
+  [DROPOFF] person=193  t=20050.0s  ride_time=210.0s  excess=172.690281786051
+  [REDISPATCH] taxi=t_0 reservations=['195', '195', '197', '197']
+New arrivals: [], pickups: [], dropoffs: ['193']
+  [DROPOFF] person=194  t=20110.0s  ride_time=150.0s  excess=117.50548094676232
+  [PERIODIC PICKUP] person=195  taxi=t_0  t=20110.0s
+  [REDISPATCH] taxi=t_1 reservations=['196', '199', '196', '198', '198', '199']
+  [REDISPATCH] taxi=t_0 reservations=['195', '197', '197']
+New arrivals: [], pickups: ['195'], dropoffs: ['194']
+  [PERIODIC PICKUP] person=196  taxi=t_1  t=20140.0s
+  [REDISPATCH] taxi=t_1 reservations=['199', '196', '198', '198', '199']
+New arrivals: [], pickups: ['196'], dropoffs: []
+  [PERIODIC PICKUP] person=199  taxi=t_1  t=20180.0s
+  [REDISPATCH] taxi=t_1 reservations=['196', '198', '198', '199']
+New arrivals: [], pickups: ['199'], dropoffs: []
+  [DROPOFF] person=195  t=20240.0s  ride_time=130.0s  excess=103.90992726579483
+  [REDISPATCH] taxi=t_0 reservations=['197', '197']
+New arrivals: [], pickups: [], dropoffs: ['195']
+  [DROPOFF] person=196  t=20270.0s  ride_time=130.0s  excess=90.80566095345436
+  [REDISPATCH] taxi=t_1 reservations=['198', '198', '199']
+New arrivals: [], pickups: [], dropoffs: ['196']
+  [PERIODIC PICKUP] person=197  taxi=t_0  t=20280.0s
+  [REDISPATCH] taxi=t_0 reservations=['197']
+New arrivals: [], pickups: ['197'], dropoffs: []
+  [PERIODIC PICKUP] person=198  taxi=t_1  t=20310.0s
+  [REDISPATCH] taxi=t_1 reservations=['198', '199']
+New arrivals: [], pickups: ['198'], dropoffs: []
+  [DROPOFF] person=197  t=20420.0s  ride_time=140.0s  excess=114.81370406634677
+New arrivals: [], pickups: [], dropoffs: ['197']
+  [DROPOFF] person=198  t=20440.0s  ride_time=130.0s  excess=89.68105868175941
+  [REDISPATCH] taxi=t_1 reservations=['199']
+New arrivals: [], pickups: [], dropoffs: ['198']
+  [DROPOFF] person=199  t=20580.0s  ride_time=400.0s  excess=351.8618197868569
+New arrivals: [], pickups: [], dropoffs: ['199']

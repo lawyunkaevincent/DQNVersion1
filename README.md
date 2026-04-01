@@ -63,6 +63,17 @@ python analyze_training.py --csv D:\FYP\DQNVersion1\DQNetwork\artifacts\dqn_mode
   "decisions_seen": 200
 }
 
+{
+  "total_requests": 200,
+  "completed_requests": 200,
+  "completion_rate": 1.0,
+  "picked_up_requests": 200,
+  "avg_wait_until_pickup": 170.25,
+  "max_wait_until_pickup": 460.0,
+  "avg_excess_ride_time": 106.20685740278765,
+  "decisions_seen": 200
+}
+
 
 
 want the code to focus on create better waiting time and detour time and give other param less weight

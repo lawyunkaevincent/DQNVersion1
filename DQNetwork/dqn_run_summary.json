@@ -3,8 +3,8 @@
   "completed_requests": 200,
   "completion_rate": 1.0,
   "picked_up_requests": 200,
-  "avg_wait_until_pickup": 205.65,
-  "max_wait_until_pickup": 920.0,
-  "avg_excess_ride_time": 102.3169778933576,
+  "avg_wait_until_pickup": 170.25,
+  "max_wait_until_pickup": 460.0,
+  "avg_excess_ride_time": 106.20685740278765,
   "decisions_seen": 200
 }

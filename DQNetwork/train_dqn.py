@@ -17,7 +17,7 @@ from tqdm import trange
 from dqn_env import DQNStepEnvironment
 from dispatcher import setup_logger
 from feature_extractor import flatten_decision_features
-from q_network import ParametricQNetwork
+from q_network import ParametricQNetwork, TaxiFairQNetwork
 from replay_buffer import ReplayBuffer, Transition
 from reward_shaping import compute_shaped_reward_v2
 
@@ -66,10 +66,10 @@ class DQNAgent:
         self.tau = tau
         self.forbid_defer_when_action_exists = forbid_defer_when_action_exists
 
-        self.online_net = ParametricQNetwork(
+        self.online_net = TaxiFairQNetwork(
             input_dim=input_dim, hidden_dims=hidden_dims, dropout=dropout
         ).to(device)
-        self.target_net = ParametricQNetwork(
+        self.target_net = TaxiFairQNetwork(
             input_dim=input_dim, hidden_dims=hidden_dims, dropout=dropout
         ).to(device)
         self.target_net.load_state_dict(self.online_net.state_dict())
@@ -94,7 +94,13 @@ class DQNAgent:
         print(f"Warm start loaded. missing={missing} unexpected={unexpected}")
 
     def decision_to_matrix(self, decision_point, taxi_plans) -> np.ndarray:
-        rows = []
+        # Assign each unique taxi a local integer group id (0, 1, 2, ...).
+        # Defer action always gets -1. This is used by TaxiFairQNetwork to
+        # normalise scores within each taxi group before comparing across taxis.
+        seen_taxis: dict[str, int] = {}
+        rows: list[list[float]] = []
+        group_ids: list[float] = []
+
         for cand in decision_point.candidate_actions:
             feat = flatten_decision_features(
                 decision_point.state_summary,
@@ -107,10 +113,21 @@ class DQNAgent:
             if missing:
                 raise KeyError(f"Missing feature columns at DQN time: {missing[:10]}")
             rows.append([float(feat[c]) for c in self.feature_columns])
+
+            if cand.is_defer:
+                group_ids.append(-1.0)
+            else:
+                tid = cand.taxi_id
+                if tid not in seen_taxis:
+                    seen_taxis[tid] = len(seen_taxis)
+                group_ids.append(float(seen_taxis[tid]))
+
         x = np.asarray(rows, dtype=np.float32)
         x = self.scaler.transform(x).astype(np.float32)
+        group_col = np.array(group_ids, dtype=np.float32).reshape(-1, 1)
         mask = np.ones((x.shape[0], 1), dtype=np.float32)
-        return np.concatenate([x, mask], axis=1)
+        # Layout: [features | taxi_group_id | valid_mask]  — matches TaxiFairQNetwork
+        return np.concatenate([x, group_col, mask], axis=1)
 
     def _fair_random_action(
         self,
@@ -540,6 +557,7 @@ def main() -> None:
         "hidden_dims": hidden_dims,
         "dropout": dropout,
         "input_dim": input_dim,
+        "use_taxi_fair": True,  # signals DQNPolicy to load TaxiFairQNetwork
         "warm_start_from": str(imitation_dir),
         "episodes": args.episodes,
         "warmup_episodes": args.warmup_episodes,

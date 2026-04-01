@@ -47,6 +47,7 @@
   ],
   "dropout": 0.1,
   "input_dim": 40,
+  "use_taxi_fair": true,
   "warm_start_from": "artifacts\\imitation_model",
   "episodes": 200,
   "warmup_episodes": 2,
